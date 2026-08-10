@@ -7,14 +7,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Forge">
-<link rel="manifest" href='data:application/manifest+json,{"name":"FORGE — souplesse & journal","short_name":"Forge","display":"standalone","background_color":"#0c0f0e","theme_color":"#0c0f0e","start_url":"."}'>
-<title>FORGE — souplesse guidée & journal</title>
+<link rel="manifest" href='data:application/manifest+json,{"name":"FORGE — souplesse, muscu & journal","short_name":"Forge","display":"standalone","background_color":"#0c0f0e","theme_color":"#0c0f0e","start_url":"."}'>
+<title>FORGE — programme, souplesse guidée & journal</title>
 <style>
   :root{
     --bg:#0c0f0e; --bg2:#141a18; --bg3:#1c2422; --line:#2a352f;
     --txt:#e9f2ee; --dim:#8aa39a;
     --acc:#5ad1a5; --accd:#2fae86;
-    --boxe:#ff5c6c; --muscu:#f5b840; --mix:#5b9cff; --autre:#8aa39a;
+    --muscu:#5b9cff; --boxe:#ff5c6c; --jour:#f5b840; --autre:#8aa39a;
     --ok:#3ecf7a; --r:14px;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -22,14 +22,14 @@
   body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     overscroll-behavior:none;-webkit-user-select:none;user-select:none}
   #app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
-  main{flex:1;padding:16px 16px 120px}
+  main{flex:1;padding:16px 16px 130px}
   header{padding:calc(12px + env(safe-area-inset-top)) 16px 0;display:flex;align-items:center;justify-content:space-between}
   .logo{font-weight:900;font-size:19px;letter-spacing:2px}
   .logo span{color:var(--acc)}
   .badge{font-weight:700;font-size:13px;background:var(--bg2);border:1px solid var(--line);padding:6px 11px;border-radius:20px}
 
   .card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px}
-  .hero{background:linear-gradient(135deg,#122019,#132a24);border:1px solid var(--line)}
+  .hero{background:linear-gradient(135deg,#122019,#132a24)}
   .hero .lvl{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
   .hero .lvlname{font-size:22px;font-weight:800;margin:2px 0 6px;color:var(--acc)}
   .hero p{font-size:13px;color:var(--dim);line-height:1.5}
@@ -40,22 +40,37 @@
   .btn.ghost{background:var(--bg3);color:var(--txt);border:1px solid var(--line)}
   .btn.small{width:auto;padding:9px 14px;font-size:13px;margin-top:0;display:inline-block}
   .btn.danger{background:#3a1a20;color:var(--boxe);border:1px solid #55232c}
+  .btn.blue{background:var(--muscu);color:#04122e}
   h1.page{font-size:22px;font-weight:800;margin-bottom:6px}
   .sub{color:var(--dim);font-size:13px;line-height:1.5}
   .cat{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin:18px 2px 8px;font-weight:700}
 
-  /* routines */
+  /* programme du jour */
+  .pblock{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);
+    padding:13px;margin-bottom:10px}
+  .pblock .pe{font-size:24px;flex-shrink:0}
+  .pblock .pt{flex:1;min-width:0}
+  .pblock .pt b{font-size:15px;display:block}
+  .pblock .pt small{color:var(--dim);font-size:12px}
+  .pblock .pgo{background:var(--bg3);border:1px solid var(--line);color:var(--acc);border-radius:10px;padding:9px 12px;
+    font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
+  .pblock .pck{width:40px;height:40px;border-radius:11px;border:1px solid var(--line);background:var(--bg3);color:var(--dim);
+    font-size:18px;cursor:pointer;flex-shrink:0}
+  .pblock.done{opacity:.6}
+  .pblock.done .pck{background:#12261e;color:var(--ok);border-color:#1d4a31}
+
+  /* routines / workouts */
   .rout{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:11px}
   .rout .rh{display:flex;align-items:center;gap:12px}
   .rout .ri{font-size:26px}
-  .rout .rt{flex:1;min-width:0}
-  .rout .rt b{font-size:16px;display:block}
-  .rout .rt small{color:var(--dim);font-size:12px}
+  .rout .rtx{flex:1;min-width:0}
+  .rout .rtx b{font-size:16px;display:block}
+  .rout .rtx small{color:var(--dim);font-size:12px}
   .rout .chev{color:var(--dim);padding:6px;font-size:14px}
   .rout .steps{display:none;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
   .rout.open .steps{display:block}
   .rout .steps .st{display:flex;gap:10px;padding:7px 0;font-size:13px;color:#cfe0d9;align-items:baseline}
-  .rout .steps .st span{color:var(--dim);font-size:12px;min-width:38px}
+  .rout .steps .st span{color:var(--dim);font-size:12px;min-width:52px}
   .rout .steps .st em{color:var(--dim);font-style:normal;margin-left:auto;font-size:12px}
 
   /* test du sol */
@@ -72,6 +87,30 @@
     display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--dim);flex-shrink:0}
   .lvlopt.on .n{background:var(--acc);color:#062018;border-color:var(--acc)}
 
+  /* séance muscu */
+  .sesshead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+  .sesshead b{font-size:18px}
+  .sesshead .chrono{font-variant-numeric:tabular-nums;color:var(--dim);font-weight:700}
+  .exo{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px}
+  .exo .xh{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
+  .exo .xh b{flex:1;font-size:15px}
+  .exo .xh .zone{color:var(--muscu);font-size:11px;font-weight:700}
+  .exo .tip{font-size:12px;color:var(--dim);margin:4px 0 8px;line-height:1.45}
+  .exo .last{font-size:12px;color:var(--dim);margin-bottom:8px}
+  .exo .last b{color:var(--acc)}
+  .setrow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .setrow .sn{width:22px;text-align:center;color:var(--dim);font-weight:700;font-size:13px;flex-shrink:0}
+  .fld{flex:1;display:flex;align-items:center;background:var(--bg3);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .fld button{width:44px;height:46px;background:none;border:none;color:var(--dim);font-size:20px;font-weight:700;cursor:pointer;flex-shrink:0}
+  .fld input{flex:1;width:30px;background:none;border:none;color:var(--txt);font-size:17px;font-weight:800;text-align:center;outline:none}
+  .fld small{color:var(--dim);font-size:10px;padding-right:10px}
+  .setrow .ck{width:48px;height:46px;border-radius:10px;border:1px solid var(--line);background:var(--bg3);color:var(--dim);
+    font-size:18px;cursor:pointer;flex-shrink:0}
+  .setrow.done .ck{background:#12261e;color:var(--ok);border-color:#1d4a31}
+  .setrow.done .fld{opacity:.5}
+  .addset{background:none;border:1px dashed var(--line);color:var(--dim);border-radius:10px;padding:9px;width:100%;
+    font-size:13px;font-weight:700;cursor:pointer;margin-top:2px}
+
   /* journal */
   .discgrid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin:8px 0 4px}
   .discbtn{border:1px solid var(--line);border-radius:12px;padding:12px 4px;text-align:center;cursor:pointer;background:var(--bg3)}
@@ -83,14 +122,12 @@
     color:var(--txt);font-size:15px;outline:none;font-family:inherit;resize:vertical;margin-top:10px}
   textarea{min-height:64px;line-height:1.5}
   label.fl{font-size:12px;color:var(--dim);font-weight:700;display:block;margin-top:14px}
-  .row2{display:flex;gap:10px}
-  .row2>div{flex:1}
+  .row2{display:flex;gap:10px}.row2>div{flex:1}
   input.txt[type=date],input.txt[type=number]{margin-top:6px}
   .rpe{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
   .rpe i{width:calc((100% - 45px)/10);min-width:26px;height:34px;border-radius:8px;background:var(--bg3);border:1px solid var(--line);
     display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:700;color:var(--dim);cursor:pointer}
   .rpe i.on{background:var(--acc);color:#062018;border-color:var(--acc)}
-
   .entry{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px}
   .entry .eh{display:flex;align-items:center;gap:10px}
   .entry .ico{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:var(--bg3)}
@@ -100,7 +137,6 @@
   .entry .del{color:var(--dim);padding:4px 8px;cursor:pointer}
   .entry .body{margin-top:10px;font-size:14px;line-height:1.55;color:#cfe0d9}
   .entry .body .lab{color:var(--dim);font-size:12px;font-weight:700;display:block;margin-top:6px}
-  .entry .tag{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;margin-left:auto}
 
   /* progress */
   .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -112,22 +148,35 @@
   .heat i{width:13px;height:13px;border-radius:3px;background:var(--bg3)}
   .legend{display:flex;gap:14px;justify-content:center;margin-top:8px;font-size:11px;color:var(--dim);font-weight:700;flex-wrap:wrap}
   .legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:4px}
+  .prrow{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .prrow:last-child{border-bottom:none}
+  .prrow .t{flex:1;min-width:0}.prrow b{font-size:14px;display:block}.prrow small{color:var(--dim);font-size:12px}
+  .prrow .val{font-weight:800;color:var(--acc);font-size:15px}
   svg.chart{width:100%;height:130px;margin-top:8px}
   .empty{text-align:center;color:var(--dim);font-size:14px;padding:30px 10px;line-height:1.7}
-  .tip{display:flex;gap:10px;font-size:13.5px;color:#cfe0d9;line-height:1.5;margin-bottom:9px}
-  .tip span{flex-shrink:0}
+  .tip2{display:flex;gap:10px;font-size:13.5px;color:#cfe0d9;line-height:1.5;margin-bottom:9px}
+  .tip2 span{flex-shrink:0}
 
   /* nav */
   nav{position:fixed;bottom:0;left:0;right:0;background:rgba(12,15,14,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:40}
   nav .in{max-width:520px;margin:0 auto;display:flex}
-  nav button{flex:1;background:none;border:none;color:var(--dim);padding:10px 0 max(10px,env(safe-area-inset-bottom));font-size:11px;font-weight:700;cursor:pointer}
-  nav button .i{display:block;font-size:20px;margin-bottom:2px}
+  nav button{flex:1;background:none;border:none;color:var(--dim);padding:10px 0 max(10px,env(safe-area-inset-bottom));font-size:10.5px;font-weight:700;cursor:pointer}
+  nav button .i{display:block;font-size:19px;margin-bottom:2px}
   nav button.on{color:var(--acc)}
 
   #toast{position:fixed;top:calc(14px + env(safe-area-inset-top));left:50%;transform:translateX(-50%) translateY(-90px);
     background:var(--bg3);border:1px solid var(--acc);color:var(--txt);padding:12px 22px;border-radius:14px;font-weight:700;
     z-index:100;transition:transform .35s;font-size:15px;max-width:92%;text-align:center}
   #toast.show{transform:translateX(-50%) translateY(0)}
+
+  /* rest bar */
+  #restbar{position:fixed;bottom:70px;left:0;right:0;z-index:45;display:none}
+  #restbar .in{max-width:520px;margin:0 auto;padding:0 12px}
+  #restbar .box{background:#12261e;border:1px solid #1d4a31;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px}
+  #restbar b{font-size:20px;font-variant-numeric:tabular-nums;color:var(--ok)}
+  #restbar .bar{flex:1;height:6px;background:#0006;border-radius:3px;overflow:hidden}
+  #restbar .bar i{display:block;height:100%;background:var(--ok);transition:width 1s linear}
+  #restbar button{background:none;border:none;color:var(--dim);font-weight:700;cursor:pointer;font-size:13px}
 
   /* overlay */
   .overlay{position:fixed;inset:0;background:var(--bg);z-index:50;overflow-y:auto;display:none}
@@ -137,7 +186,7 @@
   .topbar .back{width:38px;height:38px;border-radius:11px;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-size:18px;cursor:pointer}
   .topbar b{font-size:16px}
 
-  /* lecteur guidé */
+  /* lecteur guidé (souplesse) + chrono course */
   .player{max-width:520px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 18px 30px;min-height:100vh;display:flex;flex-direction:column}
   .ptop{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
   .ptop .pquit{background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer}
@@ -147,16 +196,14 @@
   .pstage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
   .plabel{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
   .pstage.hold .plabel{color:var(--acc)}
-  .ring{width:210px;height:210px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:8px 0 4px;
-    transition:background .3s}
+  .ring{width:210px;height:210px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:8px 0 4px;transition:background .3s}
   .ringin{width:186px;height:186px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center}
-  .ptime{font-size:66px;font-weight:900;font-variant-numeric:tabular-nums}
+  .ptime{font-size:64px;font-weight:900;font-variant-numeric:tabular-nums}
   .pname{font-size:22px;font-weight:800}
   .pzone{font-size:13px;color:var(--acc);font-weight:700}
   .pcue{font-size:15px;color:#cfe0d9;line-height:1.55;max-width:420px;margin-top:6px}
   .pctrl{display:flex;gap:10px;margin-top:18px}
-  .pctrl .pbtn{flex:1;background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:15px 8px;
-    font-size:14px;font-weight:700;cursor:pointer}
+  .pctrl .pbtn{flex:1;background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:15px 8px;font-size:14px;font-weight:700;cursor:pointer}
   .pctrl .pbtn.main{flex:1.4;background:var(--acc);color:#062018}
   .pctrl .pbtn:active{transform:scale(.97)}
   .pdone{text-align:center;padding:30px 0}
@@ -171,96 +218,133 @@
   </header>
   <main id="main"></main>
   <nav><div class="in">
-    <button data-tab="soup" class="on"><span class="i">🧘</span>Souplesse</button>
+    <button data-tab="today" class="on"><span class="i">📅</span>Aujourd'hui</button>
+    <button data-tab="sess"><span class="i">🏋️</span>Séances</button>
     <button data-tab="jour"><span class="i">📓</span>Journal</button>
     <button data-tab="prog"><span class="i">📈</span>Progrès</button>
   </div></nav>
 </div>
+<div id="restbar"><div class="in"><div class="box">
+  <b id="restT">1:30</b><div class="bar"><i id="restI"></i></div><button id="restSkip">Passer ›</button>
+</div></div></div>
 <div class="overlay" id="overlay"><div class="inner" id="overlayInner"></div></div>
 <div class="overlay" id="player"></div>
 <div id="toast"></div>
 
 <script>
 /* ================================================================
-   FORGE — souplesse guidée & journal libre
+   FORGE — programme du jour · souplesse guidée · muscu guidée · journal
    ================================================================ */
+const PIANO_URL='https://niclaeysthomas-ctrl.github.io/piano-dojo/';
 
-/* ---------------- contenu souplesse ---------------- */
-// step : {emoji, nom, zone, cue, sec, sides?}
+/* ---------------- souplesse ---------------- */
 const ROUTINES=[
   { id:'plancher', emoji:'🎯', nom:'Vers le sol', focus:"Toucher le sol : ischios, hanches, dos", steps:[
     {emoji:'🐈',nom:'Chat–vache',zone:'Mobilité du dos',cue:'À quatre pattes, alterne dos rond (souffle) et dos creux (inspire), lentement.',sec:40},
-    {emoji:'🦵',nom:'Balancés jambe tendue',zone:'Réveil des ischios',cue:"Debout, appuie-toi d'une main, balance une jambe tendue d'avant en arrière. Amplitude douce, sans à-coups.",sec:25,sides:true},
-    {emoji:'⬇️',nom:'Flexion avant debout',zone:'Chaîne postérieure',cue:'Pieds largeur de bassin, descends lentement, genoux à peine fléchis, relâche nuque et bras. Laisse la gravité travailler, ne tire pas.',sec:45},
-    {emoji:'🦿',nom:'Étirement ischios (assis)',zone:'Ischio-jambiers',cue:"Assis, une jambe tendue, l'autre repliée. Penche-toi vers le pied tendu en gardant le dos long, pas rond.",sec:35,sides:true},
-    {emoji:'📐',nom:'Pince assise',zone:'Ischios & bas du dos',cue:'Jambes tendues devant, avance les mains vers les pieds en soufflant. Vise le ventre sur les cuisses, pas le nez sur les genoux.',sec:45},
-    {emoji:'🧱',nom:'Mollet au mur',zone:'Mollets & chevilles',cue:'Mains au mur, une jambe tendue derrière, talon ancré au sol, pousse le mur.',sec:30,sides:true},
-    {emoji:'🏹',nom:'Fente basse',zone:'Fléchisseurs de hanche',cue:"Un genou au sol, l'autre pied devant, pousse doucement le bassin vers l'avant. Buste droit.",sec:35,sides:true},
-    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs (intérieur cuisses)',cue:'Assis, plantes des pieds jointes, laisse les genoux descendre vers le sol, dos droit. Respire.',sec:40},
-    {emoji:'🕊️',nom:'Pigeon simplifié',zone:'Fessiers & hanches',cue:"Une jambe repliée devant toi, l'autre tendue derrière. Penche le buste au-dessus de la jambe avant.",sec:35,sides:true},
-    {emoji:'🌀',nom:'Torsion allongée',zone:'Bas du dos',cue:"Sur le dos, amène un genou plié de l'autre côté, épaules au sol, regarde à l'opposé.",sec:30,sides:true},
-    {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement du dos',cue:'À genoux, fesses vers les talons, bras tendus devant, front au sol. Respire profondément, relâche tout.',sec:45},
+    {emoji:'🦵',nom:'Balancés jambe tendue',zone:'Réveil des ischios',cue:"Debout, appuie-toi d'une main, balance une jambe tendue d'avant en arrière. Amplitude douce.",sec:25,sides:true},
+    {emoji:'⬇️',nom:'Flexion avant debout',zone:'Chaîne postérieure',cue:'Descends lentement, genoux à peine fléchis, relâche nuque et bras. Laisse la gravité travailler, ne tire pas.',sec:45},
+    {emoji:'🦿',nom:'Étirement ischios (assis)',zone:'Ischio-jambiers',cue:"Une jambe tendue, l'autre repliée. Penche-toi vers le pied tendu, dos long, pas rond.",sec:35,sides:true},
+    {emoji:'📐',nom:'Pince assise',zone:'Ischios & bas du dos',cue:'Jambes tendues, avance les mains vers les pieds en soufflant. Ventre vers les cuisses.',sec:45},
+    {emoji:'🧱',nom:'Mollet au mur',zone:'Mollets & chevilles',cue:'Mains au mur, jambe tendue derrière, talon au sol, pousse le mur.',sec:30,sides:true},
+    {emoji:'🏹',nom:'Fente basse',zone:'Fléchisseurs de hanche',cue:"Genou au sol, pousse le bassin vers l'avant. Buste droit.",sec:35,sides:true},
+    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Plantes des pieds jointes, genoux vers le sol, dos droit. Respire.',sec:40},
+    {emoji:'🕊️',nom:'Pigeon simplifié',zone:'Fessiers & hanches',cue:"Jambe repliée devant, jambe tendue derrière, penche le buste vers l'avant.",sec:35,sides:true},
+    {emoji:'🌀',nom:'Torsion allongée',zone:'Bas du dos',cue:"Sur le dos, genou plié amené de l'autre côté, épaules au sol.",sec:30,sides:true},
+    {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement du dos',cue:'Fesses vers les talons, bras tendus, front au sol. Respire, relâche tout.',sec:45},
   ]},
   { id:'express', emoji:'⚡', nom:'Express 5 min', focus:'Le minimum quotidien', steps:[
-    {emoji:'⬇️',nom:'Flexion avant debout',zone:'Chaîne postérieure',cue:'Descends lentement, genoux souples, relâche la nuque. Respire et laisse-toi descendre à chaque expiration.',sec:45},
-    {emoji:'📐',nom:'Pince assise',zone:'Ischios & bas du dos',cue:'Jambes tendues, avance les mains vers les pieds en soufflant, dos long.',sec:45},
-    {emoji:'🏹',nom:'Fente basse',zone:'Fléchisseurs de hanche',cue:'Un genou au sol, pousse le bassin vers l\'avant, buste droit.',sec:30,sides:true},
-    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Plantes des pieds jointes, genoux qui descendent, dos droit.',sec:40},
+    {emoji:'⬇️',nom:'Flexion avant debout',zone:'Chaîne postérieure',cue:'Descends lentement, relâche la nuque. Respire et laisse-toi descendre à chaque expiration.',sec:45},
+    {emoji:'📐',nom:'Pince assise',zone:'Ischios & bas du dos',cue:'Mains vers les pieds en soufflant, dos long.',sec:45},
+    {emoji:'🏹',nom:'Fente basse',zone:'Fléchisseurs de hanche',cue:'Pousse le bassin vers l\'avant, buste droit.',sec:30,sides:true},
+    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Plantes jointes, genoux qui descendent, dos droit.',sec:40},
     {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement',cue:'Front au sol, bras tendus, respire profondément.',sec:40},
   ]},
   { id:'hanches', emoji:'🦵', nom:'Hanches & bassin', focus:'Ouverture des hanches', steps:[
-    {emoji:'🔄',nom:'Cercles de hanches',zone:'Mobilité hanches',cue:'Debout, mains sur les hanches, dessine de grands cercles avec le bassin, dans les deux sens.',sec:30},
-    {emoji:'🏹',nom:'Fente basse',zone:'Fléchisseurs de hanche',cue:"Genou au sol, pousse le bassin vers l'avant. Buste droit, respire.",sec:40,sides:true},
-    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Plantes jointes, genoux vers le sol, dos droit. Ne force pas avec les mains.',sec:45},
-    {emoji:'🐸',nom:'Grenouille douce',zone:'Adducteurs profonds',cue:'À quatre pattes, écarte les genoux progressivement, avance/recule le bassin en douceur. Aucune douleur.',sec:40},
-    {emoji:'🕊️',nom:'Pigeon simplifié',zone:'Fessiers & hanches',cue:'Jambe repliée devant, jambe tendue derrière, penche le buste vers l\'avant.',sec:40,sides:true},
-    {emoji:'📐',nom:'Position 90/90',zone:'Rotation des hanches',cue:'Assis, une jambe pliée devant à 90°, l\'autre pliée sur le côté à 90°. Buste droit, penche légèrement vers l\'avant.',sec:35,sides:true},
-    {emoji:'🦿',nom:'Étirement fessier (au sol)',zone:'Fessiers',cue:'Sur le dos, croise une cheville sur le genou opposé et ramène la cuisse vers toi.',sec:35,sides:true},
-    {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement',cue:'Front au sol, bras tendus, respire.',sec:40},
+    {emoji:'🔄',nom:'Cercles de hanches',zone:'Mobilité hanches',cue:'Mains sur les hanches, grands cercles du bassin, dans les deux sens.',sec:30},
+    {emoji:'🏹',nom:'Fente basse',zone:'Fléchisseurs de hanche',cue:'Pousse le bassin vers l\'avant, respire.',sec:40,sides:true},
+    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Genoux vers le sol, dos droit, sans forcer avec les mains.',sec:45},
+    {emoji:'🐸',nom:'Grenouille douce',zone:'Adducteurs profonds',cue:'À quatre pattes, écarte les genoux, avance/recule le bassin doucement. Aucune douleur.',sec:40},
+    {emoji:'🕊️',nom:'Pigeon simplifié',zone:'Fessiers & hanches',cue:'Buste vers l\'avant au-dessus de la jambe repliée.',sec:40,sides:true},
+    {emoji:'📐',nom:'Position 90/90',zone:'Rotation des hanches',cue:'Une jambe pliée devant à 90°, l\'autre sur le côté à 90°. Penche-toi légèrement.',sec:35,sides:true},
+    {emoji:'🦿',nom:'Étirement fessier (au sol)',zone:'Fessiers',cue:'Sur le dos, croise une cheville sur le genou opposé, ramène la cuisse.',sec:35,sides:true},
+    {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement',cue:'Front au sol, respire.',sec:40},
   ]},
   { id:'complete', emoji:'🧘', nom:'Complète', focus:'Tout le corps', steps:[
     {emoji:'🐈',nom:'Chat–vache',zone:'Mobilité du dos',cue:'Alterne dos rond / dos creux au rythme du souffle.',sec:40},
-    {emoji:'🙆',nom:'Nuque (inclinaisons)',zone:'Cou',cue:'Incline doucement la tête vers une épaule, main légère pour accompagner. Sans forcer.',sec:20,sides:true},
-    {emoji:'💪',nom:'Épaule croisée',zone:'Épaules',cue:'Bras tendu devant la poitrine, l\'autre main le rapproche du corps.',sec:25,sides:true},
-    {emoji:'⬇️',nom:'Flexion avant debout',zone:'Chaîne postérieure',cue:'Descends lentement, relâche la nuque, laisse la gravité travailler.',sec:45},
+    {emoji:'🙆',nom:'Nuque (inclinaisons)',zone:'Cou',cue:'Incline la tête vers une épaule, main légère. Sans forcer.',sec:20,sides:true},
+    {emoji:'💪',nom:'Épaule croisée',zone:'Épaules',cue:'Bras tendu devant la poitrine, l\'autre main le rapproche.',sec:25,sides:true},
+    {emoji:'⬇️',nom:'Flexion avant debout',zone:'Chaîne postérieure',cue:'Descends lentement, relâche la nuque.',sec:45},
     {emoji:'📐',nom:'Pince assise',zone:'Ischios & bas du dos',cue:'Mains vers les pieds en soufflant, dos long.',sec:45},
-    {emoji:'🦿',nom:'Étirement ischios (assis)',zone:'Ischio-jambiers',cue:'Une jambe tendue, penche-toi vers le pied, dos long.',sec:35,sides:true},
+    {emoji:'🦿',nom:'Étirement ischios (assis)',zone:'Ischio-jambiers',cue:'Penche-toi vers le pied, dos long.',sec:35,sides:true},
     {emoji:'🏹',nom:'Fente basse',zone:'Fléchisseurs de hanche',cue:'Pousse le bassin vers l\'avant, buste droit.',sec:35,sides:true},
-    {emoji:'🦵',nom:'Quadriceps debout',zone:'Avant des cuisses',cue:'Attrape une cheville derrière toi, genoux serrés, pousse le bassin en avant. Appuie-toi si besoin.',sec:30,sides:true},
-    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Plantes jointes, genoux vers le sol, dos droit.',sec:40},
+    {emoji:'🦵',nom:'Quadriceps debout',zone:'Avant des cuisses',cue:'Attrape une cheville derrière toi, genoux serrés, pousse le bassin en avant.',sec:30,sides:true},
+    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Genoux vers le sol, dos droit.',sec:40},
     {emoji:'🕊️',nom:'Pigeon simplifié',zone:'Fessiers & hanches',cue:'Buste au-dessus de la jambe avant repliée.',sec:35,sides:true},
     {emoji:'🌀',nom:'Torsion allongée',zone:'Bas du dos',cue:'Genou plié amené de l\'autre côté, épaules au sol.',sec:30,sides:true},
-    {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement',cue:'Front au sol, respire profondément, relâche tout.',sec:45},
+    {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement',cue:'Front au sol, respire profondément.',sec:45},
   ]},
 ];
-const FLOOR=[
-  'À hauteur des genoux','Mi-mollets','Chevilles','Bout des doigts au sol','Paumes à plat au sol'
+const FLOOR=['À hauteur des genoux','Mi-mollets','Chevilles','Bout des doigts au sol','Paumes à plat au sol'];
+
+/* ---------------- muscu (élastiques + poids de corps) ---------------- */
+// ex : {nom, zone, sets, reps (0 = "max"), tip}
+const WORKOUTS=[
+  { id:'push', emoji:'💪', nom:'Push complet', focus:'Pecs · épaules · triceps', ex:[
+    {nom:'Développé élastique',zone:'Pectoraux',sets:4,reps:12,tip:'Élastique passé dans le dos, pousse devant toi à hauteur de poitrine, retour lent et contrôlé.'},
+    {nom:'Écarté élastique (fly)',zone:'Pectoraux',sets:3,reps:15,tip:'Bras à peine fléchis, ouvre puis rapproche les mains devant toi en serrant les pectoraux.'},
+    {nom:'Pompes',zone:'Pecs & global',sets:3,reps:0,tip:'Corps gainé, poitrine près du sol. Mains sur une table si trop dur, pieds surélevés si trop facile.'},
+    {nom:'Développé militaire élastique',zone:'Épaules',sets:4,reps:12,tip:'Élastique sous les pieds, pousse au-dessus de la tête sans cambrer le bas du dos.'},
+    {nom:'Élévations latérales élastique',zone:'Épaules (moyen)',sets:3,reps:15,tip:'Monte les bras sur les côtés jusqu\'à l\'horizontale, lentement, sans balancer le corps.'},
+    {nom:'Oiseau élastique',zone:'Épaules (arrière)',sets:3,reps:15,tip:'Buste penché, écarte les bras vers l\'arrière. Essentiel pour une posture droite.'},
+    {nom:'Extension triceps élastique',zone:'Triceps',sets:3,reps:15,tip:'Élastique ancré en hauteur, tends les bras vers le bas, coudes fixes le long du corps.'},
+    {nom:'Pompes diamant',zone:'Triceps',sets:3,reps:0,tip:'Mains en losange sous la poitrine, coudes serrés près du corps.'},
+  ]},
+  { id:'pecstri', emoji:'🎯', nom:'Pecs & triceps', focus:'Poussée horizontale', ex:[
+    {nom:'Développé élastique',zone:'Pectoraux',sets:4,reps:12,tip:'Pousse devant toi à hauteur de poitrine, retour lent.'},
+    {nom:'Écarté élastique (fly)',zone:'Pectoraux',sets:3,reps:15,tip:'Serre les pectoraux en rapprochant les mains devant toi.'},
+    {nom:'Pompes',zone:'Pecs & global',sets:4,reps:0,tip:'Amplitude complète, corps gainé.'},
+    {nom:'Extension triceps élastique',zone:'Triceps',sets:3,reps:15,tip:'Coudes fixes, tends les bras, contrôle le retour.'},
+    {nom:'Pompes diamant',zone:'Triceps',sets:3,reps:0,tip:'Mains en losange, coudes près du corps.'},
+  ]},
+  { id:'epaules', emoji:'🪖', nom:'Épaules', focus:'Deltoïdes (3 faisceaux)', ex:[
+    {nom:'Développé militaire élastique',zone:'Épaules',sets:4,reps:12,tip:'Pousse au-dessus de la tête, gainage, sans cambrer.'},
+    {nom:'Élévations latérales élastique',zone:'Épaules (moyen)',sets:4,reps:15,tip:'Jusqu\'à l\'horizontale, contrôlé, sans élan.'},
+    {nom:'Oiseau élastique',zone:'Épaules (arrière)',sets:3,reps:15,tip:'Buste penché, tire vers l\'arrière. Posture !'},
+    {nom:'Pike push-up',zone:'Épaules',sets:3,reps:0,tip:'En V inversé (fesses hautes), descends le sommet du crâne vers le sol.'},
+    {nom:'Élévations frontales élastique',zone:'Épaules (avant)',sets:2,reps:15,tip:'Monte les bras devant toi jusqu\'à l\'horizontale.'},
+  ]},
 ];
-const DISC={
-  boxe:{ico:'🥊',nom:'Boxe',col:'var(--boxe)'},
-  muscu:{ico:'🏋️',nom:'Muscu',col:'var(--muscu)'},
-  mix:{ico:'🔀',nom:'Mix',col:'var(--mix)'},
-  autre:{ico:'✳️',nom:'Autre',col:'var(--autre)'},
+
+/* ---------------- programme du jour ---------------- */
+const PLAN={
+  matin:[
+    {id:'course',emoji:'🏃',nom:'Course',detail:'20–30 min : footing ou fractionné',act:'run'},
+    {id:'etir',emoji:'🧘',nom:'Étirements',detail:'Routine « Vers le sol »',act:'soup'},
+    {id:'piano',emoji:'🎹',nom:'Piano',detail:'Session sur Piano Dojo',act:'piano'},
+  ],
+  soir:[
+    {id:'push',emoji:'💪',nom:'Push élastiques',detail:'Pecs · épaules · triceps',act:'push'},
+  ],
 };
+const DISC={boxe:{ico:'🥊',nom:'Boxe',col:'var(--boxe)'},muscu:{ico:'🏋️',nom:'Muscu',col:'var(--muscu)'},
+  course:{ico:'🏃',nom:'Course',col:'var(--acc)'},mix:{ico:'🔀',nom:'Mix',col:'var(--jour)'},autre:{ico:'✳️',nom:'Autre',col:'var(--autre)'}};
 
 /* ---------------- état ---------------- */
-const DEFAULT={ mobLog:[], journal:[], floorTests:[] };
+const DEFAULT={ mobLog:[], workoutLog:[], journal:[], floorTests:[], planDone:{}, prReps:{}, curWk:null, restDur:90 };
 let S=load();
 function load(){ try{ return Object.assign({},DEFAULT,JSON.parse(localStorage.getItem('forge_v2')||'{}')); }catch(e){ return {...DEFAULT}; } }
 function save(){ localStorage.setItem('forge_v2',JSON.stringify(S)); }
 const todayStr=()=>new Date().toISOString().slice(0,10);
 const frDate=ds=>new Date(ds+'T12:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
 
-/* activité & streak (jours consécutifs avec ≥1 chose faite) */
-function activityDays(){ const set=new Set(); S.mobLog.forEach(m=>set.add(m.date)); S.journal.forEach(j=>set.add(j.date)); return set; }
+function activityDays(){ const s=new Set(); S.mobLog.forEach(m=>s.add(m.date)); S.workoutLog.forEach(w=>s.add(w.date)); S.journal.forEach(j=>s.add(j.date)); return s; }
 function dayStreak(){ const days=activityDays(); const ds=x=>x.toISOString().slice(0,10);
-  let d=new Date(); let n=0;
-  if(!days.has(ds(d))) d.setDate(d.getDate()-1); // aujourd'hui pas encore fait ne casse pas la série
-  while(days.has(ds(d))){ n++; d.setDate(d.getDate()-1); }
-  return n;
-}
-function curFloor(){ if(!S.floorTests.length) return null; return S.floorTests[S.floorTests.length-1].level; }
+  let d=new Date(),n=0; if(!days.has(ds(d))) d.setDate(d.getDate()-1);
+  while(days.has(ds(d))){ n++; d.setDate(d.getDate()-1); } return n; }
+function curFloor(){ return S.floorTests.length? S.floorTests[S.floorTests.length-1].level : null; }
 function updateHeader(){ document.getElementById('streakBadge').textContent='🔥 '+dayStreak()+' j'; }
+function planDone(id){ const t=S.planDone[todayStr()]||{}; return !!t[id]; }
+function markPlan(id,v=true){ const t=todayStr(); (S.planDone[t]=S.planDone[t]||{})[id]=v; save(); }
 
 /* ---------------- audio ---------------- */
 let AC=null;
@@ -268,77 +352,117 @@ function ac(){ try{ if(!AC) AC=new (window.AudioContext||window.webkitAudioConte
 function beep(f=880,dur=.12,vol=.4,when=0){ const ctx=ac(); if(!ctx)return;
   const t=ctx.currentTime+when,o=ctx.createOscillator(),g=ctx.createGain();
   o.frequency.value=f; g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.001,t+dur);
-  o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+dur+.02);
-}
+  o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+dur+.02); }
 function bell(){ beep(587,.4,.5); beep(784,.5,.4,.06); if(navigator.vibrate)navigator.vibrate([100,50,100]); }
 function tick(){ beep(1150,.05,.22); }
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
   clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2500); }
 
+/* ---------------- timer de repos ---------------- */
+const Rest={left:0,total:0,timer:null,
+  start(sec){ this.stop(); this.left=sec; this.total=sec; document.getElementById('restbar').style.display='block'; this.draw();
+    this.timer=setInterval(()=>{ this.left--;
+      if(this.left<=0){ this.stop(); bell(); toast('💪 Repos terminé — série suivante.'); }
+      else { if(this.left<=3) tick(); this.draw(); } },1000); },
+  draw(){ document.getElementById('restT').textContent=Math.floor(this.left/60)+':'+String(this.left%60).padStart(2,'0');
+    document.getElementById('restI').style.width=(this.left/this.total*100)+'%'; },
+  stop(){ if(this.timer){clearInterval(this.timer);this.timer=null;} document.getElementById('restbar').style.display='none'; }
+};
+document.getElementById('restSkip').onclick=()=>Rest.stop();
+
 /* ================================================================
    NAVIGATION
    ================================================================ */
 const main=document.getElementById('main');
-let curTab='soup';
+let curTab='today';
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  if(S.curWk && !confirm('Quitter la séance muscu en cours ?')) return;
+  if(S.curWk){ S.curWk=null; save(); Rest.stop(); }
   document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on'); curTab=b.dataset.tab; render();
 });
 function render(){ main.innerHTML='';
-  if(curTab==='soup') renderSoup();
+  if(curTab==='today') renderToday();
+  else if(curTab==='sess') renderSess();
   else if(curTab==='jour') renderJour();
   else renderProg();
   updateHeader();
 }
 
 /* ================================================================
-   ONGLET SOUPLESSE
+   ONGLET AUJOURD'HUI (programme)
    ================================================================ */
-function renderSoup(){
-  const fl=curFloor();
+function renderToday(){
   const streak=dayStreak();
+  const dn=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
   main.insertAdjacentHTML('beforeend',`
     <div class="card hero">
-      <div class="lvl">Souplesse guidée</div>
-      <div class="lvlname">${streak>0?streak+' jour'+(streak>1?'s':'')+' d\'affilée 🔥':'On s\'y met ?'}</div>
-      <p>Objectif : toucher le sol, jambes tendues. La régularité bat l'intensité — 5 à 10 min par jour valent mieux qu'une grosse séance par semaine. Choisis une routine, je te guide.</p>
-    </div>
-
-    <div class="card">
-      <div class="floor">
-        <span class="big">📏</span>
-        <div class="ft">
-          <b>Test du sol</b>
-          <small>${fl!=null?'Actuel : '+FLOOR[fl]:'Pas encore mesuré'}</small>
-        </div>
-        <button class="btn small ghost" id="floorBtn">${fl!=null?'Mettre à jour':'Mesurer'}</button>
-      </div>
-    </div>
-
-    <div class="cat">Routines guidées</div>
-    <div id="routs"></div>
-
-    <div class="card" style="margin-top:6px">
-      <b style="font-size:15px">Pour progresser sans se blesser</b>
-      <div style="margin-top:12px">
-        <div class="tip"><span>🫁</span><div>Respire lentement. À chaque expiration, laisse-toi descendre un peu plus — ne bloque jamais ta respiration.</div></div>
-        <div class="tip"><span>🚫</span><div>Étirement = tension confortable, jamais douleur vive. Pas de à-coups, pas de « ressorts ».</div></div>
-        <div class="tip"><span>🔁</span><div>Le progrès vient de la fréquence. Vise un petit peu chaque jour plutôt que beaucoup rarement.</div></div>
-        <div class="tip"><span>🔥</span><div>Un corps tiède s'étire mieux : idéal après une douche chaude ou quelques minutes de mouvement.</div></div>
-      </div>
+      <div class="lvl">${dn}</div>
+      <div class="lvlname">${streak>0?streak+' jour'+(streak>1?'s':'')+' d\'affilée 🔥':'Nouveau départ'}</div>
+      <p>Le plan du jour : cardio + mobilité le matin, poussée le soir. Coche au fur et à mesure, ou lance la séance d'un tap.</p>
     </div>`);
+  const block=(title,items)=>{
+    main.insertAdjacentHTML('beforeend',`<div class="cat">${title}</div>`);
+    items.forEach(it=>{
+      const done=planDone(it.id);
+      const d=document.createElement('div'); d.className='pblock'+(done?' done':'');
+      d.innerHTML=`<span class="pe">${it.emoji}</span>
+        <div class="pt"><b>${it.nom}</b><small>${it.detail}</small></div>
+        ${it.act!=='none'?`<button class="pgo">▶</button>`:''}
+        <button class="pck">${done?'✓':'○'}</button>`;
+      d.querySelector('.pck').onclick=()=>{ markPlan(it.id,!done); render(); };
+      const go=d.querySelector('.pgo');
+      if(go) go.onclick=()=>runAction(it);
+      main.appendChild(d);
+    });
+  };
+  block('Matin',PLAN.matin);
+  block('Soir',PLAN.soir);
+
+  const fl=curFloor();
+  main.insertAdjacentHTML('beforeend',`<div class="card" style="margin-top:14px">
+    <div class="floor"><span class="big">📏</span>
+      <div class="ft"><b>Test du sol</b><small>${fl!=null?'Actuel : '+FLOOR[fl]:'Pas encore mesuré'}</small></div>
+      <button class="btn small ghost" id="floorBtn">${fl!=null?'Mettre à jour':'Mesurer'}</button></div></div>`);
   main.querySelector('#floorBtn').onclick=openFloorTest;
+}
+function runAction(it){
+  if(it.act==='run') openRun(it.id);
+  else if(it.act==='soup') startRoutine(ROUTINES.find(r=>r.id==='plancher'), it.id);
+  else if(it.act==='push'){ startWorkout(WORKOUTS.find(w=>w.id==='push'), it.id); }
+  else if(it.act==='piano'){ window.open(PIANO_URL,'_blank'); markPlan(it.id); render(); }
+}
+
+/* ================================================================
+   ONGLET SÉANCES (bibliothèque : souplesse + muscu)  |  séance muscu active
+   ================================================================ */
+function renderSess(){
+  if(S.curWk){ renderWkSession(); return; }
+  main.insertAdjacentHTML('beforeend','<h1 class="page">Séances</h1><p class="sub" style="margin-bottom:6px">Choisis une séance guidée. Je te mène pas à pas.</p>');
+
+  main.insertAdjacentHTML('beforeend','<div class="cat">💪 Muscu — haut du corps (élastiques + poids de corps)</div><div id="wks"></div>');
+  const wc=main.querySelector('#wks');
+  WORKOUTS.forEach(w=>{
+    const nsets=w.ex.reduce((a,e)=>a+e.sets,0);
+    const d=document.createElement('div'); d.className='rout';
+    d.innerHTML=`<div class="rh"><span class="ri">${w.emoji}</span>
+      <div class="rtx"><b>${w.nom}</b><small>${w.focus} · ${w.ex.length} exos · ${nsets} séries</small></div>
+      <span class="chev">▾</span></div>
+      <div class="steps">${w.ex.map(e=>`<div class="st"><span>${e.sets}×${e.reps||'max'}</span><div>${e.nom}<em>${e.zone}</em></div></div>`).join('')}</div>
+      <button class="btn blue" data-go="1">▶ Démarrer</button>`;
+    d.querySelector('.rh').onclick=()=>d.classList.toggle('open');
+    d.querySelector('[data-go]').onclick=e=>{ e.stopPropagation(); startWorkout(w); };
+    wc.appendChild(d);
+  });
+
+  main.insertAdjacentHTML('beforeend','<div class="cat">🧘 Souplesse</div><div id="routs"></div>');
   const rc=main.querySelector('#routs');
   ROUTINES.forEach(r=>{
-    const tot=r.steps.reduce((a,s)=>a+(s.sides?2:1),0);
     const min=Math.round(r.steps.reduce((a,s)=>a+(s.sides?2:1)*(s.sec+6),0)/60);
     const d=document.createElement('div'); d.className='rout';
-    d.innerHTML=`
-      <div class="rh">
-        <span class="ri">${r.emoji}</span>
-        <div class="rt"><b>${r.nom}</b><small>${r.focus} · ~${min} min · ${r.steps.length} mouvements</small></div>
-        <span class="chev">▾</span>
-      </div>
+    d.innerHTML=`<div class="rh"><span class="ri">${r.emoji}</span>
+      <div class="rtx"><b>${r.nom}</b><small>${r.focus} · ~${min} min · ${r.steps.length} mouvements</small></div>
+      <span class="chev">▾</span></div>
       <div class="steps">${r.steps.map(s=>`<div class="st"><span>${s.sec}s${s.sides?' ×2':''}</span><div>${s.emoji} ${s.nom}<em>${s.zone}</em></div></div>`).join('')}</div>
       <button class="btn" data-go="1">▶ Démarrer</button>`;
     d.querySelector('.rh').onclick=()=>d.classList.toggle('open');
@@ -347,64 +471,150 @@ function renderSoup(){
   });
 }
 
+/* ---- séance muscu (séries à verrouiller + repos auto) ---- */
+function lastWk(ex){ for(let i=S.workoutLog.length-1;i>=0;i--){
+  const e=(S.workoutLog[i].entries||[]).find(x=>x.ex===ex); if(e&&e.sets.length) return {date:S.workoutLog[i].date, sets:e.sets}; } return null; }
+function startWorkout(w, planId=null){
+  ac();
+  S.curWk={ id:w.id, nom:w.nom, planId, start:Date.now(),
+    entries:w.ex.map(e=>{ const lp=lastWk(e.nom); const base=e.reps||(lp?lp.sets[0]:10)||10;
+      return { ex:e.nom, zone:e.zone, tip:e.tip, target:e.reps, sets:[...Array(e.sets)].map(()=>({reps: lp?lp.sets[0]:base, done:false})) }; }) };
+  save(); curTab='sess'; document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.tab==='sess')); render();
+}
+let wkChrono=null;
+function renderWkSession(){
+  clearInterval(wkChrono);
+  const c=S.curWk;
+  main.insertAdjacentHTML('beforeend',`<div class="sesshead"><b>💪 ${c.nom}</b><span class="chrono" id="chrono"></span></div>
+    <p class="sub" style="margin-bottom:12px">Valide chaque série (✓) : elle se verrouille et le repos démarre tout seul. Ajuste les reps si besoin.</p><div id="body"></div>`);
+  const ch=main.querySelector('#chrono');
+  const t=()=>{ ch.textContent=Math.floor((Date.now()-c.start)/60000)+' min'; }; t(); wkChrono=setInterval(t,15000);
+  const body=main.querySelector('#body');
+  c.entries.forEach((en,ei)=>{
+    const lp=lastWk(en.ex);
+    const d=document.createElement('div'); d.className='exo';
+    d.innerHTML=`<div class="xh"><b>${en.ex}</b><span class="zone">${en.zone}</span></div>
+      <div class="tip">${en.tip}</div>
+      <div class="last">${lp?`Dernière fois : <b>${lp.sets.map(s=>s.reps).join(' · ')} reps</b> — bats ça.`:'Premier passage : pose ta référence.'}</div>
+      <div class="sets"></div><button class="addset">+ série</button>`;
+    const sd=d.querySelector('.sets');
+    en.sets.forEach((st,si)=>sd.appendChild(wkSetRow(en,st,si)));
+    d.querySelector('.addset').onclick=()=>{ const p=en.sets[en.sets.length-1]; en.sets.push({reps:p?p.reps:10,done:false}); save(); render(); };
+    body.appendChild(d);
+  });
+  main.insertAdjacentHTML('beforeend',`<button class="btn" id="fin">✓ Terminer la séance</button>
+    <button class="btn danger" id="ann">Annuler</button>`);
+  main.querySelector('#fin').onclick=finishWorkout;
+  main.querySelector('#ann').onclick=()=>{ if(confirm('Annuler ? Rien ne sera enregistré.')){ S.curWk=null; save(); Rest.stop(); render(); } };
+}
+function wkSetRow(en,st,si){
+  const r=document.createElement('div'); r.className='setrow'+(st.done?' done':'');
+  const tgt=en.target?en.target:(st.reps||'—');
+  r.innerHTML=`<span class="sn">${si+1}</span>
+    <div class="fld"><button data-a="-">−</button><input type="number" inputmode="numeric" value="${st.reps}"><small>reps${en.target?' /'+en.target:''}</small><button data-a="+">+</button></div>
+    <button class="ck">${st.done?'✓':'○'}</button>`;
+  const inp=r.querySelector('input');
+  inp.onchange=()=>{ st.reps=Math.max(0,+inp.value||0); save(); };
+  r.querySelectorAll('.fld button').forEach(b=>b.onclick=()=>{ st.reps=Math.max(0,st.reps+(b.dataset.a==='+'?1:-1)); inp.value=st.reps; save(); });
+  r.querySelector('.ck').onclick=()=>{
+    st.done=!st.done; save();
+    r.classList.toggle('done',st.done); r.querySelector('.ck').textContent=st.done?'✓':'○';
+    if(st.done){ if(navigator.vibrate)navigator.vibrate(40); Rest.start(S.restDur); }
+  };
+  return r;
+}
+function finishWorkout(){
+  const c=S.curWk;
+  const entries=c.entries.map(en=>({ex:en.ex,zone:en.zone,sets:en.sets.filter(s=>s.done).map(s=>({reps:s.reps}))})).filter(en=>en.sets.length);
+  if(!entries.length) return toast('Valide au moins une série (✓) avant de terminer.');
+  const dur=Math.max(1,Math.round((Date.now()-c.start)/60000));
+  const newPR=[];
+  entries.forEach(en=>{ const best=Math.max(...en.sets.map(s=>s.reps)); const old=S.prReps[en.ex];
+    if(!old || best>old.reps){ S.prReps[en.ex]={reps:best,date:todayStr()}; if(best>0) newPR.push(en.ex); } });
+  S.workoutLog.push({id:Date.now(),date:todayStr(),nom:c.nom,dur,entries});
+  if(c.planId) markPlan(c.planId);
+  const totReps=entries.reduce((a,e)=>a+e.sets.reduce((x,s)=>x+s.reps,0),0);
+  const totSets=entries.reduce((a,e)=>a+e.sets.length,0);
+  S.curWk=null; save(); Rest.stop(); clearInterval(wkChrono); updateHeader();
+  openCustom('Séance terminée',(inner,close)=>{
+    inner.insertAdjacentHTML('beforeend',`<div style="text-align:center;padding:8px 0">
+      <div style="font-size:54px">💪</div>
+      <div style="font-size:22px;font-weight:800;margin:6px 0">${c.nom}</div>
+      <p class="sub">${dur} min · ${totSets} séries · ${totReps} répétitions</p>
+      ${newPR.length?`<div style="margin-top:14px;background:var(--bg2);border:1px solid var(--acc);border-radius:12px;padding:12px;text-align:left">🏆 <b>Record${newPR.length>1?'s':''} de reps :</b> ${newPR.map(e=>e+' ('+S.prReps[e].reps+')').join(' · ')}</div>`:''}
+      <p class="sub" style="margin-top:14px">${dayStreak()} jour(s) d'affilée 🔥</p></div>`);
+    const ok=document.createElement('button'); ok.className='btn'; ok.textContent='OK'; ok.onclick=()=>{ close(); render(); }; inner.appendChild(ok);
+  });
+  bell();
+}
+
+/* ---- test du sol ---- */
 function openFloorTest(){
   openCustom('Test du sol',(inner,close)=>{
-    inner.insertAdjacentHTML('beforeend',`<p class="sub" style="margin-bottom:14px">Debout, jambes tendues, penche-toi lentement vers le sol sans forcer. Jusqu'où arrivent tes mains ? Note ton niveau honnêtement — c'est ta ligne de départ.</p>`);
-    const cur=curFloor();
-    const wrap=document.createElement('div'); wrap.className='levels';
-    FLOOR.forEach((lab,i)=>{
-      const o=document.createElement('div'); o.className='lvlopt'+(cur===i?' on':'');
+    inner.insertAdjacentHTML('beforeend',`<p class="sub" style="margin-bottom:14px">Debout, jambes tendues, penche-toi lentement vers le sol sans forcer. Jusqu'où arrivent tes mains ?</p>`);
+    const cur=curFloor(); const wrap=document.createElement('div'); wrap.className='levels';
+    FLOOR.forEach((lab,i)=>{ const o=document.createElement('div'); o.className='lvlopt'+(cur===i?' on':'');
       o.innerHTML=`<span class="n">${i}</span><span>${lab}</span>`;
-      o.onclick=()=>{
-        S.floorTests.push({date:todayStr(),level:i}); save();
-        toast('Test du sol enregistré 📏'); close(); render();
-      };
-      wrap.appendChild(o);
-    });
+      o.onclick=()=>{ S.floorTests.push({date:todayStr(),level:i}); save(); toast('Test du sol enregistré 📏'); close(); render(); };
+      wrap.appendChild(o); });
     inner.appendChild(wrap);
   });
 }
 
-/* ---------------- lecteur guidé ---------------- */
+/* ---- chrono course ---- */
 const player=document.getElementById('player');
-function startRoutine(routine){
-  ac(); // débloque le son (geste utilisateur)
+function openRun(planId=null){
+  ac(); let sec=0, on=true, timer=null;
+  player.classList.add('open'); player.scrollTop=0;
+  const mm=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+  function paint(){
+    player.innerHTML=`<div class="player">
+      <div class="ptop"><button class="pquit">✕ Quitter</button><span class="pprog">🏃 Course</span></div>
+      <div class="pstage hold"><div class="plabel">${on?'En course':'En pause'}</div>
+        <div class="ring" style="background:var(--bg3)"><div class="ringin"><div class="ptime" style="font-size:52px">${mm(sec)}</div></div></div>
+        <div class="pcue">Cours à ton rythme. Le chrono tourne — termine quand tu veux, ta durée sera enregistrée.</div></div>
+      <div class="pctrl">
+        <button class="pbtn main" data-a="pause">${on?'❚❚ Pause':'▶ Reprendre'}</button>
+        <button class="pbtn" data-a="stop">■ Terminer</button></div></div>`;
+    player.querySelector('.pquit').onclick=()=>{ if(confirm('Quitter sans enregistrer ?')){ clearInterval(timer); player.classList.remove('open'); } };
+    player.querySelector('[data-a="pause"]').onclick=()=>{ on=!on; paint(); };
+    player.querySelector('[data-a="stop"]').onclick=stop;
+  }
+  function stop(){ clearInterval(timer); const min=Math.max(1,Math.round(sec/60));
+    S.journal.push({id:Date.now(),date:todayStr(),disc:'course',fait:'Course '+min+' min',ressenti:'',rpe:0,dur:min});
+    if(planId) markPlan(planId); save(); player.classList.remove('open'); toast('Course enregistrée : '+min+' min 🏃'); updateHeader(); render(); }
+  paint(); timer=setInterval(()=>{ if(on){ sec++; paint(); } },1000);
+}
+
+/* ---------------- lecteur guidé souplesse ---------------- */
+function startRoutine(routine, planId=null){
+  ac();
   const phases=[];
-  routine.steps.forEach(s=>{
-    phases.push({kind:'prep',sec:6,s});
+  routine.steps.forEach(s=>{ phases.push({kind:'prep',sec:6,s});
     if(s.sides){ phases.push({kind:'hold',side:'gauche',sec:s.sec,s}); phases.push({kind:'hold',side:'droite',sec:s.sec,s}); }
-    else phases.push({kind:'hold',sec:s.sec,s});
-  });
+    else phases.push({kind:'hold',sec:s.sec,s}); });
   const holdTotal=phases.filter(p=>p.kind==='hold').length;
   let idx=0,left=phases[0].sec,paused=false,timer=null,started=Date.now(),wl=null;
   navigator.wakeLock?.request('screen').then(l=>wl=l).catch(()=>{});
   player.classList.add('open'); player.scrollTop=0;
-
   const holdNo=i=>{ let n=0; for(let k=0;k<=i;k++) if(phases[k].kind==='hold') n++; return n; };
   function paint(){
     const p=phases[idx], isPrep=p.kind==='prep';
     const deg=Math.max(0,Math.min(360,(1-left/p.sec)*360));
-    const doneHolds=isPrep?holdNo(idx):holdNo(idx)-1;           // maintiens déjà terminés
-    const displayNo=Math.min(holdTotal,isPrep?holdNo(idx)+1:holdNo(idx)); // n° du maintien en cours/à venir
+    const doneHolds=isPrep?holdNo(idx):holdNo(idx)-1;
+    const displayNo=Math.min(holdTotal,isPrep?holdNo(idx)+1:holdNo(idx));
     const nextSide=isPrep && phases[idx+1] ? phases[idx+1].side : null;
     player.innerHTML=`<div class="player">
       <div class="ptop"><button class="pquit">✕ Quitter</button><span class="pprog">Mouvement ${displayNo}/${holdTotal}</span></div>
       <div class="pbar"><i style="width:${doneHolds/holdTotal*100}%"></i></div>
       <div class="pstage ${isPrep?'prep':'hold'}">
         <div class="plabel">${isPrep?('Prépare-toi'+(nextSide?' · côté '+nextSide:'')):(p.side?'Maintiens · côté '+p.side:'Maintiens')}</div>
-        <div class="ring" style="background:conic-gradient(${isPrep?'var(--dim)':'var(--acc)'} ${deg}deg, var(--bg3) 0)">
-          <div class="ringin"><div class="ptime">${left}</div></div>
-        </div>
-        <div class="pname">${p.s.emoji} ${p.s.nom}</div>
-        <div class="pzone">${p.s.zone}</div>
-        <div class="pcue">${p.s.cue}</div>
-      </div>
+        <div class="ring" style="background:conic-gradient(${isPrep?'var(--dim)':'var(--acc)'} ${deg}deg, var(--bg3) 0)"><div class="ringin"><div class="ptime">${left}</div></div></div>
+        <div class="pname">${p.s.emoji} ${p.s.nom}</div><div class="pzone">${p.s.zone}</div><div class="pcue">${p.s.cue}</div></div>
       <div class="pctrl">
         <button class="pbtn" data-a="prev">‹ Préc.</button>
         <button class="pbtn main" data-a="pause">${paused?'▶ Reprendre':'❚❚ Pause'}</button>
-        <button class="pbtn" data-a="next">Passer ›</button>
-      </div>
-    </div>`;
+        <button class="pbtn" data-a="next">Passer ›</button></div></div>`;
     player.querySelector('.pquit').onclick=quit;
     player.querySelector('[data-a="prev"]').onclick=()=>goto(idx-1);
     player.querySelector('[data-a="next"]').onclick=()=>goto(idx+1);
@@ -412,100 +622,65 @@ function startRoutine(routine){
   }
   function goto(i){ if(i<0)i=0; if(i>=phases.length){ finish(); return; } idx=i; left=phases[idx].sec; cue(phases[idx]); paint(); }
   function cue(p){ if(p.kind==='hold') beep(660,.25,.4); else beep(440,.15,.3); if(navigator.vibrate)navigator.vibrate(30); }
-  function step(){ if(paused)return;
-    left--;
+  function step(){ if(paused)return; left--;
     if(left<=0){ if(idx>=phases.length-1){ finish(); return; } idx++; left=phases[idx].sec; cue(phases[idx]); }
-    else if(left<=3 && phases[idx].kind==='hold'){ tick(); }
-    paint();
-  }
+    else if(left<=3 && phases[idx].kind==='hold'){ tick(); } paint(); }
   function stopAll(){ clearInterval(timer); try{wl?.release();}catch(e){} wl=null; }
   function quit(){ if(confirm('Quitter la séance ? Elle ne sera pas enregistrée.')){ stopAll(); player.classList.remove('open'); } }
-  function finish(){
-    stopAll(); bell(); setTimeout(bell,350);
+  function finish(){ stopAll(); bell(); setTimeout(bell,350);
     const dur=Math.max(1,Math.round((Date.now()-started)/60000));
-    S.mobLog.push({id:Date.now(),date:todayStr(),routine:routine.nom,dur}); save(); updateHeader();
+    S.mobLog.push({id:Date.now(),date:todayStr(),routine:routine.nom,dur}); if(planId) markPlan(planId); save(); updateHeader();
     player.innerHTML=`<div class="player"><div class="pdone">
-      <div class="big">🧘</div>
-      <div style="font-size:24px;font-weight:800;margin:8px 0">Séance terminée</div>
+      <div class="big">🧘</div><div style="font-size:24px;font-weight:800;margin:8px 0">Séance terminée</div>
       <p class="sub">${routine.nom} · ${dur} min · ${dayStreak()} jour(s) d'affilée 🔥</p>
       <p class="sub" style="margin-top:14px">Le progrès se joue dans la régularité. Reviens demain, même 5 minutes.</p>
       <button class="btn" id="pfloor" style="margin-top:20px">📏 Refaire le test du sol</button>
-      <button class="btn ghost" id="pclose">Terminer</button>
-    </div></div>`;
+      <button class="btn ghost" id="pclose">Terminer</button></div></div>`;
     player.querySelector('#pclose').onclick=()=>{ player.classList.remove('open'); render(); };
     player.querySelector('#pfloor').onclick=()=>{ player.classList.remove('open'); render(); openFloorTest(); };
   }
-  cue(phases[0]); paint();
-  timer=setInterval(step,1000);
+  cue(phases[0]); paint(); timer=setInterval(step,1000);
 }
 
 /* ================================================================
-   ONGLET JOURNAL (libre — boxe / muscu, tes ressentis)
+   ONGLET JOURNAL (libre)
    ================================================================ */
 let draftDisc='boxe', draftRpe=0;
 function renderJour(){
   draftDisc='boxe'; draftRpe=0;
   main.insertAdjacentHTML('beforeend',`<h1 class="page">Journal</h1>
-    <p class="sub" style="margin-bottom:14px">Ton espace : note ce que TU as fait (boxe, muscu, mix…) et ton ressenti. Rien n'est imposé.</p>`);
-
+    <p class="sub" style="margin-bottom:14px">Ton espace libre : note ce que TU as fait et ton ressenti. Rien n'est imposé.</p>`);
   const form=document.createElement('div'); form.className='card';
-  form.innerHTML=`
-    <b style="font-size:15px">Nouvelle entrée</b>
-    <div class="discgrid" id="discg">
-      ${Object.entries(DISC).map(([k,v])=>`<div class="discbtn${k===draftDisc?' on':''}" data-d="${k}" style="${k===draftDisc?'border-color:'+v.col:''}"><span class="i">${v.ico}</span><b>${v.nom}</b></div>`).join('')}
-    </div>
+  form.innerHTML=`<b style="font-size:15px">Nouvelle entrée</b>
+    <div class="discgrid" id="discg">${Object.entries(DISC).map(([k,v])=>`<div class="discbtn${k===draftDisc?' on':''}" data-d="${k}" style="${k===draftDisc?'border-color:'+v.col:''}"><span class="i">${v.ico}</span><b>${v.nom}</b></div>`).join('')}</div>
     <label class="fl">Ce que tu as fait</label>
-    <textarea id="fFait" placeholder="Ex : 6 rounds sac + 3×10 tractions, ou 4 exos jambes lourds…"></textarea>
+    <textarea id="fFait" placeholder="Ex : 6 rounds sac + gainage, ou séance jambes…"></textarea>
     <label class="fl">Ton ressenti</label>
-    <textarea id="fRess" placeholder="Énergie, sensations, ce qui a marché ou coincé, douleur éventuelle…"></textarea>
-    <div class="row2">
-      <div><label class="fl">Intensité ressentie (RPE)</label>
-        <div class="rpe" id="fRpe">${[...Array(10)].map((_,i)=>`<i data-v="${i+1}">${i+1}</i>`).join('')}</div></div>
-    </div>
-    <div class="row2">
-      <div><label class="fl">Durée (min)</label><input class="txt" type="number" inputmode="numeric" id="fDur" placeholder="—"></div>
-      <div><label class="fl">Date</label><input class="txt" type="date" id="fDate" value="${todayStr()}"></div>
-    </div>
+    <textarea id="fRess" placeholder="Énergie, sensations, ce qui a marché ou coincé…"></textarea>
+    <label class="fl">Intensité ressentie (RPE)</label>
+    <div class="rpe" id="fRpe">${[...Array(10)].map((_,i)=>`<i data-v="${i+1}">${i+1}</i>`).join('')}</div>
+    <div class="row2"><div><label class="fl">Durée (min)</label><input class="txt" type="number" inputmode="numeric" id="fDur" placeholder="—"></div>
+      <div><label class="fl">Date</label><input class="txt" type="date" id="fDate" value="${todayStr()}"></div></div>
     <button class="btn" id="fSave">Enregistrer</button>`;
   main.appendChild(form);
-
-  form.querySelectorAll('.discbtn').forEach(b=>b.onclick=()=>{
-    draftDisc=b.dataset.d;
-    form.querySelectorAll('.discbtn').forEach(x=>{ const on=x.dataset.d===draftDisc;
-      x.classList.toggle('on',on); x.style.borderColor=on?DISC[x.dataset.d].col:''; });
-  });
-  form.querySelectorAll('#fRpe i').forEach(el=>el.onclick=()=>{
-    draftRpe=+el.dataset.v;
-    form.querySelectorAll('#fRpe i').forEach(x=>x.classList.toggle('on',+x.dataset.v===draftRpe));
-  });
+  form.querySelectorAll('.discbtn').forEach(b=>b.onclick=()=>{ draftDisc=b.dataset.d;
+    form.querySelectorAll('.discbtn').forEach(x=>{ const on=x.dataset.d===draftDisc; x.classList.toggle('on',on); x.style.borderColor=on?DISC[x.dataset.d].col:''; }); });
+  form.querySelectorAll('#fRpe i').forEach(el=>el.onclick=()=>{ draftRpe=+el.dataset.v;
+    form.querySelectorAll('#fRpe i').forEach(x=>x.classList.toggle('on',+x.dataset.v===draftRpe)); });
   form.querySelector('#fSave').onclick=()=>{
-    const fait=form.querySelector('#fFait').value.trim();
-    const ress=form.querySelector('#fRess').value.trim();
-    if(!fait && !ress) return toast('Écris au moins ce que tu as fait ou ton ressenti.');
-    S.journal.push({ id:Date.now(), date:form.querySelector('#fDate').value||todayStr(),
-      disc:draftDisc, fait, ressenti:ress, rpe:draftRpe,
-      dur:+form.querySelector('#fDur').value||0 });
+    const fait=form.querySelector('#fFait').value.trim(), ress=form.querySelector('#fRess').value.trim();
+    if(!fait&&!ress) return toast('Écris au moins ce que tu as fait ou ton ressenti.');
+    S.journal.push({id:Date.now(),date:form.querySelector('#fDate').value||todayStr(),disc:draftDisc,fait,ressenti:ress,rpe:draftRpe,dur:+form.querySelector('#fDur').value||0});
     save(); toast('Entrée enregistrée ✓'); render();
   };
-
   main.insertAdjacentHTML('beforeend','<div class="cat">Historique</div>');
-  if(!S.journal.length){
-    main.insertAdjacentHTML('beforeend','<div class="empty">Rien pour l\'instant.<br>Ta première note viendra après ta prochaine séance.</div>');
-    return;
-  }
-  [...S.journal].reverse().forEach(e=>{
-    const v=DISC[e.disc]||DISC.autre;
+  if(!S.journal.length){ main.insertAdjacentHTML('beforeend','<div class="empty">Rien pour l\'instant.<br>Ta première note viendra après ta prochaine séance.</div>'); return; }
+  [...S.journal].reverse().forEach(e=>{ const v=DISC[e.disc]||DISC.autre;
     const d=document.createElement('div'); d.className='entry';
-    d.innerHTML=`
-      <div class="eh">
-        <div class="ico">${v.ico}</div>
-        <div class="et"><b>${v.nom}</b><small>${frDate(e.date)}${e.dur?' · '+e.dur+' min':''}${e.rpe?' · RPE '+e.rpe:''}</small></div>
-        <span class="del">✕</span>
-      </div>
-      ${(e.fait||e.ressenti)?`<div class="body">
-        ${e.fait?`<span class="lab">Fait</span>${escapeH(e.fait)}`:''}
-        ${e.ressenti?`<span class="lab">Ressenti</span>${escapeH(e.ressenti)}`:''}
-      </div>`:''}`;
+    d.innerHTML=`<div class="eh"><div class="ico">${v.ico}</div>
+      <div class="et"><b>${v.nom}</b><small>${frDate(e.date)}${e.dur?' · '+e.dur+' min':''}${e.rpe?' · RPE '+e.rpe:''}</small></div>
+      <span class="del">✕</span></div>
+      ${(e.fait||e.ressenti)?`<div class="body">${e.fait?`<span class="lab">Fait</span>${escapeH(e.fait)}`:''}${e.ressenti?`<span class="lab">Ressenti</span>${escapeH(e.ressenti)}`:''}</div>`:''}`;
     d.querySelector('.del').onclick=()=>{ if(confirm('Supprimer cette entrée ?')){ S.journal=S.journal.filter(x=>x.id!==e.id); save(); render(); } };
     main.appendChild(d);
   });
@@ -516,89 +691,72 @@ function renderJour(){
    ================================================================ */
 function renderProg(){
   main.insertAdjacentHTML('beforeend','<h1 class="page">Progrès</h1>');
-  const totMob=S.mobLog.length, totMin=S.mobLog.reduce((a,m)=>a+(m.dur||0),0);
+  const mobMin=S.mobLog.reduce((a,m)=>a+(m.dur||0),0), wkMin=S.workoutLog.reduce((a,w)=>a+(w.dur||0),0);
   main.insertAdjacentHTML('beforeend',`<div class="statgrid">
     <div class="stat"><b>${dayStreak()}</b><small>jours d'affilée</small></div>
-    <div class="stat"><b>${totMob}</b><small>séances souplesse</small></div>
-    <div class="stat"><b>${S.journal.length}</b><small>entrées de journal</small></div>
-    <div class="stat"><b>${Math.round(totMin/60*10)/10}h</b><small>souplesse cumulée</small></div>
+    <div class="stat"><b>${S.mobLog.length}</b><small>séances souplesse</small></div>
+    <div class="stat"><b>${S.workoutLog.length}</b><small>séances muscu</small></div>
+    <div class="stat"><b>${Math.round((mobMin+wkMin)/60*10)/10}h</b><small>temps total guidé</small></div>
   </div>`);
 
-  /* progression du test du sol */
   const fc=document.createElement('div'); fc.className='card'; fc.style.marginTop='12px';
-  const cur=curFloor();
   fc.innerHTML=`<b style="font-size:15px">📏 Test du sol</b>`;
-  if(!S.floorTests.length){
-    fc.insertAdjacentHTML('beforeend','<div class="empty">Fais ton premier test dans l\'onglet Souplesse pour poser ta ligne de départ.</div>');
-  } else {
-    fc.insertAdjacentHTML('beforeend',`<p class="sub" style="margin-top:4px">Niveau actuel : <b style="color:var(--acc)">${FLOOR[cur]}</b>. La courbe doit grimper avec les semaines.</p>`);
-    const vals=S.floorTests.map(t=>t.level);
-    fc.insertAdjacentHTML('beforeend',sparkline(vals,0,FLOOR.length-1));
-    fc.insertAdjacentHTML('beforeend',`<div class="legend" style="justify-content:space-between;margin-top:4px">
-      <span>${FLOOR[0]}</span><span>${FLOOR[FLOOR.length-1]}</span></div>`);
+  if(!S.floorTests.length) fc.insertAdjacentHTML('beforeend','<div class="empty">Fais ton premier test (onglet Aujourd\'hui) pour poser ta ligne de départ.</div>');
+  else { const cur=curFloor();
+    fc.insertAdjacentHTML('beforeend',`<p class="sub" style="margin-top:4px">Niveau actuel : <b style="color:var(--acc)">${FLOOR[cur]}</b>. La courbe doit grimper.</p>`+sparkline(S.floorTests.map(t=>t.level),0,FLOOR.length-1)
+      +`<div class="legend" style="justify-content:space-between;margin-top:4px"><span>${FLOOR[0]}</span><span>${FLOOR[FLOOR.length-1]}</span></div>`);
   }
   main.appendChild(fc);
+
+  /* records reps muscu */
+  const prs=Object.entries(S.prReps);
+  if(prs.length){ const prc=document.createElement('div'); prc.className='card';
+    prc.innerHTML='<b style="font-size:15px">🏆 Records (répétitions)</b>';
+    prs.sort((a,b)=>b[1].date.localeCompare(a[1].date)).forEach(([ex,p])=>{
+      prc.insertAdjacentHTML('beforeend',`<div class="prrow"><div class="t"><b>${ex}</b><small>${p.date.split('-').reverse().join('/')}</small></div><div class="val">${p.reps} reps</div></div>`); });
+    main.appendChild(prc);
+  }
 
   /* régularité 16 semaines */
   const hm=document.createElement('div'); hm.className='card';
   hm.innerHTML='<b style="font-size:15px">Régularité (16 semaines)</b><div class="heatwrap"><div class="heat"></div></div>';
   const heat=hm.querySelector('.heat');
-  const mobDays=new Set(S.mobLog.map(m=>m.date));
-  const jourDays=new Set(S.journal.map(j=>j.date));
-  const today=new Date(); const dow=(today.getDay()+6)%7;
-  const start=new Date(today); start.setDate(start.getDate()-dow-15*7);
-  for(let i=0;i<16*7;i++){
-    const d=new Date(start); d.setDate(d.getDate()+i);
-    const ds=d.toISOString().slice(0,10);
+  const mob=new Set(S.mobLog.map(m=>m.date)), wk=new Set(S.workoutLog.map(w=>w.date)), jr=new Set(S.journal.map(j=>j.date));
+  const today=new Date(); const dow=(today.getDay()+6)%7; const start=new Date(today); start.setDate(start.getDate()-dow-15*7);
+  for(let i=0;i<16*7;i++){ const d=new Date(start); d.setDate(d.getDate()+i); const ds=d.toISOString().slice(0,10);
     const cell=document.createElement('i');
     if(d>today) cell.style.visibility='hidden';
-    else {
-      const m=mobDays.has(ds), j=jourDays.has(ds);
-      if(m&&j) cell.style.background='var(--mix)';
-      else if(m) cell.style.background='var(--acc)';
-      else if(j) cell.style.background='var(--muscu)';
-      if(m||j) cell.title=ds;
-    }
-    heat.appendChild(cell);
-  }
+    else { const m=mob.has(ds),w=wk.has(ds),j=jr.has(ds);
+      if(m) cell.style.background='var(--acc)'; else if(w) cell.style.background='var(--muscu)'; else if(j) cell.style.background='var(--jour)';
+      if(m||w||j) cell.title=ds; }
+    heat.appendChild(cell); }
   hm.insertAdjacentHTML('beforeend',`<div class="legend">
     <span><i style="background:var(--acc)"></i>Souplesse</span>
-    <span><i style="background:var(--muscu)"></i>Journal</span>
-    <span><i style="background:var(--mix)"></i>Les deux</span></div>`);
+    <span><i style="background:var(--muscu)"></i>Muscu</span>
+    <span><i style="background:var(--jour)"></i>Journal</span></div>`);
   main.appendChild(hm);
 }
-
-/* sparkline générique (min/max optionnels) */
-function sparkline(vals,fmn,fmx){
-  const w=320,h=110,pad=14;
+function sparkline(vals,fmn,fmx){ const w=320,h=110,pad=14;
   const mn=fmn!=null?fmn:Math.min(...vals), mx=fmx!=null?fmx:Math.max(...vals);
   const sx=i=>pad+(vals.length===1?(w/2-pad):i*(w-2*pad)/(vals.length-1));
-  const sy=v=>mx===mn ? h/2 : h-pad-(v-mn)*(h-2*pad)/(mx-mn);
+  const sy=v=>mx===mn?h/2:h-pad-(v-mn)*(h-2*pad)/(mx-mn);
   const pts=vals.map((v,i)=>sx(i)+','+sy(v)).join(' ');
-  return `<svg class="chart" viewBox="0 0 ${w} ${h}">
-    <polyline points="${pts}" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-    ${vals.map((v,i)=>`<circle cx="${sx(i)}" cy="${sy(v)}" r="3.5" fill="var(--acc)"/>`).join('')}
-  </svg>`;
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${vals.map((v,i)=>`<circle cx="${sx(i)}" cy="${sy(v)}" r="3.5" fill="var(--acc)"/>`).join('')}</svg>`;
 }
 
 /* ================================================================
-   OVERLAY générique + utils
+   OVERLAY + utils
    ================================================================ */
-const overlay=document.getElementById('overlay');
-const overlayInner=document.getElementById('overlayInner');
+const overlay=document.getElementById('overlay'), overlayInner=document.getElementById('overlayInner');
 function closeOverlay(){ overlay.classList.remove('open'); }
-function openCustom(title,fill){
-  overlayInner.innerHTML=`<div class="topbar"><button class="back">←</button><b>${title}</b></div>`;
-  overlayInner.querySelector('.back').onclick=closeOverlay;
-  overlay.classList.add('open'); overlay.scrollTop=0;
-  fill(overlayInner,closeOverlay);
-}
+function openCustom(title,fill){ overlayInner.innerHTML=`<div class="topbar"><button class="back">←</button><b>${title}</b></div>`;
+  overlayInner.querySelector('.back').onclick=closeOverlay; overlay.classList.add('open'); overlay.scrollTop=0; fill(overlayInner,closeOverlay); }
 function escapeH(s){ return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(/\n/g,'<br>'); }
 
-/* ---------------- service worker (offline) ---------------- */
 if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
 
 /* ---------------- init ---------------- */
+if(S.curWk){ curTab='sess'; document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.tab==='sess')); }
 render();
 </script>
 </body>
