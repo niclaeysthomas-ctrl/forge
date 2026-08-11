@@ -69,6 +69,12 @@
   .rout .steps .st{display:flex;gap:10px;padding:7px 0;font-size:13px;color:#cfe0d9;align-items:baseline}
   .rout .steps .st span{color:var(--dim);font-size:12px;min-width:62px}
   .rout .steps .st em{color:var(--dim);font-style:normal;margin-left:auto;font-size:12px;text-align:right}
+  .rout .steps .rnote{background:var(--bg3);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12.5px;color:#b9c7d6;line-height:1.55;margin-bottom:10px}
+  .rout .steps .st{align-items:flex-start}
+  .rout .steps .st .stc{flex:1}
+  .rout .steps .st .stc .z{color:var(--dim);font-style:normal;font-size:12px}
+  .rout .steps .st .stwhy{display:block;color:var(--dim);font-size:11.5px;line-height:1.45;margin-top:3px}
+  .pwhy{color:#b9c7d6;font-size:12.5px;line-height:1.55;margin-top:14px;max-width:520px;padding:12px 10px 0;border-top:1px solid var(--line)}
 
   /* test du sol */
   .floor{display:flex;align-items:center;gap:14px}
@@ -219,52 +225,104 @@ const PIANO_URL='https://niclaeysthomas-ctrl.github.io/piano-dojo/';
 
 /* ---------------- souplesse ---------------- */
 const ROUTINES=[
-  { id:'plancher', emoji:'🎯', nom:'Vers le sol', focus:"Toucher le sol : ischios, hanches, dos", steps:[
-    {emoji:'🐈',nom:'Chat–vache',zone:'Mobilité du dos',cue:'À quatre pattes, alterne dos rond (souffle) et dos creux (inspire).',sec:40},
-    {emoji:'🦵',nom:'Balancés jambe tendue',zone:'Réveil des ischios',cue:"Appuie-toi d'une main, balance une jambe tendue d'avant en arrière, amplitude douce.",sec:25,sides:true},
-    {emoji:'⬇️',nom:'Flexion avant debout',zone:'Chaîne postérieure',cue:'Descends lentement, genoux à peine fléchis, relâche nuque et bras. Laisse la gravité travailler.',sec:45},
-    {emoji:'🦿',nom:'Étirement ischios (assis)',zone:'Ischio-jambiers',cue:"Une jambe tendue, penche-toi vers le pied, dos long, pas rond.",sec:35,sides:true},
-    {emoji:'📐',nom:'Pince assise',zone:'Ischios & bas du dos',cue:'Jambes tendues, mains vers les pieds en soufflant. Ventre vers les cuisses.',sec:45},
-    {emoji:'🧱',nom:'Mollet au mur',zone:'Mollets & chevilles',cue:'Jambe tendue derrière, talon au sol, pousse le mur.',sec:30,sides:true},
-    {emoji:'🏹',nom:'Fente basse',zone:'Fléchisseurs de hanche',cue:"Genou au sol, pousse le bassin vers l'avant, buste droit.",sec:35,sides:true},
-    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Plantes des pieds jointes, genoux vers le sol, dos droit.',sec:40},
-    {emoji:'🕊️',nom:'Pigeon simplifié',zone:'Fessiers & hanches',cue:"Jambe repliée devant, jambe tendue derrière, penche le buste.",sec:35,sides:true},
-    {emoji:'🌀',nom:'Torsion allongée',zone:'Bas du dos',cue:"Sur le dos, genou plié amené de l'autre côté, épaules au sol.",sec:30,sides:true},
-    {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement',cue:'Fesses vers les talons, bras tendus, front au sol. Respire, relâche.',sec:45},
+  { id:'reveil', emoji:'🌅', nom:'Réveil du matin', focus:'Réveil musculaire + amorce souplesse', prep:5,
+    note:"À froid, le corps est raide et les disques vertébraux gorgés d'eau : on bouge en amplitude progressive, jamais en force. Le vrai gain de souplesse se fait à chaud (séances dédiées). Ici, on réveille, on lubrifie les articulations, on lance la machine — puis on finit par une amorce douce vers le sol.",
+    steps:[
+    {emoji:'🌬️',nom:"Respiration + grandissement",zone:"Réveil / posture",dyn:true,sec:30,cue:"Debout, inspire par le nez en étirant la colonne vers le haut, souffle long par la bouche.",why:"Active le diaphragme et le système nerveux en douceur avant l'effort."},
+    {emoji:'🙆',nom:"Cercles de nuque",zone:"Cou",dyn:true,sec:20,cue:"Demi-cercles lents d'une épaule à l'autre, sans écraser l'arrière du cou.",why:"Lubrifie les cervicales, raides au réveil."},
+    {emoji:'🔄',nom:"Cercles d'épaules & bras",zone:"Épaules",dyn:true,sec:30,cue:"Grands cercles des bras vers l'arrière, de plus en plus amples.",why:"Chauffe la coiffe des rotateurs et ouvre la poitrine, contre le dos rond."},
+    {emoji:'🐈',nom:"Chat–vache",zone:"Colonne",dyn:true,sec:40,cue:"À quatre pattes, alterne dos rond (souffle) et dos creux (inspire).",why:"Mobilise la colonne étage par étage : le meilleur réveil du dos, sans charge."},
+    {emoji:'🌀',nom:"Rotations du tronc",zone:"Mobilité thoracique",dyn:true,sec:30,cue:"Bassin fixe, tourne les épaules de gauche à droite, bras relâchés qui fouettent.",why:"Le haut du dos s'enraidit assis : le mobiliser protège lombaires et épaules."},
+    {emoji:'🔄',nom:"Cercles de hanches",zone:"Hanches",dyn:true,sec:30,cue:"Grands cercles du bassin, dans les deux sens.",why:"Prépare l'articulation la plus sollicitée de ta journée."},
+    {emoji:'🦵',nom:"Balancés de jambe",zone:"Ischios (dynamique)",dyn:true,sec:25,sides:true,cue:"Appuie-toi, balance une jambe tendue d'avant en arrière, amplitude qui grandit.",why:"L'étirement dynamique gagne de l'amplitude sans figer le muscle à froid."},
+    {emoji:'🐒',nom:"Squat profond tenu",zone:"Hanches & chevilles",sec:40,cue:"Descends en squat complet, talons au sol, coudes qui écartent les genoux. Respire.",why:"Position de repos naturelle de l'humain : restaure la mobilité qu'on perd sur une chaise."},
+    {emoji:'⬇️',nom:"Déroulé vers le sol",zone:"Chaîne postérieure",sec:40,cue:"Genoux souples, déroule la colonne vertèbre par vertèbre vers le sol, nuque lâche.",why:"Amorce douce du « toucher le sol » — genoux fléchis pour ménager les disques le matin."},
+    {emoji:'🏹',nom:"Fente basse balancée",zone:"Fléchisseurs de hanche",dyn:true,sec:30,sides:true,cue:"En fente, avance et recule doucement le bassin, buste droit.",why:"Rouvre les fléchisseurs de hanche raccourcis par la position assise."},
+    {emoji:'🦶',nom:"Pointes & talons",zone:"Mollets / circulation",dyn:true,sec:30,cue:"Monte sur la pointe des pieds puis reviens sur les talons, en rythme.",why:"Réveille mollets et chevilles et relance la circulation."},
   ]},
-  { id:'express', emoji:'⚡', nom:'Express 5 min', focus:'Le minimum quotidien', steps:[
-    {emoji:'⬇️',nom:'Flexion avant debout',zone:'Chaîne postérieure',cue:'Descends lentement, relâche la nuque, souffle et laisse-toi descendre.',sec:45},
-    {emoji:'📐',nom:'Pince assise',zone:'Ischios',cue:'Mains vers les pieds en soufflant, dos long.',sec:45},
-    {emoji:'🏹',nom:'Fente basse',zone:'Hanches',cue:'Pousse le bassin vers l\'avant, buste droit.',sec:30,sides:true},
-    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Genoux vers le sol, dos droit.',sec:40},
-    {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement',cue:'Front au sol, respire.',sec:40},
+  { id:'plancher', emoji:'🎯', nom:'Vers le sol', focus:"Toucher le sol : ischios, hanches, dos", prep:12,
+    note:"L'objectif « mains au sol ». Fais-la de préférence à chaud (après le sport ou une douche chaude) : le muscle chaud gagne plus d'amplitude. Va jusqu'à une tension franche, jamais la douleur, et souffle en t'enfonçant. La régularité (≈ 5×/sem.) compte plus que l'intensité d'une séance.",
+    steps:[
+    {emoji:'🐈',nom:"Chat–vache",zone:"Mobilité du dos",dyn:true,sec:40,cue:"Alterne dos rond / dos creux au rythme du souffle pour préparer la colonne.",why:"Mobiliser avant d'étirer augmente l'amplitude immédiatement disponible."},
+    {emoji:'⬇️',nom:"Déroulé debout",zone:"Chaîne postérieure",sec:45,cue:"Descends lentement, genoux à peine fléchis, relâche nuque et bras, laisse la gravité travailler.",why:"Étire toute la chaîne arrière, du crâne aux talons, sous le poids du buste."},
+    {emoji:'🔗',nom:"Charnière de hanche (hip hinge)",zone:"Technique clé",sec:40,cue:"Mains sur le bassin, pousse les fesses loin derrière en gardant le dos parfaitement plat. Descends tant que le dos reste droit.",why:"Apprendre à plier des HANCHES et non du dos : c'est ça qui te fera toucher le sol un jour, sans te blesser."},
+    {emoji:'🦿',nom:"Ischios au sol, jambe tendue",zone:"Ischio-jambiers",sec:45,sides:true,cue:"Sur le dos, une jambe montée tendue, tenue derrière la cuisse, tire doucement vers toi.",why:"Cible les ischios en gardant le bas du dos protégé par le sol."},
+    {emoji:'📐',nom:"Pince assise",zone:"Ischios & bas du dos",sec:60,cue:"Jambes tendues, avance le VENTRE vers les cuisses (pas le nez vers les genoux), dos long. Descends à chaque expiration.",why:"Tenue longue (≥ 45 s) : c'est la durée sous tension qui allonge durablement le muscle."},
+    {emoji:'💪',nom:"PNF ischios (contracte–relâche)",zone:"Ischios (avancé)",sec:40,sides:true,cue:"En position d'étirement, pousse le talon 6 s contre ta main, relâche, puis va un cran plus loin. Répète.",why:"Le contracté-relâché (PNF) est l'une des méthodes les plus efficaces pour gagner vite en amplitude."},
+    {emoji:'🏹',nom:"Fente basse",zone:"Fléchisseurs de hanche",sec:45,sides:true,cue:"Genou arrière au sol, pousse le bassin vers l'avant, buste droit, fessier serré.",why:"Des fléchisseurs de hanche courts bloquent la bascule du bassin nécessaire pour descendre."},
+    {emoji:'🕊️',nom:"Pigeon",zone:"Fessiers & hanches",sec:45,sides:true,cue:"Jambe repliée devant, jambe tendue derrière, avance le buste vers le sol.",why:"Ouvre fessiers et rotateurs de hanche, autre frein fréquent à la flexion avant."},
+    {emoji:'🦋',nom:"Papillon / adducteurs",zone:"Adducteurs",sec:50,cue:"Plantes des pieds jointes, laisse les genoux descendre, dos droit, penche-toi de la hanche.",why:"Des adducteurs souples élargissent la bascule du bassin vers l'avant."},
+    {emoji:'🌾',nom:"Jefferson curl (très léger)",zone:"Force en amplitude",sec:40,cue:"Debout sur une marche, déroule la colonne vertèbre par vertèbre vers le bas (lest léger ou rien), puis remonte pareil. Lent, contrôlé.",why:"Renforcer le dos DANS son amplitude maximale rend la souplesse « utile » et durable, et protège des blessures. À chaud uniquement."},
+    {emoji:'🌀',nom:"Torsion allongée",zone:"Bas du dos",sec:30,sides:true,cue:"Sur le dos, amène un genou plié de l'autre côté, épaules à plat.",why:"Détend les lombaires après le travail des ischios."},
+    {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:45,cue:"Fesses vers les talons, bras tendus, front au sol. Respire, relâche tout.",why:"Retour au calme : décompresse la colonne et clôt la séance."},
   ]},
-  { id:'hanches', emoji:'🦵', nom:'Hanches & bassin', focus:'Ouverture des hanches', steps:[
-    {emoji:'🔄',nom:'Cercles de hanches',zone:'Mobilité',cue:'Grands cercles du bassin, deux sens.',sec:30},
-    {emoji:'🏹',nom:'Fente basse',zone:'Fléchisseurs',cue:'Pousse le bassin vers l\'avant.',sec:40,sides:true},
-    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Genoux vers le sol, dos droit.',sec:45},
-    {emoji:'🐸',nom:'Grenouille douce',zone:'Adducteurs profonds',cue:'À quatre pattes, écarte les genoux, avance/recule le bassin. Aucune douleur.',sec:40},
-    {emoji:'🕊️',nom:'Pigeon simplifié',zone:'Fessiers',cue:'Buste vers l\'avant sur la jambe repliée.',sec:40,sides:true},
-    {emoji:'📐',nom:'Position 90/90',zone:'Rotation hanches',cue:'Jambes à 90°, penche-toi légèrement.',sec:35,sides:true},
-    {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement',cue:'Front au sol, respire.',sec:40},
+  { id:'express', emoji:'⚡', nom:'Express 5 min', focus:'Le minimum quotidien', prep:10,
+    note:"Pas le temps ? Ce socle vaut mille fois zéro. Pour la souplesse, la régularité bat toujours l'intensité.",
+    steps:[
+    {emoji:'⬇️',nom:"Déroulé debout",zone:"Chaîne postérieure",sec:45,cue:"Descends lentement, relâche la nuque, souffle et laisse-toi descendre.",why:"Un seul mouvement qui touche toute la chaîne arrière."},
+    {emoji:'📐',nom:"Pince assise",zone:"Ischios",sec:50,cue:"Ventre vers les cuisses, dos long, souffle à chaque descente.",why:"La tenue longue est ce qui fait gagner en amplitude."},
+    {emoji:'🏹',nom:"Fente basse",zone:"Hanches",sec:35,sides:true,cue:"Pousse le bassin vers l'avant, buste droit.",why:"Rouvre les hanches fermées par la position assise."},
+    {emoji:'🦋',nom:"Papillon",zone:"Adducteurs",sec:40,cue:"Genoux vers le sol, dos droit.",why:"Bassin plus mobile = descente plus facile vers le sol."},
+    {emoji:'🌀',nom:"Torsion allongée",zone:"Bas du dos",sec:30,sides:true,cue:"Genou plié de l'autre côté, épaules au sol.",why:"Relâche les lombaires."},
+    {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:40,cue:"Front au sol, respire.",why:"Décompresse la colonne."},
   ]},
-  { id:'complete', emoji:'🧘', nom:'Complète', focus:'Tout le corps', steps:[
-    {emoji:'🐈',nom:'Chat–vache',zone:'Dos',cue:'Alterne dos rond / creux au rythme du souffle.',sec:40},
-    {emoji:'🙆',nom:'Nuque',zone:'Cou',cue:'Incline la tête vers une épaule, main légère.',sec:20,sides:true},
-    {emoji:'💪',nom:'Épaule croisée',zone:'Épaules',cue:'Bras devant la poitrine, l\'autre main le rapproche.',sec:25,sides:true},
-    {emoji:'⬇️',nom:'Flexion avant debout',zone:'Chaîne postérieure',cue:'Descends lentement, relâche la nuque.',sec:45},
-    {emoji:'📐',nom:'Pince assise',zone:'Ischios',cue:'Mains vers les pieds en soufflant.',sec:45},
-    {emoji:'🦿',nom:'Étirement ischios',zone:'Ischio-jambiers',cue:'Penche-toi vers le pied, dos long.',sec:35,sides:true},
-    {emoji:'🏹',nom:'Fente basse',zone:'Hanches',cue:'Pousse le bassin vers l\'avant.',sec:35,sides:true},
-    {emoji:'🦵',nom:'Quadriceps debout',zone:'Cuisses',cue:'Attrape une cheville derrière toi, pousse le bassin en avant.',sec:30,sides:true},
-    {emoji:'🦋',nom:'Papillon',zone:'Adducteurs',cue:'Genoux vers le sol, dos droit.',sec:40},
-    {emoji:'🕊️',nom:'Pigeon simplifié',zone:'Fessiers',cue:'Buste sur la jambe repliée.',sec:35,sides:true},
-    {emoji:'🌀',nom:'Torsion allongée',zone:'Bas du dos',cue:'Genou plié de l\'autre côté, épaules au sol.',sec:30,sides:true},
-    {emoji:'🧎',nom:"Posture de l'enfant",zone:'Relâchement',cue:'Front au sol, respire profondément.',sec:45},
+  { id:'mobilite', emoji:'🔧', nom:'Mobilité santé (anti-bureau)', focus:'Articulations utiles : dos, hanches, chevilles, épaules, poignets', prep:8,
+    note:"La séance « corps utile ». Contre les dégâts de la position assise, et pour des articulations mobiles ET solides — la base d'un corps qui ne se blesse pas. Travaille l'amplitude ACTIVE : tu bouges toi-même dans toute la course.",
+    steps:[
+    {emoji:'🐈',nom:"Chat–vache",zone:"Colonne",dyn:true,sec:40,cue:"Alterne dos rond / creux au rythme du souffle.",why:"Réveille la mobilité de chaque segment de la colonne."},
+    {emoji:'📖',nom:"Ouverture thoracique",zone:"Haut du dos (anti-cyphose)",sec:40,sides:true,cue:"Sur le côté, genoux repliés, ouvre le bras du dessus vers l'arrière en suivant la main des yeux.",why:"Rend au haut du dos la rotation perdue devant un écran ; libère respiration et épaules."},
+    {emoji:'🌀',nom:"Rotation thoracique à genoux",zone:"Mobilité thoracique",dyn:true,sec:35,sides:true,cue:"Quatre pattes, une main derrière la tête, ouvre le coude vers le plafond puis range-le sous le corps.",why:"Cible la rotation du segment le plus enraidi par la sédentarité."},
+    {emoji:'🛋️',nom:"Étirement du psoas (couch stretch)",zone:"Fléchisseurs de hanche",sec:45,sides:true,cue:"Genou au sol, tibia contre un mur/canapé, pousse le bassin vers l'avant, fessier serré, buste droit.",why:"Le psoas se raccourcit à rester assis : le rouvrir soulage le bas du dos et redresse la posture."},
+    {emoji:'📐',nom:"Position 90/90",zone:"Rotation des hanches",dyn:true,sec:40,sides:true,cue:"Assis, une jambe devant à 90°, l'autre sur le côté à 90°, bascule d'un côté à l'autre.",why:"Entretient les rotations interne et externe de hanche, clés pour squat, course et dos."},
+    {emoji:'🧱',nom:"Cheville au mur (dorsiflexion)",zone:"Chevilles",sec:35,sides:true,cue:"Genou vers le mur sans décoller le talon, recule le pied jusqu'à la limite.",why:"Cheville mobile = squat profond, course sans douleur, moins d'entorses."},
+    {emoji:'🤸',nom:"Dislocations d'épaules (serviette)",zone:"Épaules",dyn:true,sec:40,cue:"Serviette tendue large, passe-la lentement de devant vers l'arrière au-dessus de la tête, bras tendus.",why:"Restaure l'amplitude complète des épaules et renforce la posture droite."},
+    {emoji:'🙏',nom:"Poignets (flexion & extension)",zone:"Poignets & avant-bras",dyn:true,sec:30,cue:"À genoux, paumes au sol doigts vers toi, puis dos des mains au sol ; balance doucement.",why:"Protège les poignets pour pompes, dips et boxe — articulation trop souvent négligée."},
+    {emoji:'🙆',nom:"Cou",zone:"Cervicales",sec:20,sides:true,cue:"Incline l'oreille vers l'épaule, main légère qui accompagne.",why:"Relâche les tensions du cou liées à l'écran."},
+    {emoji:'🐒',nom:"Squat profond tenu",zone:"Hanches, chevilles, dos",sec:45,cue:"Squat complet, talons au sol, dos long, coudes qui poussent les genoux.",why:"Un seul poste qui entretient hanches, chevilles et bas du dos à la fois."},
+  ]},
+  { id:'hanches', emoji:'🦵', nom:'Hanches & bassin', focus:'Ouverture des hanches', prep:10,
+    note:"Des hanches mobiles protègent le bas du dos et débloquent la descente vers le sol.",
+    steps:[
+    {emoji:'🔄',nom:"Cercles de hanches",zone:"Mobilité",dyn:true,sec:30,cue:"Grands cercles du bassin, deux sens.",why:"Échauffe l'articulation avant d'étirer."},
+    {emoji:'🏹',nom:"Fente basse",zone:"Fléchisseurs",sec:45,sides:true,cue:"Pousse le bassin vers l'avant, buste droit.",why:"Rouvre le devant de la hanche fermé par la position assise."},
+    {emoji:'📐',nom:"Position 90/90",zone:"Rotation hanches",dyn:true,sec:40,sides:true,cue:"Jambes à 90°, bascule doucement d'un côté à l'autre.",why:"Travaille les deux rotations de hanche, souvent limitées."},
+    {emoji:'🦋',nom:"Papillon",zone:"Adducteurs",sec:50,cue:"Genoux vers le sol, dos droit, penche-toi de la hanche.",why:"Ouvre l'intérieur des cuisses."},
+    {emoji:'🐸',nom:"Grenouille douce",zone:"Adducteurs profonds",dyn:true,sec:40,cue:"À quatre pattes, genoux écartés, avance/recule le bassin. Aucune douleur.",why:"Gagne de l'écart de hanche en profondeur, en douceur."},
+    {emoji:'🕊️',nom:"Pigeon",zone:"Fessiers",sec:45,sides:true,cue:"Buste vers l'avant sur la jambe repliée.",why:"Détend fessiers et rotateurs externes."},
+    {emoji:'🛋️',nom:"Psoas (couch stretch)",zone:"Fléchisseurs de hanche",sec:45,sides:true,cue:"Tibia contre un support, pousse le bassin en avant, buste droit.",why:"Le grand oublié : allonge le psoas et soulage les lombaires."},
+    {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:40,cue:"Front au sol, respire.",why:"Retour au calme."},
+  ]},
+  { id:'complete', emoji:'🧘', nom:'Complète', focus:'Tout le corps', prep:12,
+    note:"La grande séance, de la tête aux pieds. Idéale à chaud, en fin de journée ou après le sport.",
+    steps:[
+    {emoji:'🐈',nom:"Chat–vache",zone:"Dos",dyn:true,sec:40,cue:"Alterne dos rond / creux au rythme du souffle.",why:"Mobilise la colonne avant d'étirer."},
+    {emoji:'🙆',nom:"Nuque",zone:"Cou",sec:20,sides:true,cue:"Incline la tête vers une épaule, main légère.",why:"Relâche les cervicales."},
+    {emoji:'💪',nom:"Épaule croisée",zone:"Épaules",sec:25,sides:true,cue:"Bras tendu devant la poitrine, l'autre main le rapproche du corps.",why:"Étire l'arrière de l'épaule."},
+    {emoji:'📖',nom:"Ouverture thoracique",zone:"Haut du dos",sec:35,sides:true,cue:"Sur le côté, ouvre le bras du dessus vers l'arrière, suis la main du regard.",why:"Rend la rotation au haut du dos."},
+    {emoji:'⬇️',nom:"Déroulé debout",zone:"Chaîne postérieure",sec:45,cue:"Descends lentement, relâche la nuque.",why:"Étire toute la chaîne arrière."},
+    {emoji:'📐',nom:"Pince assise",zone:"Ischios",sec:55,cue:"Ventre vers les cuisses, dos long, souffle.",why:"Tenue longue pour l'amplitude des ischios."},
+    {emoji:'🏹',nom:"Fente basse",zone:"Hanches",sec:40,sides:true,cue:"Pousse le bassin vers l'avant, buste droit.",why:"Ouvre les fléchisseurs de hanche."},
+    {emoji:'🦵',nom:"Quadriceps debout",zone:"Cuisses",sec:30,sides:true,cue:"Attrape une cheville derrière toi, genoux serrés, pousse le bassin en avant.",why:"Équilibre le travail avant/arrière de la cuisse."},
+    {emoji:'🦋',nom:"Papillon",zone:"Adducteurs",sec:45,cue:"Genoux vers le sol, dos droit.",why:"Ouvre l'intérieur des cuisses."},
+    {emoji:'🕊️',nom:"Pigeon",zone:"Fessiers",sec:40,sides:true,cue:"Buste sur la jambe repliée.",why:"Détend fessiers et rotateurs de hanche."},
+    {emoji:'🌀',nom:"Torsion allongée",zone:"Bas du dos",sec:30,sides:true,cue:"Genou plié de l'autre côté, épaules au sol.",why:"Détord et détend les lombaires."},
+    {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:45,cue:"Front au sol, respire profondément.",why:"Retour au calme complet."},
+  ]},
+  { id:'soir', emoji:'🌙', nom:'Détente du soir', focus:'Souplesse profonde + calme (avant le sommeil)', prep:14,
+    note:"Le meilleur créneau pour GAGNER en souplesse : corps chaud, tenues longues, et un système nerveux qui se calme te laisse aller plus loin. Bonus : ça prépare au sommeil. Respire lentement partout, aucune brusquerie.",
+    steps:[
+    {emoji:'🌬️',nom:"Respiration longue",zone:"Calme",sec:40,cue:"Assis, inspire 4 s, souffle 6–8 s. Allonge l'expiration.",why:"L'expiration longue baisse le tonus musculaire : tu t'étireras plus loin."},
+    {emoji:'📐',nom:"Pince assise (longue)",zone:"Ischios",sec:70,cue:"Descends à chaque expiration, dos long, sans à-coups ni rebond.",why:"À chaud et tenue très longtemps : les conditions idéales de gain d'amplitude."},
+    {emoji:'💪',nom:"PNF ischios",zone:"Ischios (avancé)",sec:40,sides:true,cue:"Pousse le talon 6 s contre ta main, relâche, va plus loin.",why:"Contracté-relâché : gains rapides et bien documentés."},
+    {emoji:'🕊️',nom:"Pigeon tenu",zone:"Hanches",sec:55,sides:true,cue:"Buste descendu vers le sol, respire dans la hanche.",why:"Les hanches lâchent avec le temps sous tension et le souffle."},
+    {emoji:'🦋',nom:"Papillon / straddle",zone:"Adducteurs",sec:60,cue:"Genoux ou jambes écartés, penche-toi de la hanche, dos long.",why:"Ouverture profonde du bassin, sans forcer."},
+    {emoji:'🌀',nom:"Torsion allongée",zone:"Colonne",sec:40,sides:true,cue:"Genou de l'autre côté, épaules à plat, regard opposé.",why:"Détord la colonne et relâche le dos."},
+    {emoji:'🧱',nom:"Jambes au mur",zone:"Récupération",sec:60,cue:"Allongé, fesses près du mur, jambes tendues vers le haut. Ferme les yeux.",why:"Draine les jambes et bascule le corps en mode récupération (parasympathique)."},
+    {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:50,cue:"Front au sol, souffle lent, laisse tout se relâcher.",why:"Clôt la journée et décompresse la colonne."},
   ]},
 ];
 // circuit de gainage (timed, joué par le lecteur guidé)
-const CORE={ id:'core', emoji:'🧱', nom:'Gainage', focus:'Core · ceinture abdominale', steps:[
+const CORE={ id:'core', emoji:'🧱', nom:'Gainage', focus:'Core · ceinture abdominale', prep:5, steps:[
   {emoji:'🧱',nom:'Planche',zone:'Gainage complet',cue:'Avant-bras au sol, corps aligné, fesses serrées, ne creuse pas le dos.',sec:40},
   {emoji:'🕳️',nom:'Hollow hold',zone:'Abdos profonds',cue:'Bas du dos plaqué au sol, bras et jambes tendus légèrement levés.',sec:30},
   {emoji:'↔️',nom:'Planche latérale',zone:'Obliques',cue:'Sur un avant-bras, corps aligné, hanches hautes.',sec:30,sides:true},
@@ -320,34 +378,40 @@ const WORKOUTS=[
 /* ---------------- programme hebdomadaire (lun=0 … dim=6) ---------------- */
 const WEEK={
   0:{focus:'Push — Force',items:[
-    {id:'ritual',emoji:'🌅',nom:'Rituel matin',detail:'Souplesse express',act:'soup:express'},
+    {id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'},
     {id:'piano',emoji:'🎹',nom:'Piano',detail:'Session Piano Dojo',act:'piano'},
     {id:'pushA',emoji:'💪',nom:'Push A — Force',detail:'Pecs · épaules · triceps (6–10 reps)',act:'work:pushA'},
   ]},
   1:{focus:'Cardio + Tirage',items:[
+    {id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'},
     {id:'course',emoji:'🏃',nom:'Course — fractionné',detail:'20–25 min, intervalles',act:'run'},
     {id:'pull',emoji:'🪝',nom:'Pull — Dos',detail:'Dos · biceps · arrière épaule',act:'work:pull'},
     {id:'core',emoji:'🧱',nom:'Gainage',detail:'Circuit core ~6 min',act:'circuit:core'},
   ]},
   2:{focus:'Mobilité',items:[
+    {id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'},
+    {id:'mobilite',emoji:'🔧',nom:'Mobilité santé',detail:'Dos, hanches, chevilles, épaules, poignets',act:'soup:mobilite'},
     {id:'soupc',emoji:'🧘',nom:'Souplesse complète',detail:'Séance longue, tout le corps',act:'soup:complete'},
-    {id:'piano',emoji:'🎹',nom:'Piano',detail:'Session Piano Dojo',act:'piano'},
   ]},
   3:{focus:'Push — Volume',items:[
-    {id:'ritual',emoji:'🌅',nom:'Rituel matin',detail:'Souplesse express',act:'soup:express'},
+    {id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'},
     {id:'pushB',emoji:'🎯',nom:'Push B — Volume',detail:'Pecs · épaules · triceps (12–20 reps)',act:'work:pushB'},
+    {id:'plancher',emoji:'🎯',nom:'Vers le sol',detail:'Ischios, hanches, dos (à chaud)',act:'soup:plancher'},
   ]},
   4:{focus:'Jambes + Core',items:[
+    {id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'},
     {id:'legs',emoji:'🦿',nom:'Legs — Jambes',detail:'Quadris · ischios · fessiers · mollets',act:'work:legs'},
     {id:'core',emoji:'🧱',nom:'Gainage',detail:'Circuit core ~6 min',act:'circuit:core'},
   ]},
   5:{focus:'Cardio long + Souplesse',items:[
+    {id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'},
     {id:'course',emoji:'🏃',nom:'Course longue',detail:'30–45 min, endurance',act:'run'},
-    {id:'plancher',emoji:'🧘',nom:'Souplesse « Vers le sol »',detail:'Ischios, hanches, dos',act:'soup:plancher'},
+    {id:'plancher',emoji:'🎯',nom:'Souplesse « Vers le sol »',detail:'Ischios, hanches, dos (à chaud)',act:'soup:plancher'},
   ]},
   6:{focus:'Repos actif',items:[
-    {id:'express',emoji:'🧘',nom:'Souplesse express',detail:'5 min pour rester souple',act:'soup:express'},
-    {id:'piano',emoji:'🎹',nom:'Piano',detail:'Session Piano Dojo',act:'piano'},
+    {id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'},
+    {id:'mobilite',emoji:'🔧',nom:'Mobilité santé',detail:'Entretien articulaire complet',act:'soup:mobilite'},
+    {id:'soir',emoji:'🌙',nom:'Détente du soir',detail:'Souplesse profonde + sommeil',act:'soup:soir'},
   ]},
 };
 const JOURS=['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
@@ -490,11 +554,12 @@ function renderSess(){
 
   main.insertAdjacentHTML('beforeend','<div class="cat">🧘 Souplesse</div><div id="routs"></div>');
   const rc=main.querySelector('#routs');
-  ROUTINES.forEach(r=>{ const min=Math.round(r.steps.reduce((a,s)=>a+(s.sides?2:1)*(s.sec+6),0)/60);
+  ROUTINES.forEach(r=>{ const prep=r.prep||8, sw=Math.min(prep,8);
+    const min=Math.round(r.steps.reduce((a,s)=>a+(s.sides?(2*s.sec+prep+sw):(s.sec+prep)),0)/60);
     const d=document.createElement('div'); d.className='rout';
     d.innerHTML=`<div class="rh"><span class="ri">${r.emoji}</span>
-      <div class="rtx"><b>${r.nom}</b><small>${r.focus} · ~${min} min</small></div><span class="chev">▾</span></div>
-      <div class="steps">${r.steps.map(s=>`<div class="st"><span>${s.sec}s${s.sides?' ×2':''}</span><div>${s.emoji} ${s.nom}<em>${s.zone}</em></div></div>`).join('')}</div>
+      <div class="rtx"><b>${r.nom}</b><small>${r.focus} · ${r.steps.length} mouvements · ~${min} min</small></div><span class="chev">▾</span></div>
+      <div class="steps">${r.note?`<div class="rnote">${r.note}</div>`:''}${r.steps.map(s=>`<div class="st"><span>${s.sec}s${s.sides?' ×2':''}</span><div class="stc">${s.emoji} ${s.nom} · <i class="z">${s.zone}</i>${s.why?`<small class="stwhy">🔬 ${s.why}</small>`:''}</div></div>`).join('')}</div>
       <button class="btn" data-go="1">▶ Démarrer</button>`;
     d.querySelector('.rh').onclick=()=>d.classList.toggle('open');
     d.querySelector('[data-go]').onclick=e=>{ e.stopPropagation(); startRoutine(r); };
@@ -605,24 +670,30 @@ function openRun(planId=null){ ac(); let sec=0,on=true,timer=null; player.classL
 /* ---------------- lecteur guidé (souplesse + gainage) ---------------- */
 function startRoutine(routine, planId=null){
   ac(); const phases=[];
-  routine.steps.forEach(s=>{ phases.push({kind:'prep',sec:6,s});
-    if(s.sides){ phases.push({kind:'hold',side:'gauche',sec:s.sec,s}); phases.push({kind:'hold',side:'droite',sec:s.sec,s}); }
+  const prep = routine.prep || 8;              // temps de mise en place avant chaque exercice
+  const sideSwitch = Math.min(prep, 8);        // transition pour changer de côté
+  routine.steps.forEach(s=>{ phases.push({kind:'prep',sec:prep,s});
+    if(s.sides){ phases.push({kind:'hold',side:'gauche',sec:s.sec,s}); phases.push({kind:'switch',sec:sideSwitch,s}); phases.push({kind:'hold',side:'droite',sec:s.sec,s}); }
     else phases.push({kind:'hold',sec:s.sec,s}); });
   const holdTotal=phases.filter(p=>p.kind==='hold').length;
   let idx=0,left=phases[0].sec,paused=false,timer=null,started=Date.now(),wl=null;
   navigator.wakeLock?.request('screen').then(l=>wl=l).catch(()=>{});
   player.classList.add('open'); player.scrollTop=0;
   const holdNo=i=>{ let n=0; for(let k=0;k<=i;k++) if(phases[k].kind==='hold') n++; return n; };
-  function paint(){ const p=phases[idx], isPrep=p.kind==='prep'; const deg=Math.max(0,Math.min(360,(1-left/p.sec)*360));
-    const doneHolds=isPrep?holdNo(idx):holdNo(idx)-1; const displayNo=Math.min(holdTotal,isPrep?holdNo(idx)+1:holdNo(idx));
-    const nextSide=isPrep && phases[idx+1] ? phases[idx+1].side : null;
+  function paint(){ const p=phases[idx], isTrans=(p.kind==='prep'||p.kind==='switch'); const deg=Math.max(0,Math.min(360,(1-left/p.sec)*360));
+    const doneHolds=isTrans?holdNo(idx):holdNo(idx)-1; const displayNo=Math.min(holdTotal,isTrans?holdNo(idx)+1:holdNo(idx));
+    const nextSide=isTrans && phases[idx+1] ? phases[idx+1].side : null;
+    let label;
+    if(p.kind==='prep') label='Prépare-toi'+(nextSide?' · côté '+nextSide:'');
+    else if(p.kind==='switch') label='Change de côté'+(nextSide?' · '+nextSide:'');
+    else label=(p.s.dyn?'En mouvement':'Maintiens')+(p.side?' · côté '+p.side:'');
     player.innerHTML=`<div class="player">
       <div class="ptop"><button class="pquit">✕ Quitter</button><span class="pprog">${routine.emoji} ${displayNo}/${holdTotal}</span></div>
       <div class="pbar"><i style="width:${doneHolds/holdTotal*100}%"></i></div>
-      <div class="pstage ${isPrep?'prep':'hold'}">
-        <div class="plabel">${isPrep?('Prépare-toi'+(nextSide?' · côté '+nextSide:'')):(p.side?'Maintiens · côté '+p.side:'Maintiens')}</div>
-        <div class="ring" style="background:conic-gradient(${isPrep?'var(--dim)':'var(--acc)'} ${deg}deg, var(--bg3) 0)"><div class="ringin"><div class="ptime">${left}</div></div></div>
-        <div class="pname">${p.s.emoji} ${p.s.nom}</div><div class="pzone">${p.s.zone}</div><div class="pcue">${p.s.cue}</div></div>
+      <div class="pstage ${isTrans?'prep':'hold'}">
+        <div class="plabel">${label}</div>
+        <div class="ring" style="background:conic-gradient(${isTrans?'var(--dim)':'var(--acc)'} ${deg}deg, var(--bg3) 0)"><div class="ringin"><div class="ptime">${left}</div></div></div>
+        <div class="pname">${p.s.emoji} ${p.s.nom}</div><div class="pzone">${p.s.zone}</div><div class="pcue">${p.s.cue}</div>${p.s.why?`<div class="pwhy">🔬 ${p.s.why}</div>`:''}</div>
       <div class="pctrl"><button class="pbtn" data-a="prev">‹ Préc.</button>
         <button class="pbtn main" data-a="pause">${paused?'▶ Reprendre':'❚❚ Pause'}</button>
         <button class="pbtn" data-a="next">Passer ›</button></div></div>`;
@@ -634,7 +705,7 @@ function startRoutine(routine, planId=null){
   function cue(p){ if(p.kind==='hold') beep(660,.25,.4); else beep(440,.15,.3); if(navigator.vibrate)navigator.vibrate(30); }
   function step(){ if(paused)return; left--;
     if(left<=0){ if(idx>=phases.length-1){ finish(); return; } idx++; left=phases[idx].sec; cue(phases[idx]); }
-    else if(left<=3 && phases[idx].kind==='hold'){ tick(); } paint(); }
+    else if(left<=3){ tick(); } paint(); }
   function stopAll(){ clearInterval(timer); try{wl?.release();}catch(e){} wl=null; }
   function quit(){ if(confirm('Quitter la séance ? Elle ne sera pas enregistrée.')){ stopAll(); player.classList.remove('open'); } }
   function finish(){ stopAll(); bell(); setTimeout(bell,350); const dur=Math.max(1,Math.round((Date.now()-started)/60000));
