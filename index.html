@@ -188,12 +188,23 @@
   .pstage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
   .plabel{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
   .pstage.hold .plabel{color:var(--acc)}
-  .ring{width:210px;height:210px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:8px 0 4px;transition:background .3s}
-  .ringin{width:186px;height:186px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center}
-  .ptime{font-size:64px;font-weight:900;font-variant-numeric:tabular-nums}
+  .ring{width:172px;height:172px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:6px 0 4px;transition:background .3s}
+  .ringin{width:152px;height:152px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center}
+  .ptime{font-size:54px;font-weight:900;font-variant-numeric:tabular-nums}
   .pname{font-size:22px;font-weight:800}
   .pzone{font-size:13px;color:var(--acc);font-weight:700}
   .pcue{font-size:15px;color:#cfe0d9;line-height:1.55;max-width:420px;margin-top:6px}
+  /* illustrations de posture (SVG inline) */
+  .posewrap{width:100%;display:flex;justify-content:center;margin:4px 0 2px}
+  .posefig{width:min(82%,290px);height:auto;max-height:158px;display:block}
+  .posefig .b{fill:none;stroke:#dbe9e2;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+  .posefig .h{fill:#dbe9e2}
+  .posefig .m{fill:none;stroke:var(--acc);stroke-width:8.5;stroke-linecap:round;stroke-linejoin:round}
+  .posefig .fl,.posefig .w{stroke:#4b5b54;stroke-width:3;stroke-linecap:round}
+  .posefig .ar{fill:none;stroke:var(--acc);stroke-width:3;stroke-linecap:round}
+  .posefig .ard{fill:var(--acc)}
+  .posefig .g{fill:none;stroke:#8aa79b;stroke-width:2;stroke-dasharray:3 4}
+  .stfig{flex:0 0 auto;width:50px;height:38px;margin-right:2px}.stfig .posefig{width:50px;max-height:38px}
   .pctrl{display:flex;gap:10px;margin-top:18px}
   .pctrl .pbtn{flex:1;background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:15px 8px;font-size:14px;font-weight:700;cursor:pointer}
   .pctrl .pbtn.main{flex:1.4;background:var(--acc);color:#062018}
@@ -248,7 +259,7 @@ const ROUTINES=[
     {emoji:'🔗',nom:"Charnière de hanche (hip hinge)",zone:"Technique clé",sec:40,cue:"Mains sur le bassin, pousse les fesses loin derrière en gardant le dos parfaitement plat. Descends tant que le dos reste droit.",why:"Apprendre à plier des HANCHES et non du dos : c'est ça qui te fera toucher le sol un jour, sans te blesser."},
     {emoji:'🦿',nom:"Ischios au sol, jambe tendue",zone:"Ischio-jambiers",sec:45,sides:true,cue:"Sur le dos, une jambe montée tendue, tenue derrière la cuisse, tire doucement vers toi.",why:"Cible les ischios en gardant le bas du dos protégé par le sol."},
     {emoji:'📐',nom:"Pince assise",zone:"Ischios & bas du dos",sec:60,cue:"Jambes tendues, avance le VENTRE vers les cuisses (pas le nez vers les genoux), dos long. Descends à chaque expiration.",why:"Tenue longue (≥ 45 s) : c'est la durée sous tension qui allonge durablement le muscle."},
-    {emoji:'💪',nom:"PNF ischios (contracte–relâche)",zone:"Ischios (avancé)",sec:40,sides:true,cue:"En position d'étirement, pousse le talon 6 s contre ta main, relâche, puis va un cran plus loin. Répète.",why:"Le contracté-relâché (PNF) est l'une des méthodes les plus efficaces pour gagner vite en amplitude."},
+    {emoji:'💪',nom:"PNF ischios (contracte–relâche)",zone:"Ischios (avancé)",sec:40,sides:true,cue:"Position « ischios au sol » : sur le dos, une jambe tendue en l'air, tenue à deux mains derrière la cuisse. 1) Tire-la vers toi jusqu'à sentir l'étirement. 2) Pousse le talon 6 s vers le plafond CONTRE tes mains qui résistent (la jambe ne bouge pas). 3) Relâche 2-3 s, puis tire la jambe un cran plus loin. Répète 3-4 fois.",why:"Le contracté-relâché (PNF) « trompe » le réflexe de protection du muscle : après la contraction, il te laisse aller nettement plus loin. L'une des méthodes les plus efficaces et documentées."},
     {emoji:'🏹',nom:"Fente basse",zone:"Fléchisseurs de hanche",sec:45,sides:true,cue:"Genou arrière au sol, pousse le bassin vers l'avant, buste droit, fessier serré.",why:"Des fléchisseurs de hanche courts bloquent la bascule du bassin nécessaire pour descendre."},
     {emoji:'🕊️',nom:"Pigeon",zone:"Fessiers & hanches",sec:45,sides:true,cue:"Jambe repliée devant, jambe tendue derrière, avance le buste vers le sol.",why:"Ouvre fessiers et rotateurs de hanche, autre frein fréquent à la flexion avant."},
     {emoji:'🦋',nom:"Papillon / adducteurs",zone:"Adducteurs",sec:50,cue:"Plantes des pieds jointes, laisse les genoux descendre, dos droit, penche-toi de la hanche.",why:"Des adducteurs souples élargissent la bascule du bassin vers l'avant."},
@@ -313,7 +324,7 @@ const ROUTINES=[
     steps:[
     {emoji:'🌬️',nom:"Respiration longue",zone:"Calme",sec:40,cue:"Assis, inspire 4 s, souffle 6–8 s. Allonge l'expiration.",why:"L'expiration longue baisse le tonus musculaire : tu t'étireras plus loin."},
     {emoji:'📐',nom:"Pince assise (longue)",zone:"Ischios",sec:70,cue:"Descends à chaque expiration, dos long, sans à-coups ni rebond.",why:"À chaud et tenue très longtemps : les conditions idéales de gain d'amplitude."},
-    {emoji:'💪',nom:"PNF ischios",zone:"Ischios (avancé)",sec:40,sides:true,cue:"Pousse le talon 6 s contre ta main, relâche, va plus loin.",why:"Contracté-relâché : gains rapides et bien documentés."},
+    {emoji:'💪',nom:"PNF ischios",zone:"Ischios (avancé)",sec:40,sides:true,cue:"Sur le dos, jambe tendue en l'air tenue à deux mains : pousse le talon 6 s contre tes mains (elles résistent, la jambe reste immobile), relâche 2-3 s, puis tire un cran plus loin. Répète.",why:"Contracté-relâché : après la contraction, le muscle te laisse aller plus loin. Gains rapides et bien documentés."},
     {emoji:'🕊️',nom:"Pigeon tenu",zone:"Hanches",sec:55,sides:true,cue:"Buste descendu vers le sol, respire dans la hanche.",why:"Les hanches lâchent avec le temps sous tension et le souffle."},
     {emoji:'🦋',nom:"Papillon / straddle",zone:"Adducteurs",sec:60,cue:"Genoux ou jambes écartés, penche-toi de la hanche, dos long.",why:"Ouverture profonde du bassin, sans forcer."},
     {emoji:'🌀',nom:"Torsion allongée",zone:"Colonne",sec:40,sides:true,cue:"Genou de l'autre côté, épaules à plat, regard opposé.",why:"Détord la colonne et relâche le dos."},
@@ -321,6 +332,63 @@ const ROUTINES=[
     {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:50,cue:"Front au sol, souffle lent, laisse tout se relâcher.",why:"Clôt la journée et décompresse la colonne."},
   ]},
 ];
+/* ================================================================
+   ILLUSTRATIONS DE POSTURE — figures SVG inline (offline, sans image externe)
+   viewBox 220×150 · classes : b=corps, h=tête, m=muscle étiré, fl=sol, w=mur,
+   ar/ard=flèche (sens), g=repère pointillé.
+   ================================================================ */
+const POSES={
+ seated_fold:`<line class="fl" x1="16" y1="128" x2="204" y2="128"/><path class="m" d="M58 120 L184 120"/><path class="b" d="M184 120 l10 -12"/><path class="b" d="M58 120 Q52 94 88 100"/><circle class="h" cx="100" cy="102" r="11"/><path class="b" d="M94 106 L152 118"/>`,
+ supine_hamstring:`<line class="fl" x1="16" y1="122" x2="204" y2="122"/><path class="b" d="M172 120 L112 118"/><path class="b" d="M112 118 L54 116"/><circle class="h" cx="44" cy="112" r="11"/><path class="m" d="M112 118 L150 52"/><path class="b" d="M150 52 l13 6"/><path class="b" d="M60 114 Q100 66 140 66"/>`,
+ pnf_hamstring:`<line class="fl" x1="16" y1="122" x2="204" y2="122"/><path class="b" d="M172 120 L112 118"/><path class="b" d="M112 118 L54 116"/><circle class="h" cx="44" cy="112" r="11"/><path class="m" d="M112 118 L150 52"/><path class="b" d="M150 52 l13 6"/><path class="b" d="M60 114 Q100 66 140 66"/><path class="g" d="M112 118 L158 44"/><path class="ar" d="M152 54 q16 8 8 22"/><path class="ard" d="M158 78 l3 -9 5 6 z"/>`,
+ pigeon:`<line class="fl" x1="16" y1="124" x2="204" y2="124"/><path class="m" d="M72 120 L118 120"/><path class="b" d="M118 120 L190 124"/><path class="b" d="M190 124 l9 -4"/><path class="b" d="M118 116 Q102 106 82 116"/><circle class="h" cx="74" cy="116" r="10"/>`,
+ butterfly:`<line class="fl" x1="24" y1="128" x2="196" y2="128"/><path class="m" d="M110 118 L84 124"/><path class="m" d="M110 118 L136 124"/><path class="b" d="M84 124 L110 128"/><path class="b" d="M136 124 L110 128"/><path class="b" d="M110 118 L118 90"/><circle class="h" cx="120" cy="80" r="11"/><path class="b" d="M116 94 L110 120"/><path class="ar" d="M84 112 l0 8"/><path class="ard" d="M84 124 l-4 -8 8 0 z"/><path class="ar" d="M136 112 l0 8"/><path class="ard" d="M136 124 l-4 -8 8 0 z"/>`,
+ frog:`<line class="fl" x1="16" y1="126" x2="204" y2="126"/><path class="b" d="M84 122 L84 100"/><path class="b" d="M84 100 L150 100"/><circle class="h" cx="74" cy="102" r="10"/><path class="m" d="M150 100 L134 124"/><path class="m" d="M150 100 L172 124"/><path class="ar" d="M158 96 l18 0"/><path class="ard" d="M176 96 l-8 -4 0 8 z"/>`,
+ jefferson:`<line class="fl" x1="16" y1="138" x2="204" y2="138"/><rect class="b" x="84" y="138" width="34" height="10" rx="2"/><path class="b" d="M100 138 L100 100"/><path class="m" d="M100 100 Q116 116 102 130"/><circle class="h" cx="104" cy="132" r="9"/><path class="b" d="M104 122 L102 138"/><circle class="ard" cx="102" cy="139" r="5"/>`,
+ hip_hinge:`<line class="fl" x1="16" y1="138" x2="204" y2="138"/><path class="b" d="M96 138 L96 104"/><path class="m" d="M96 104 L150 84"/><circle class="h" cx="158" cy="80" r="11"/><path class="b" d="M120 96 L124 112"/><path class="g" d="M150 84 L178 74"/><path class="ar" d="M104 106 q22 -4 32 2"/><path class="ard" d="M136 108 l-9 -4 2 8 z"/>`,
+ roll_down:`<line class="fl" x1="16" y1="138" x2="204" y2="138"/><path class="b" d="M100 138 L100 100"/><path class="m" d="M100 100 Q118 116 102 130"/><circle class="h" cx="104" cy="132" r="9"/><path class="b" d="M104 122 L102 138"/>`,
+ low_lunge:`<line class="fl" x1="16" y1="124" x2="204" y2="124"/><path class="b" d="M164 124 L192 124"/><path class="m" d="M164 124 L120 108"/><path class="b" d="M86 124 L96 98"/><path class="b" d="M96 98 L120 108"/><path class="b" d="M120 108 L130 78"/><circle class="h" cx="132" cy="68" r="11"/><path class="b" d="M126 84 L104 104"/><path class="ar" d="M118 116 l-18 0"/><path class="ard" d="M100 116 l8 -4 0 8 z"/>`,
+ couch_stretch:`<line class="fl" x1="16" y1="124" x2="204" y2="124"/><line class="w" x1="190" y1="56" x2="190" y2="124"/><path class="m" d="M172 124 L184 84"/><path class="b" d="M172 124 L138 108"/><path class="b" d="M108 124 L120 100"/><path class="b" d="M120 100 L138 108"/><path class="b" d="M138 108 L142 76"/><circle class="h" cx="144" cy="66" r="11"/>`,
+ ninety:`<line class="fl" x1="16" y1="122" x2="204" y2="122"/><path class="b" d="M112 104 L112 78"/><circle class="h" cx="112" cy="68" r="10"/><path class="m" d="M112 104 L150 108"/><path class="m" d="M150 108 L150 82"/><path class="b" d="M112 104 L80 112"/><path class="b" d="M80 112 L54 112"/>`,
+ ankle_wall:`<line class="fl" x1="16" y1="124" x2="204" y2="124"/><line class="w" x1="188" y1="70" x2="188" y2="124"/><path class="b" d="M150 124 L174 124"/><path class="m" d="M156 124 L182 98"/><path class="b" d="M182 98 L150 92"/><path class="b" d="M150 92 L150 70"/><circle class="h" cx="150" cy="60" r="10"/><path class="ar" d="M168 98 l14 -2"/><path class="ard" d="M182 96 l-8 -2 3 7 z"/>`,
+ thoracic_open:`<line class="fl" x1="16" y1="126" x2="204" y2="126"/><path class="b" d="M70 120 L128 120"/><circle class="h" cx="62" cy="115" r="10"/><path class="b" d="M128 120 L150 106 L150 124"/><path class="b" d="M92 120 L92 128"/><path class="m" d="M86 118 Q84 88 118 90"/><path class="ard" d="M118 90 l-9 -3 3 9 z"/>`,
+ thoracic_rot:`<line class="fl" x1="16" y1="122" x2="204" y2="122"/><path class="b" d="M78 120 L78 98"/><path class="b" d="M150 120 L150 98"/><path class="b" d="M78 98 L150 98"/><circle class="h" cx="68" cy="100" r="10"/><path class="m" d="M96 98 L84 66"/><path class="ar" d="M84 66 q16 -6 24 6"/><path class="ard" d="M108 72 l-2 -9 7 4 z"/>`,
+ deep_squat:`<line class="fl" x1="16" y1="128" x2="204" y2="128"/><path class="b" d="M86 128 L80 104"/><path class="b" d="M134 128 L140 104"/><path class="b" d="M80 104 L110 112"/><path class="b" d="M140 104 L110 112"/><path class="b" d="M110 112 L110 82"/><circle class="h" cx="110" cy="72" r="11"/><path class="b" d="M110 90 L82 106"/><path class="b" d="M110 90 L138 106"/>`,
+ supine_twist:`<line class="fl" x1="16" y1="126" x2="204" y2="126"/><path class="b" d="M60 118 L120 118"/><circle class="h" cx="52" cy="114" r="10"/><path class="b" d="M74 118 L44 108"/><path class="m" d="M120 118 L128 100 L150 118"/><path class="ar" d="M132 96 q16 -2 20 10"/><path class="ard" d="M152 106 l-2 -9 7 4 z"/>`,
+ child:`<line class="fl" x1="16" y1="126" x2="204" y2="126"/><path class="b" d="M150 122 L176 122"/><path class="b" d="M150 116 Q108 118 66 122"/><circle class="h" cx="58" cy="120" r="10"/><path class="b" d="M120 119 L44 124"/>`,
+ catcow:`<line class="fl" x1="16" y1="124" x2="204" y2="124"/><path class="b" d="M78 120 L78 98"/><path class="b" d="M150 120 L150 98"/><path class="m" d="M78 98 Q114 82 150 98"/><circle class="h" cx="68" cy="100" r="10"/><path class="ar" d="M114 72 q9 7 0 13"/><path class="ard" d="M114 85 l-5 -6 9 -1 z"/>`,
+ legs_up_wall:`<line class="fl" x1="16" y1="124" x2="204" y2="124"/><line class="w" x1="184" y1="42" x2="184" y2="124"/><path class="b" d="M60 118 L152 118"/><circle class="h" cx="52" cy="114" r="10"/><path class="m" d="M152 118 L176 58"/>`,
+ shoulder_dislocate:`<line class="fl" x1="16" y1="140" x2="204" y2="140"/><path class="b" d="M110 140 L110 106"/><path class="b" d="M110 106 L110 72"/><circle class="h" cx="110" cy="60" r="11"/><line class="m" x1="76" y1="34" x2="144" y2="34"/><path class="b" d="M92 74 L82 34"/><path class="b" d="M128 74 L138 34"/><path class="ar" d="M110 22 q34 -2 40 20"/><path class="ard" d="M150 42 l-2 -10 8 5 z"/>`,
+ shoulder_cross:`<line class="fl" x1="16" y1="140" x2="204" y2="140"/><path class="b" d="M104 140 L104 106"/><path class="b" d="M104 106 L104 74"/><circle class="h" cx="104" cy="62" r="11"/><path class="m" d="M104 84 L150 92"/><path class="b" d="M104 84 L128 108 L150 96"/>`,
+ quad_standing:`<line class="fl" x1="16" y1="140" x2="204" y2="140"/><path class="b" d="M100 140 L100 104"/><path class="m" d="M100 104 L128 130 L104 132"/><path class="b" d="M100 104 L100 74"/><circle class="h" cx="100" cy="62" r="11"/><path class="b" d="M100 90 L122 122"/>`,
+ wrist:`<line class="fl" x1="16" y1="126" x2="204" y2="126"/><path class="b" d="M92 124 L92 104"/><path class="b" d="M140 124 L140 104"/><path class="b" d="M92 104 L140 104"/><circle class="h" cx="82" cy="106" r="9"/><path class="m" d="M92 124 L80 124"/><path class="m" d="M140 124 L152 124"/><path class="ar" d="M116 96 q-12 -6 -2 -16"/>`,
+ leg_swing:`<line class="fl" x1="16" y1="140" x2="204" y2="140"/><path class="b" d="M96 140 L96 104"/><path class="b" d="M96 104 L96 72"/><circle class="h" cx="96" cy="60" r="11"/><path class="m" d="M96 106 L140 118"/><path class="ar" d="M138 132 q-24 6 -44 -8"/><path class="ard" d="M96 118 l9 -3 -1 8 z"/>`,
+ hip_circles:`<line class="fl" x1="16" y1="140" x2="204" y2="140"/><path class="b" d="M100 140 L100 108"/><path class="b" d="M120 140 L120 108"/><path class="b" d="M110 108 L110 74"/><circle class="h" cx="110" cy="62" r="11"/><ellipse class="ar" cx="110" cy="108" rx="22" ry="9"/><path class="ard" d="M132 108 l-8 -4 1 8 z"/>`,
+ shoulder_circles:`<line class="fl" x1="16" y1="140" x2="204" y2="140"/><path class="b" d="M110 140 L110 104"/><path class="b" d="M110 104 L110 76"/><circle class="h" cx="110" cy="64" r="11"/><path class="b" d="M110 80 L88 98"/><path class="b" d="M110 80 L132 98"/><ellipse class="ar" cx="110" cy="80" rx="16" ry="11"/><path class="ard" d="M126 80 l-7 -4 0 8 z"/>`,
+ calf_raise:`<line class="fl" x1="16" y1="132" x2="204" y2="132"/><path class="b" d="M96 124 L96 96"/><path class="b" d="M124 124 L124 96"/><path class="m" d="M92 132 L92 124"/><path class="m" d="M128 132 L128 124"/><path class="b" d="M110 96 L110 74"/><circle class="h" cx="110" cy="62" r="11"/><path class="ar" d="M158 122 l0 -16"/><path class="ard" d="M158 106 l-4 9 8 0 z"/>`,
+ twist_stand:`<line class="fl" x1="16" y1="140" x2="204" y2="140"/><path class="b" d="M100 140 L100 106"/><path class="b" d="M120 140 L120 106"/><path class="b" d="M110 106 L110 80"/><circle class="h" cx="110" cy="68" r="11"/><path class="m" d="M84 94 L136 90"/><path class="ar" d="M84 96 q26 -16 52 -2"/><path class="ard" d="M136 94 l-9 -3 1 8 z"/>`,
+ stand_reach:`<line class="fl" x1="16" y1="140" x2="204" y2="140"/><path class="b" d="M110 140 L110 102"/><path class="b" d="M110 102 L110 66"/><circle class="h" cx="110" cy="54" r="11"/><path class="m" d="M110 70 L94 30"/><path class="m" d="M110 70 L126 30"/><path class="ar" d="M94 26 l0 -9"/><path class="ard" d="M94 15 l-4 9 8 0 z"/><path class="ar" d="M126 26 l0 -9"/><path class="ard" d="M126 15 l-4 9 8 0 z"/>`,
+ neck:`<path class="b" d="M84 122 L136 122"/><path class="b" d="M110 122 L110 100"/><circle class="h" cx="110" cy="86" r="13"/><path class="ar" d="M90 80 q20 -20 40 0"/><path class="ard" d="M130 80 l0 -9 8 6 z"/>`
+};
+function poseFor(s){ const t=((s.nom||'')+' '+(s.zone||'')).toLowerCase();
+  const M=[['pnf','pnf_hamstring'],['contracte','pnf_hamstring'],['ischios au sol','supine_hamstring'],
+   ['pince','seated_fold'],['pigeon','pigeon'],['papillon','butterfly'],['straddle','butterfly'],['adducteur','butterfly'],
+   ['grenouille','frog'],['jefferson','jefferson'],['charnière','hip_hinge'],['hinge','hip_hinge'],
+   ['déroulé','roll_down'],['fente','low_lunge'],['psoas','couch_stretch'],['couch','couch_stretch'],
+   ['90/90','ninety'],['90','ninety'],['cheville','ankle_wall'],['dorsiflex','ankle_wall'],
+   ['ouverture thoracique','thoracic_open'],['rotation thoracique','thoracic_rot'],['squat','deep_squat'],
+   ['torsion','supine_twist'],['enfant','child'],['chat','catcow'],['vache','catcow'],
+   ['jambes au mur','legs_up_wall'],['dislocation','shoulder_dislocate'],['épaule croisée','shoulder_cross'],
+   ['quadriceps','quad_standing'],['poignet','wrist'],['nuque','neck'],['cervical','neck'],
+   ['balancé','leg_swing'],['cercles de hanche','hip_circles'],['cercles de bassin','hip_circles'],
+   ['cercles d','shoulder_circles'],['pointes','calf_raise'],['mollet','calf_raise'],
+   ['rotations du tronc','twist_stand'],['rotation du tronc','twist_stand'],['grandissement','stand_reach'],['cou','neck']];
+  for(const [k,id] of M) if(t.includes(k)) return id;
+  return null;
+}
+function poseSVG(idOrStep){ const id=typeof idOrStep==='string'?idOrStep:poseFor(idOrStep); if(!id||!POSES[id])return '';
+  return `<svg viewBox="0 0 220 150" class="posefig" xmlns="http://www.w3.org/2000/svg">${POSES[id]}</svg>`; }
+
 // circuit de gainage (timed, joué par le lecteur guidé)
 const CORE={ id:'core', emoji:'🧱', nom:'Gainage', focus:'Core · ceinture abdominale', prep:5, steps:[
   {emoji:'🧱',nom:'Planche',zone:'Gainage complet',cue:'Avant-bras au sol, corps aligné, fesses serrées, ne creuse pas le dos.',sec:40},
@@ -559,7 +627,7 @@ function renderSess(){
     const d=document.createElement('div'); d.className='rout';
     d.innerHTML=`<div class="rh"><span class="ri">${r.emoji}</span>
       <div class="rtx"><b>${r.nom}</b><small>${r.focus} · ${r.steps.length} mouvements · ~${min} min</small></div><span class="chev">▾</span></div>
-      <div class="steps">${r.note?`<div class="rnote">${r.note}</div>`:''}${r.steps.map(s=>`<div class="st"><span>${s.sec}s${s.sides?' ×2':''}</span><div class="stc">${s.emoji} ${s.nom} · <i class="z">${s.zone}</i>${s.why?`<small class="stwhy">🔬 ${s.why}</small>`:''}</div></div>`).join('')}</div>
+      <div class="steps">${r.note?`<div class="rnote">${r.note}</div>`:''}${r.steps.map(s=>`<div class="st"><span>${s.sec}s${s.sides?' ×2':''}</span>${(()=>{const f=poseSVG(s);return f?`<div class="stfig">${f}</div>`:'';})()}<div class="stc">${s.emoji} ${s.nom} · <i class="z">${s.zone}</i>${s.why?`<small class="stwhy">🔬 ${s.why}</small>`:''}</div></div>`).join('')}</div>
       <button class="btn" data-go="1">▶ Démarrer</button>`;
     d.querySelector('.rh').onclick=()=>d.classList.toggle('open');
     d.querySelector('[data-go]').onclick=e=>{ e.stopPropagation(); startRoutine(r); };
@@ -692,6 +760,7 @@ function startRoutine(routine, planId=null){
       <div class="pbar"><i style="width:${doneHolds/holdTotal*100}%"></i></div>
       <div class="pstage ${isTrans?'prep':'hold'}">
         <div class="plabel">${label}</div>
+        ${(()=>{const fig=poseSVG(p.s);return fig?`<div class="posewrap">${fig}</div>`:'';})()}
         <div class="ring" style="background:conic-gradient(${isTrans?'var(--dim)':'var(--acc)'} ${deg}deg, var(--bg3) 0)"><div class="ringin"><div class="ptime">${left}</div></div></div>
         <div class="pname">${p.s.emoji} ${p.s.nom}</div><div class="pzone">${p.s.zone}</div><div class="pcue">${p.s.cue}</div>${p.s.why?`<div class="pwhy">🔬 ${p.s.why}</div>`:''}</div>
       <div class="pctrl"><button class="pbtn" data-a="prev">‹ Préc.</button>

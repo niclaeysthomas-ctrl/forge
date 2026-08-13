@@ -1,5 +1,5 @@
 // FORGE — service worker (réseau d'abord, cache de secours hors-ligne)
-const CACHE = 'forge-v4';
+const CACHE = 'forge-v5-poses';
 const ASSETS = ['index.html', './'];
 
 self.addEventListener('install', e=>{
