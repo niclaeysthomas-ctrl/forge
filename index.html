@@ -155,6 +155,37 @@
   svg.chart{width:100%;height:130px;margin-top:8px}
   .empty{text-align:center;color:var(--dim);font-size:14px;padding:30px 10px;line-height:1.7}
 
+  /* --- l'heure : créneau du moment & recommandation --- */
+  .clock{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .clock b{font-size:36px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1.5px;line-height:1}
+  .clock span{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;font-weight:700}
+  .slot{display:inline-flex;align-items:center;gap:6px;background:#0e1a15;border:1px solid var(--line);
+    border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--acc);margin-top:10px}
+  .nowcard{background:linear-gradient(135deg,#132a22,#16332a);border-color:#2c4a3d}
+  .nowlab{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--acc);font-weight:800}
+  .nowname{font-size:21px;font-weight:800;margin:5px 0 3px}
+  .nowdet{font-size:13px;color:var(--dim);line-height:1.5}
+  .nowwhy{font-size:12.5px;color:#b9c7d6;line-height:1.55;margin-top:12px;border-top:1px solid var(--line);padding-top:11px}
+  .tb{display:inline-block;vertical-align:1px;font-size:10px;font-weight:800;border-radius:20px;padding:2px 8px;
+    margin-left:7px;letter-spacing:.4px;text-transform:uppercase}
+  .tb.now{background:#12261e;color:var(--ok);border:1px solid #1d4a31}
+  .tb.later{background:var(--bg3);color:var(--dim);border:1px solid var(--line)}
+  .tb.off{background:#2b2318;color:var(--jour);border:1px solid #4a3a22}
+  .pblock .pt small.when{display:block;color:#7e948c;font-size:11.5px;margin-top:2px}
+  .pblock.off{opacity:.7}
+
+  /* --- mise en place détaillée dans le lecteur --- */
+  .phelp{background:none;border:1px solid var(--line);color:var(--acc);border-radius:10px;padding:8px 13px;
+    font-size:12.5px;font-weight:700;cursor:pointer;margin-top:12px}
+  ol.mise{text-align:left;max-width:440px;margin:12px auto 0;padding:12px 14px 12px 30px;background:var(--bg2);
+    border:1px solid var(--line);border-radius:12px;font-size:13.5px;line-height:1.5;color:#dbe9e2}
+  ol.mise li{margin-bottom:7px}
+  ol.mise li:last-child{margin-bottom:0}
+  ol.mise li::marker{color:var(--acc);font-weight:800}
+  .perr{text-align:left;max-width:440px;margin:10px auto 0;padding:11px 13px;background:#2b2318;
+    border:1px solid #4a3a22;border-radius:12px;font-size:12.5px;line-height:1.5;color:#e7d7bb}
+  .perr b{display:block;color:var(--jour);font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+
   nav{position:fixed;bottom:0;left:0;right:0;background:rgba(12,15,14,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:40}
   nav .in{max-width:520px;margin:0 auto;display:flex}
   nav button{flex:1;background:none;border:none;color:var(--dim);padding:10px 0 max(10px,env(safe-area-inset-bottom));font-size:10.5px;font-weight:700;cursor:pointer}
@@ -252,17 +283,18 @@ const ROUTINES=[
     {emoji:'🦶',nom:"Pointes & talons",zone:"Mollets / circulation",dyn:true,sec:30,cue:"Monte sur la pointe des pieds puis reviens sur les talons, en rythme.",why:"Réveille mollets et chevilles et relance la circulation."},
   ]},
   { id:'plancher', emoji:'🎯', nom:'Vers le sol', focus:"Toucher le sol : ischios, hanches, dos", prep:12,
-    note:"L'objectif « mains au sol ». Fais-la de préférence à chaud (après le sport ou une douche chaude) : le muscle chaud gagne plus d'amplitude. Va jusqu'à une tension franche, jamais la douleur, et souffle en t'enfonçant. La régularité (≈ 5×/sem.) compte plus que l'intensité d'une séance.",
+    note:"L'objectif « mains au sol ». Fais-la de préférence à chaud (après le sport ou une douche chaude) : le muscle chaud gagne plus d'amplitude. Va jusqu'à une tension franche, jamais la douleur, et souffle en t'enfonçant. Les vrais moteurs de la descente (ischios, pince, hanches) se font en 2–3 séries : c'est le volume total sous tension qui allonge le muscle, pas un seul maintien. La régularité (≈ 5×/sem.) compte plus que l'intensité d'une séance.",
     steps:[
     {emoji:'🐈',nom:"Chat–vache",zone:"Mobilité du dos",dyn:true,sec:40,cue:"Alterne dos rond / dos creux au rythme du souffle pour préparer la colonne.",why:"Mobiliser avant d'étirer augmente l'amplitude immédiatement disponible."},
     {emoji:'⬇️',nom:"Déroulé debout",zone:"Chaîne postérieure",sec:45,cue:"Descends lentement, genoux à peine fléchis, relâche nuque et bras, laisse la gravité travailler.",why:"Étire toute la chaîne arrière, du crâne aux talons, sous le poids du buste."},
     {emoji:'🔗',nom:"Charnière de hanche (hip hinge)",zone:"Technique clé",sec:40,cue:"Mains sur le bassin, pousse les fesses loin derrière en gardant le dos parfaitement plat. Descends tant que le dos reste droit.",why:"Apprendre à plier des HANCHES et non du dos : c'est ça qui te fera toucher le sol un jour, sans te blesser."},
-    {emoji:'🦿',nom:"Ischios au sol, jambe tendue",zone:"Ischio-jambiers",sec:45,sides:true,cue:"Sur le dos, une jambe montée tendue, tenue derrière la cuisse, tire doucement vers toi.",why:"Cible les ischios en gardant le bas du dos protégé par le sol."},
-    {emoji:'📐',nom:"Pince assise",zone:"Ischios & bas du dos",sec:60,cue:"Jambes tendues, avance le VENTRE vers les cuisses (pas le nez vers les genoux), dos long. Descends à chaque expiration.",why:"Tenue longue (≥ 45 s) : c'est la durée sous tension qui allonge durablement le muscle."},
+    {emoji:'🦿',nom:"Ischios au sol, jambe tendue",zone:"Ischio-jambiers",sec:45,sides:true,sets:2,cue:"Sur le dos, une jambe montée tendue, tenue derrière la cuisse, tire doucement vers toi. À chaque série, regagne un peu d'amplitude.",why:"Cible les ischios en gardant le bas du dos protégé par le sol. Deux séries par jambe pour accumuler du temps sous tension."},
+    {emoji:'📐',nom:"Pince assise",zone:"Ischios & bas du dos",sec:45,sets:3,cue:"Jambes tendues, avance le VENTRE vers les cuisses (pas le nez vers les genoux), dos long. Descends à chaque expiration.",why:"Le mouvement spécifique du « toucher le sol ». Trois séries plus courtes valent mieux qu'un maintien interminable : chaque tenue relâche le réflexe d'étirement et te laisse descendre un cran plus bas que la précédente."},
     {emoji:'💪',nom:"PNF ischios (contracte–relâche)",zone:"Ischios (avancé)",sec:40,sides:true,cue:"Position « ischios au sol » : sur le dos, une jambe tendue en l'air, tenue à deux mains derrière la cuisse. 1) Tire-la vers toi jusqu'à sentir l'étirement. 2) Pousse le talon 6 s vers le plafond CONTRE tes mains qui résistent (la jambe ne bouge pas). 3) Relâche 2-3 s, puis tire la jambe un cran plus loin. Répète 3-4 fois.",why:"Le contracté-relâché (PNF) « trompe » le réflexe de protection du muscle : après la contraction, il te laisse aller nettement plus loin. L'une des méthodes les plus efficaces et documentées."},
     {emoji:'🏹',nom:"Fente basse",zone:"Fléchisseurs de hanche",sec:45,sides:true,cue:"Genou arrière au sol, pousse le bassin vers l'avant, buste droit, fessier serré.",why:"Des fléchisseurs de hanche courts bloquent la bascule du bassin nécessaire pour descendre."},
-    {emoji:'🕊️',nom:"Pigeon",zone:"Fessiers & hanches",sec:45,sides:true,cue:"Jambe repliée devant, jambe tendue derrière, avance le buste vers le sol.",why:"Ouvre fessiers et rotateurs de hanche, autre frein fréquent à la flexion avant."},
-    {emoji:'🦋',nom:"Papillon / adducteurs",zone:"Adducteurs",sec:50,cue:"Plantes des pieds jointes, laisse les genoux descendre, dos droit, penche-toi de la hanche.",why:"Des adducteurs souples élargissent la bascule du bassin vers l'avant."},
+    {emoji:'🦶',nom:"Mollets au mur (jambe tendue)",zone:"Mollets & chevilles",sec:35,sides:true,cue:"Mains au mur, une jambe loin derrière, genou tendu et talon collé au sol. Rapproche la hanche du mur jusqu'à sentir tirer le mollet.",why:"Des mollets raides verrouillent la cheville et empêchent le bassin de basculer : le chaînon souvent oublié du « mains au sol » debout."},
+    {emoji:'🕊️',nom:"Pigeon",zone:"Fessiers & hanches",sec:45,sides:true,sets:2,cue:"Jambe repliée devant, jambe tendue derrière, avance le buste vers le sol.",why:"Ouvre fessiers et rotateurs de hanche, autre frein fréquent à la flexion avant. Deux séries par côté : les hanches lâchent avec le temps sous tension."},
+    {emoji:'🦋',nom:"Papillon / adducteurs",zone:"Adducteurs",sec:50,sets:2,cue:"Plantes des pieds jointes, laisse les genoux descendre, dos droit, penche-toi de la hanche.",why:"Des adducteurs souples élargissent la bascule du bassin vers l'avant."},
     {emoji:'🌾',nom:"Jefferson curl (très léger)",zone:"Force en amplitude",sec:40,cue:"Debout sur une marche, déroule la colonne vertèbre par vertèbre vers le bas (lest léger ou rien), puis remonte pareil. Lent, contrôlé.",why:"Renforcer le dos DANS son amplitude maximale rend la souplesse « utile » et durable, et protège des blessures. À chaud uniquement."},
     {emoji:'🌀',nom:"Torsion allongée",zone:"Bas du dos",sec:30,sides:true,cue:"Sur le dos, amène un genou plié de l'autre côté, épaules à plat.",why:"Détend les lombaires après le travail des ischios."},
     {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:45,cue:"Fesses vers les talons, bras tendus, front au sol. Respire, relâche tout.",why:"Retour au calme : décompresse la colonne et clôt la séance."},
@@ -319,17 +351,33 @@ const ROUTINES=[
     {emoji:'🌀',nom:"Torsion allongée",zone:"Bas du dos",sec:30,sides:true,cue:"Genou plié de l'autre côté, épaules au sol.",why:"Détord et détend les lombaires."},
     {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:45,cue:"Front au sol, respire profondément.",why:"Retour au calme complet."},
   ]},
-  { id:'soir', emoji:'🌙', nom:'Détente du soir', focus:'Souplesse profonde + calme (avant le sommeil)', prep:14,
-    note:"Le meilleur créneau pour GAGNER en souplesse : corps chaud, tenues longues, et un système nerveux qui se calme te laisse aller plus loin. Bonus : ça prépare au sommeil. Respire lentement partout, aucune brusquerie.",
+  { id:'soir', emoji:'🌙', nom:'Détente du soir', focus:'Souplesse profonde + calme (avant le sommeil)', prep:18,
+    note:"Le meilleur créneau pour GAGNER en souplesse : corps chaud, tenues longues, et un système nerveux qui se calme te laisse aller plus loin. Bonus : ça prépare au sommeil. Chaque mouvement est détaillé pas à pas pendant la mise en place — et le bouton « ❔ Comment on se met en place ? » le redonne à tout moment pendant la tenue. Respire lentement partout, aucune brusquerie.",
     steps:[
-    {emoji:'🌬️',nom:"Respiration longue",zone:"Calme",sec:40,cue:"Assis, inspire 4 s, souffle 6–8 s. Allonge l'expiration.",why:"L'expiration longue baisse le tonus musculaire : tu t'étireras plus loin."},
-    {emoji:'📐',nom:"Pince assise (longue)",zone:"Ischios",sec:70,cue:"Descends à chaque expiration, dos long, sans à-coups ni rebond.",why:"À chaud et tenue très longtemps : les conditions idéales de gain d'amplitude."},
-    {emoji:'💪',nom:"PNF ischios",zone:"Ischios (avancé)",sec:40,sides:true,cue:"Sur le dos, jambe tendue en l'air tenue à deux mains : pousse le talon 6 s contre tes mains (elles résistent, la jambe reste immobile), relâche 2-3 s, puis tire un cran plus loin. Répète.",why:"Contracté-relâché : après la contraction, le muscle te laisse aller plus loin. Gains rapides et bien documentés."},
-    {emoji:'🕊️',nom:"Pigeon tenu",zone:"Hanches",sec:55,sides:true,cue:"Buste descendu vers le sol, respire dans la hanche.",why:"Les hanches lâchent avec le temps sous tension et le souffle."},
-    {emoji:'🦋',nom:"Papillon / straddle",zone:"Adducteurs",sec:60,cue:"Genoux ou jambes écartés, penche-toi de la hanche, dos long.",why:"Ouverture profonde du bassin, sans forcer."},
-    {emoji:'🌀',nom:"Torsion allongée",zone:"Colonne",sec:40,sides:true,cue:"Genou de l'autre côté, épaules à plat, regard opposé.",why:"Détord la colonne et relâche le dos."},
-    {emoji:'🧱',nom:"Jambes au mur",zone:"Récupération",sec:60,cue:"Allongé, fesses près du mur, jambes tendues vers le haut. Ferme les yeux.",why:"Draine les jambes et bascule le corps en mode récupération (parasympathique)."},
-    {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:50,cue:"Front au sol, souffle lent, laisse tout se relâcher.",why:"Clôt la journée et décompresse la colonne."},
+    {emoji:'🌬️',nom:"Respiration longue",zone:"Calme",ex:'breath',sec:40,
+      cue:"Assis, dos droit, mains sur les cuisses : inspire 4 s par le nez (le ventre gonfle), souffle 6 à 8 s par la bouche comme dans une paille.",
+      why:"L'expiration allongée fait basculer le corps en mode récupération et baisse le tonus musculaire : tout ce qui suit ira plus loin, et l'endormissement sera plus facile."},
+    {emoji:'📐',nom:"Pince assise (longue)",zone:"Ischios & bas du dos",sec:70,
+      cue:"Assis, jambes tendues devant toi : plie des HANCHES et amène le VENTRE vers les cuisses, dos long. Descends d'un cran à chaque expiration, sans à-coup ni rebond.",
+      why:"À chaud et tenue très longtemps : les conditions idéales du gain d'amplitude. C'est aussi le mouvement exact du « toucher le sol »."},
+    {emoji:'💪',nom:"PNF ischios (contracte–relâche)",zone:"Ischios (avancé)",sec:40,sides:true,
+      cue:"Sur le dos, une jambe tendue en l'air tenue à deux mains : pousse le talon 6 s CONTRE tes mains qui résistent (rien ne bouge), relâche 2-3 s, puis tire la jambe un cran plus loin. Recommence 3-4 fois.",
+      why:"Le contracté-relâché « trompe » le réflexe de protection du muscle : juste après la contraction, il te laisse aller nettement plus loin. L'une des méthodes les plus efficaces et les mieux documentées."},
+    {emoji:'🕊️',nom:"Pigeon tenu",zone:"Fessiers & hanches",sec:55,sides:true,
+      cue:"Tibia avant posé à plat en travers devant toi, jambe arrière tendue loin derrière : redresse-toi d'abord, puis descends le buste vers le sol et respire dans la fesse avant.",
+      why:"Fessiers et rotateurs de hanche lâchent avec le temps sous tension et le souffle, jamais avec la force. Des hanches fermées bloquent aussi la descente vers le sol."},
+    {emoji:'🦋',nom:"Papillon / straddle",zone:"Adducteurs",sec:60,
+      cue:"Plantes de pieds collées l'une contre l'autre (ou jambes tendues écartées en V) : laisse les genoux descendre, puis penche-toi vers l'avant en pliant des HANCHES, dos long.",
+      why:"Ouverture profonde du bassin. Des adducteurs souples élargissent la bascule du bassin vers l'avant — donc la flexion avant."},
+    {emoji:'🌀',nom:"Torsion allongée",zone:"Colonne & bas du dos",sec:40,sides:true,
+      cue:"Sur le dos, bras en croix : passe un genou plié de l'autre côté du corps, regard à l'opposé. Garde les DEUX épaules au sol, même si le genou ne touche pas.",
+      why:"Détord la colonne et relâche les lombaires après le travail des ischios."},
+    {emoji:'🧱',nom:"Jambes au mur",zone:"Récupération",sec:60,
+      cue:"Allongé sur le dos, fesses près du mur, jambes tendues vers le haut posées CONTRE le mur. Bras relâchés, yeux fermés : tu ne fais plus rien.",
+      why:"Draine les jambes et bascule le système nerveux en mode parasympathique : la meilleure transition entre la séance et le lit."},
+    {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:50,
+      cue:"À genoux, fesses vers les talons, genoux écartés, front au sol et bras tendus devant. Souffle long, et laisse le dos s'ouvrir à chaque expiration.",
+      why:"Clôt la journée et décompresse la colonne."},
   ]},
 ];
 /* ================================================================
@@ -388,6 +436,92 @@ function poseFor(s){ const t=((s.nom||'')+' '+(s.zone||'')).toLowerCase();
 }
 function poseSVG(idOrStep){ const id=typeof idOrStep==='string'?idOrStep:poseFor(idOrStep); if(!id||!POSES[id])return '';
   return `<svg viewBox="0 0 220 150" class="posefig" xmlns="http://www.w3.org/2000/svg">${POSES[id]}</svg>`; }
+
+/* ================================================================
+   MODE D'EMPLOI DES POSTURES — comment on se met en place, pas à pas,
+   et l'erreur qui vide le mouvement de son intérêt.
+   Retrouvé par la clé `ex` de l'exercice, sinon par sa figure (poseFor) :
+   toutes les séances qui contiennent le mouvement en profitent.
+   ================================================================ */
+const EXPLIC={
+ breath:{mise:[
+   "Assieds-toi comme tu veux — en tailleur, sur les talons, ou au bord d'une chaise — du moment que le dos est droit et les épaules basses.",
+   "Pose les mains sur les cuisses. Ferme les yeux, ou pose le regard au sol à un mètre devant toi.",
+   "Inspire par le nez en comptant 4 : c'est le VENTRE qui se gonfle, pas les épaules qui montent.",
+   "Souffle par la bouche entrouverte en comptant 6 à 8, comme si tu soufflais dans une paille — jusqu'au bout de l'air.",
+   "Enchaîne sans pause, à ton rythme, pendant toute la durée."],
+   err:"Chercher à inspirer à fond. Ici on allonge l'EXPIRATION ; l'inspiration reste normale. Si tu as la tête qui tourne, tu forces trop."},
+
+ seated_fold:{mise:[
+   "Assieds-toi au sol, les deux jambes tendues devant toi, à largeur de bassin. Genoux et orteils pointent vers le plafond.",
+   "Si le bas du dos part en rond dès le départ : assieds-toi sur le bord d'un coussin ou d'un livre, et/ou plie légèrement les genoux. C'est autorisé et bien plus efficace.",
+   "Grandis-toi d'abord : imagine un fil qui tire le sommet du crâne vers le plafond.",
+   "Bascule vers l'avant EN PLIANT DES HANCHES — le bassin roule en avant — et amène le VENTRE vers les cuisses, pas le nez vers les genoux.",
+   "Pose les mains où elles arrivent : tibias, chevilles, pieds. Ne tire pas comme un sourd.",
+   "À chaque expiration, laisse le buste descendre d'un millimètre. Puis tiens là, sans rebondir."],
+   err:"Arrondir le haut du dos pour aller chercher les pieds avec la tête : tu étires alors le dos, plus du tout les ischios. Ventre vers les cuisses et dos long — quitte à descendre trois fois moins bas."},
+
+ supine_hamstring:{mise:[
+   "Allonge-toi sur le dos, les deux jambes tendues au sol.",
+   "Monte UNE jambe tendue vers le plafond ; l'autre reste plaquée au sol, genou tendu.",
+   "Attrape la jambe levée à deux mains derrière la CUISSE (ou passe une sangle, une serviette, une ceinture sous le pied si tu n'atteins pas).",
+   "Tire-la doucement vers ton visage jusqu'à une tension franche à l'arrière de la cuisse — jamais une douleur.",
+   "Garde la nuque et les épaules posées au sol, et respire lentement."],
+   err:"Laisser la jambe du bas se plier et remonter : le bassin bascule et l'étirement disparaît. Elle reste tendue, collée au sol."},
+
+ pnf_hamstring:{mise:[
+   "Allonge-toi sur le dos, une jambe tendue en l'air, l'autre plaquée au sol, genou tendu.",
+   "Tiens la jambe levée à deux mains derrière la cuisse (ou une sangle sous le pied) et tire-la vers toi jusqu'à sentir l'étirement.",
+   "PHASE 1 — 6 secondes : pousse le TALON vers le plafond CONTRE tes mains qui résistent. La jambe ne bouge pas d'un centimètre : tu contractes dans le vide.",
+   "PHASE 2 — 2 à 3 secondes : relâche complètement la poussée, et souffle.",
+   "PHASE 3 : tire la jambe un cran plus près de toi — elle vient plus loin qu'avant, sans forcer.",
+   "Recommence depuis la phase 1. Trois à quatre tours par jambe pendant la durée affichée."],
+   err:"Se contenter de tirer sans jamais contracter : c'est justement la poussée contre résistance qui débloque l'amplitude. Et la jambe du bas reste au sol, sinon tu triches."},
+
+ pigeon:{mise:[
+   "Pars à quatre pattes.",
+   "Amène le genou droit vers ta main droite, et pose le TIBIA droit à plat devant toi, en travers — plus le tibia est parallèle au bord du tapis, plus ça tire.",
+   "Tends la jambe gauche loin derrière, genou et dessus du pied au sol, hanche gauche qui regarde le sol (bassin d'équerre, pas de travers).",
+   "Redresse le buste, mains au sol de chaque côté : tu dois sentir tirer dans la FESSE droite, pas dans le genou.",
+   "Si la fesse droite reste en l'air, glisse un coussin ou un livre dessous : c'est ce qui rend la posture tenable.",
+   "Puis descends le buste vers l'avant, sur les avant-bras ou le front au sol, et respire dans la hanche."],
+   err:"Laisser la hanche du côté plié partir en l'air : le bassin se met de travers et c'est le genou qui encaisse. Cale la fesse, et sors de la posture si le genou pique."},
+
+ butterfly:{mise:[
+   "Assis au sol, plie les deux genoux et colle les plantes de pieds l'une contre l'autre, talons ramenés vers toi.",
+   "Attrape tes pieds ou tes chevilles, coudes à l'intérieur des cuisses.",
+   "Grandis le dos, puis laisse les genoux descendre vers le sol sous leur propre poids (les coudes peuvent accompagner très légèrement).",
+   "Version straddle : jambes tendues écartées en V à la place, orteils vers le plafond.",
+   "Penche-toi vers l'avant EN PLIANT DES HANCHES, dos long, jusqu'à sentir tirer à l'intérieur des cuisses. Puis tiens et respire."],
+   err:"Faire rebondir les genoux vers le sol, ou s'écrouler en rond de dos. On descend lentement, dos long, et on laisse le temps faire le travail."},
+
+ supine_twist:{mise:[
+   "Allonge-toi sur le dos, bras en croix, paumes vers le plafond.",
+   "Ramène le genou droit vers la poitrine ; la jambe gauche reste tendue au sol.",
+   "Fais passer ce genou par-dessus le corps vers la GAUCHE et laisse-le descendre vers le sol. La main gauche peut se poser dessus, sans écraser.",
+   "Tourne la tête à l'opposé, vers la droite, et souffle long.",
+   "La consigne : les DEUX épaules restent collées au sol, même si le genou n'atteint jamais le sol."],
+   err:"Décoller l'épaule opposée pour faire toucher le genou. C'est exactement l'inverse : l'épaule reste au sol, le genou descend seulement aussi bas qu'il peut."},
+
+ legs_up_wall:{mise:[
+   "Assieds-toi par terre, une hanche et une épaule quasiment collées au mur.",
+   "Bascule sur le dos en pivotant d'un quart de tour, et remonte les jambes le long du mur.",
+   "Ajuste : fesses aussi près du mur que possible sans forcer (5 à 10 cm, c'est très bien), jambes tendues vers le haut, talons appuyés contre le mur.",
+   "Bras le long du corps ou en croix, épaules relâchées au sol, yeux fermés.",
+   "Ne fais plus rien du tout. Respire lentement jusqu'à la fin du temps."],
+   err:"Contracter les cuisses pour tenir les jambes droites. C'est le mur qui les tient : si tu travailles, tu rates l'exercice."},
+
+ child:{mise:[
+   "À genoux au sol, gros orteils qui se touchent, genoux écartés à peu près de la largeur du tapis.",
+   "Assieds les fesses vers les talons. Si elles n'y arrivent pas, glisse un coussin entre les mollets et les fesses.",
+   "Descends le buste entre les cuisses et pose le FRONT au sol (un livre ou un coussin sous le front si le sol est loin).",
+   "Tends les bras loin devant, paumes au sol — ou pose-les le long du corps, paumes vers le haut, pour la version repos total.",
+   "Souffle long : à chaque expiration, laisse le dos s'arrondir et s'ouvrir un peu plus."],
+   err:"Rentrer la tête dans les épaules. La nuque reste longue, c'est le front qui se pose, pas le menton."},
+};
+function explicFor(s){ if(!s) return null;
+  if(s.ex && EXPLIC[s.ex]) return EXPLIC[s.ex];
+  const p=poseFor(s); return (p && EXPLIC[p]) || null; }
 
 // circuit de gainage (timed, joué par le lecteur guidé)
 const CORE={ id:'core', emoji:'🧱', nom:'Gainage', focus:'Core · ceinture abdominale', prep:5, steps:[
@@ -486,6 +620,47 @@ const JOURS=['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
 const DISC={boxe:{ico:'🥊',nom:'Boxe',col:'var(--boxe)'},muscu:{ico:'🏋️',nom:'Muscu',col:'var(--muscu)'},
   course:{ico:'🏃',nom:'Course',col:'var(--acc)'},mix:{ico:'🔀',nom:'Mix',col:'var(--jour)'},autre:{ico:'✳️',nom:'Autre',col:'var(--autre)'}};
 
+
+/* ---------------- l'heure : créneaux & séance adéquate ----------------
+   L'app lit l'horloge et propose ce qui a du sens MAINTENANT : à froid on
+   lubrifie, en fin de journée on charge, le soir on redescend. */
+const CRENEAUX=[
+  {id:'nuit',   emoji:'🌙', nom:'Nuit',         h:[0,300],     mot:"Le corps répare. À cette heure, rien ne se gagne — sauf le sommeil."},
+  {id:'reveil', emoji:'🌅', nom:'Réveil',       h:[300,540],   mot:"Corps froid et raide : on lubrifie les articulations, on ne force sur rien."},
+  {id:'matin',  emoji:'☀️', nom:'Matinée',      h:[540,720],   mot:"La machine est lancée : tu peux charger, avec un échauffement complet."},
+  {id:'aprem',  emoji:'🕑', nom:'Après-midi',   h:[720,960],   mot:"Bon créneau — laisse juste passer la digestion après un vrai repas."},
+  {id:'pic',    emoji:'🔥', nom:'Pic de forme', h:[960,1230],  mot:"Ta meilleure fenêtre : force et souplesse au maximum de la journée."},
+  {id:'soir',   emoji:'🌆', nom:'Soirée',       h:[1230,1440], mot:"On redescend : souplesse profonde et respiration, pas d'intensité."},
+];
+const nowMin=()=>{ const d=new Date(); return d.getHours()*60+d.getMinutes(); };
+const hhmm=()=>{ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); };
+const hLabel=m=>m>=1440?'minuit':Math.floor(m/60)+'h'+(m%60?String(m%60).padStart(2,'0'):'');
+function creneauNow(){ const n=nowMin(); return CRENEAUX.find(c=>n>=c.h[0]&&n<c.h[1])||CRENEAUX[0]; }
+function fenetre(ids){ if(!ids||!ids.length) return '';
+  const cs=CRENEAUX.filter(c=>ids.indexOf(c.id)>=0); if(!cs.length) return '';
+  return hLabel(Math.min.apply(null,cs.map(c=>c.h[0])))+'→'+hLabel(Math.max.apply(null,cs.map(c=>c.h[1]))); }
+
+/* top = le bon moment · ok = ça passe · le reste = hors créneau (jamais interdit) */
+const TIMING={
+  'soup:reveil':  {top:['reveil'],                    ok:['matin'],                  why:"Elle est faite pour le corps au sortir du lit : amplitude progressive, aucune force, et des disques vertébraux encore gorgés d'eau qu'on ménage. Passé la matinée, elle n'a plus grand-chose à réveiller."},
+  'soup:mobilite':{top:['matin','aprem'],             ok:['reveil','pic','soir'],    why:"Entretien articulaire à faible amplitude : ça passe à presque n'importe quelle heure, un peu mieux une fois le corps réveillé."},
+  'soup:complete':{top:['pic','soir'],                ok:['aprem'],                  why:"Le gain de souplesse se fait à chaud : en fin de journée, le muscle est plus étirable et le système nerveux plus tolérant."},
+  'soup:plancher':{top:['pic','soir'],                ok:['aprem'],                  why:"À faire à chaud — après le sport ou une douche chaude. Le matin, les disques vertébraux sont gorgés d'eau : on évite la flexion avant poussée."},
+  'soup:express': {top:['matin','aprem','pic','soir'],ok:['reveil'],                 why:"Le minimum quotidien : n'importe quand vaut infiniment mieux que jamais."},
+  'soup:soir':    {top:['soir'],                      ok:['pic'],                    why:"Tenues longues et expiration allongée : ça gagne de l'amplitude ET ça prépare l'endormissement."},
+  'work':         {top:['pic'],                       ok:['matin','aprem'],          why:"Force et puissance culminent en fin d'après-midi, quand la température corporelle est au plus haut. Plus tôt, c'est possible — mais l'échauffement doit être deux fois plus long."},
+  'run':          {top:['pic'],                       ok:['reveil','matin','aprem'], why:"Le cardio supporte l'heure matinale bien mieux que la fonte : allure et confort restent meilleurs en fin de journée, mais courir tôt reste une vraie option."},
+  'circuit:core': {top:['matin','aprem','pic'],       ok:['reveil','soir'],          why:"Gainage : peu d'amplitude, peu de risque à froid. Cale-le où tu veux dans la journée."},
+  'piano':        {top:['matin','aprem','pic','soir'],ok:['reveil'],                 why:"Pas un entraînement physique : le seul créneau à éviter, c'est celui où tu réveilles la maison."},
+};
+function timingFor(it){ const a=it.act||''; return TIMING[a]||TIMING[a.split(':')[0]]||{top:[],ok:[],why:''}; }
+function statut(it,cr){ const t=timingFor(it);
+  if(t.top.indexOf(cr.id)>=0) return 'top'; if(t.ok.indexOf(cr.id)>=0) return 'ok'; return 'off'; }
+/* la meilleure chose à faire maintenant parmi ce qui reste à faire aujourd'hui */
+function suggestNow(day,cr){ const todo=day.items.filter(it=>!planDone(it.id)); if(!todo.length) return null;
+  let best=null; todo.forEach(it=>{ const st=statut(it,cr), r=(st==='top'?2:st==='ok'?1:0);
+    if(!best||r>best.rank) best={it:it,rank:r}; }); return best; }
+
 /* ---------------- état ---------------- */
 const DEFAULT={ mobLog:[], workoutLog:[], journal:[], floorTests:[], planDone:{}, prReps:{}, curWk:null, restDur:90 };
 let S=load();
@@ -531,13 +706,14 @@ document.getElementById('restSkip').onclick=()=>Rest.stop();
 /* ================================================================ NAVIGATION */
 const main=document.getElementById('main');
 let curTab='today';
+let todayClock=null, slotAffiche=null;   // horloge vivante de l'onglet Aujourd'hui
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   if(S.curWk && !confirm('Quitter la séance en cours ?')) return;
   if(S.curWk){ S.curWk=null; save(); Rest.stop(); }
   document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on'); curTab=b.dataset.tab; render();
 });
-function render(){ main.innerHTML='';
+function render(){ main.innerHTML=''; clearInterval(todayClock);
   if(curTab==='today') renderToday();
   else if(curTab==='sess') renderSess();
   else if(curTab==='jour') renderJour();
@@ -547,20 +723,49 @@ function render(){ main.innerHTML='';
 
 /* ================================================================ AUJOURD'HUI (programme du jour) */
 function renderToday(){
-  const streak=dayStreak(); const di=dayIdx(); const day=WEEK[di];
+  const streak=dayStreak(); const di=dayIdx(); const day=WEEK[di]; const cr=creneauNow(); slotAffiche=cr.id;
   const dn=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+
+  /* ---- l'heure qu'il est, et ce que ça change ---- */
   main.insertAdjacentHTML('beforeend',`
     <div class="card hero">
-      <div class="lvl">${dn}</div>
-      <div class="lvlname">${day.focus}</div>
-      <p>${streak>0?streak+' jour'+(streak>1?'s':'')+' d\'affilée 🔥 — ':''}Voici ta séance du jour. Coche au fur et à mesure, ou lance-la d'un tap.</p>
-    </div>
-    <div class="cat">Au programme aujourd'hui</div>`);
+      <div class="clock"><b id="clockNow">${hhmm()}</b><span>${dn}</span></div>
+      <div class="slot">${cr.emoji} ${cr.nom} · ${day.focus}</div>
+      <p style="margin-top:10px">${cr.mot}${streak>0?' — '+streak+' jour'+(streak>1?'s':'')+" d'affilée 🔥":''}</p>
+    </div>`);
+
+  /* ---- ce qu'il faut faire MAINTENANT ---- */
+  const reco=suggestNow(day,cr);
+  if(!reco){
+    main.insertAdjacentHTML('beforeend',`<div class="card nowcard">
+      <div class="nowlab">Maintenant</div><div class="nowname">✅ Rien — tout est fait</div>
+      <div class="nowdet">Programme du jour bouclé à ${hhmm()}. Repos : c'est là que le travail se transforme en progrès.</div></div>`);
+  } else if(cr.id==='nuit' && reco.rank<2){
+    main.insertAdjacentHTML('beforeend',`<div class="card nowcard">
+      <div class="nowlab">Maintenant</div><div class="nowname">😴 Dormir</div>
+      <div class="nowdet">Il est ${hhmm()}. Aucune séance de cette liste ne vaut la nuit que tu perdrais à la faire.</div>
+      <div class="nowwhy">🔬 Le sommeil est le moment où l'entraînement devient du progrès : récupération nerveuse, reconstruction musculaire, consolidation des apprentissages moteurs. S'entraîner en dette de sommeil dégrade la performance ET la récupération. Si tu ne dors vraiment pas, prends la Détente du soir plus bas : tenues longues, souffle lent, rien d'intense.</div></div>`);
+  } else {
+    const t=timingFor(reco.it), win=fenetre(t.top), hors=(reco.rank===0);
+    main.insertAdjacentHTML('beforeend',`<div class="card nowcard">
+      <div class="nowlab">${hors?"Rien d'idéal à cette heure":'À faire maintenant'}</div>
+      <div class="nowname">${reco.it.emoji} ${reco.it.nom}</div>
+      <div class="nowdet">${reco.it.detail}${win?' · créneau idéal '+win:''}</div>
+      <div class="nowwhy">🔬 ${hors?"Ce qu'il te reste au programme ne tombe pas bien à cette heure-ci. Si tu y vas quand même : échauffement deux fois plus long, intensité d'un cran en dessous, et zéro étirement en force. "+t.why:t.why}</div>
+      <button class="btn" id="nowGo">▶ Lancer</button></div>`);
+    main.querySelector('#nowGo').onclick=()=>runAction(reco.it);
+  }
+
+  /* ---- le programme du jour, chaque bloc situé dans la journée ---- */
+  main.insertAdjacentHTML('beforeend','<div class="cat">Le programme du jour</div>');
   day.items.forEach(it=>{
-    const done=planDone(it.id);
-    const d=document.createElement('div'); d.className='pblock'+(done?' done':'');
+    const done=planDone(it.id), st=statut(it,cr), win=fenetre(timingFor(it).top);
+    const badge = done ? '' : st==='top' ? '<span class="tb now">maintenant</span>'
+                          : st==='ok'  ? '<span class="tb later">ça passe</span>'
+                                       : '<span class="tb off">hors créneau</span>';
+    const d=document.createElement('div'); d.className='pblock'+(done?' done':'')+(!done&&st==='off'?' off':'');
     d.innerHTML=`<span class="pe">${it.emoji}</span>
-      <div class="pt"><b>${it.nom}</b><small>${it.detail}</small></div>
+      <div class="pt"><b>${it.nom}${badge}</b><small>${it.detail}</small>${win&&!done?`<small class="when">⏰ idéal ${win}</small>`:''}</div>
       <button class="pgo">▶</button><button class="pck">${done?'✓':'○'}</button>`;
     d.querySelector('.pck').onclick=()=>{ markPlan(it.id,!done); render(); };
     d.querySelector('.pgo').onclick=()=>runAction(it);
@@ -581,6 +786,15 @@ function renderToday(){
       <div class="ft"><b>Test du sol</b><small>${fl!=null?'Actuel : '+FLOOR[fl]:'Pas encore mesuré'}</small></div>
       <button class="btn small ghost" id="floorBtn">${fl!=null?'Mettre à jour':'Mesurer'}</button></div></div>`);
   main.querySelector('#floorBtn').onclick=openFloorTest;
+
+  /* l'heure avance toute seule — et si on change de créneau, la page se réaccorde */
+  clearInterval(todayClock);
+  todayClock=setInterval(()=>{
+    const el=document.getElementById('clockNow');
+    if(!el||curTab!=='today'){ clearInterval(todayClock); return; }
+    el.textContent=hhmm();
+    if(creneauNow().id!==slotAffiche) render();
+  },15000);
 }
 function runAction(it){ const a=it.act;
   if(a==='run') openRun(it.id);
@@ -623,11 +837,12 @@ function renderSess(){
   main.insertAdjacentHTML('beforeend','<div class="cat">🧘 Souplesse</div><div id="routs"></div>');
   const rc=main.querySelector('#routs');
   ROUTINES.forEach(r=>{ const prep=r.prep||8, sw=Math.min(prep,8);
-    const min=Math.round(r.steps.reduce((a,s)=>a+(s.sides?(2*s.sec+prep+sw):(s.sec+prep)),0)/60);
+    const min=Math.round(r.steps.reduce((a,s)=>{ const sets=s.sets>1?s.sets:1, rest=Math.min(prep,15), sd=s.sides?2:1;
+      return a+prep+sd*(sets*s.sec+(sets-1)*rest)+(s.sides?sw:0); },0)/60);
     const d=document.createElement('div'); d.className='rout';
     d.innerHTML=`<div class="rh"><span class="ri">${r.emoji}</span>
       <div class="rtx"><b>${r.nom}</b><small>${r.focus} · ${r.steps.length} mouvements · ~${min} min</small></div><span class="chev">▾</span></div>
-      <div class="steps">${r.note?`<div class="rnote">${r.note}</div>`:''}${r.steps.map(s=>`<div class="st"><span>${s.sec}s${s.sides?' ×2':''}</span>${(()=>{const f=poseSVG(s);return f?`<div class="stfig">${f}</div>`:'';})()}<div class="stc">${s.emoji} ${s.nom} · <i class="z">${s.zone}</i>${s.why?`<small class="stwhy">🔬 ${s.why}</small>`:''}</div></div>`).join('')}</div>
+      <div class="steps">${r.note?`<div class="rnote">${r.note}</div>`:''}${r.steps.map(s=>`<div class="st"><span>${s.sec}s${s.sides?' ×2':''}${s.sets>1?' · '+s.sets+' séries':''}</span>${(()=>{const f=poseSVG(s);return f?`<div class="stfig">${f}</div>`:'';})()}<div class="stc">${s.emoji} ${s.nom} · <i class="z">${s.zone}</i>${s.why?`<small class="stwhy">🔬 ${s.why}</small>`:''}${explicFor(s)?`<small class="stwhy">📖 Mise en place détaillée pendant la séance</small>`:''}</div></div>`).join('')}</div>
       <button class="btn" data-go="1">▶ Démarrer</button>`;
     d.querySelector('.rh').onclick=()=>d.classList.toggle('open');
     d.querySelector('[data-go]').onclick=e=>{ e.stopPropagation(); startRoutine(r); };
@@ -740,21 +955,28 @@ function startRoutine(routine, planId=null){
   ac(); const phases=[];
   const prep = routine.prep || 8;              // temps de mise en place avant chaque exercice
   const sideSwitch = Math.min(prep, 8);        // transition pour changer de côté
-  routine.steps.forEach(s=>{ phases.push({kind:'prep',sec:prep,s});
-    if(s.sides){ phases.push({kind:'hold',side:'gauche',sec:s.sec,s}); phases.push({kind:'switch',sec:sideSwitch,s}); phases.push({kind:'hold',side:'droite',sec:s.sec,s}); }
-    else phases.push({kind:'hold',sec:s.sec,s}); });
+  const setRest = routine.setRest || Math.min(prep, 15); // repos court entre deux séries du même étirement
+  routine.steps.forEach(s=>{ const sets = s.sets>1 ? s.sets : 1;
+    phases.push({kind:'prep',sec:prep,s});
+    const holds = side => { for(let k=1;k<=sets;k++){ phases.push({kind:'hold',sec:s.sec,s,side,setNo:k,setTot:sets});
+      if(k<sets) phases.push({kind:'rest',sec:setRest,s}); } };
+    if(s.sides){ holds('gauche'); phases.push({kind:'switch',sec:sideSwitch,s}); holds('droite'); }
+    else holds(null); });
   const holdTotal=phases.filter(p=>p.kind==='hold').length;
   let idx=0,left=phases[0].sec,paused=false,timer=null,started=Date.now(),wl=null;
+  let showMise=true;   // mode d'emploi déplié pendant qu'on se met en place
+  const openMise=i=>{ const k=phases[i].kind; showMise=(k==='prep'||k==='switch'); };
   navigator.wakeLock?.request('screen').then(l=>wl=l).catch(()=>{});
   player.classList.add('open'); player.scrollTop=0;
   const holdNo=i=>{ let n=0; for(let k=0;k<=i;k++) if(phases[k].kind==='hold') n++; return n; };
-  function paint(){ const p=phases[idx], isTrans=(p.kind==='prep'||p.kind==='switch'); const deg=Math.max(0,Math.min(360,(1-left/p.sec)*360));
+  function paint(){ const p=phases[idx], isTrans=(p.kind==='prep'||p.kind==='switch'||p.kind==='rest'); const deg=Math.max(0,Math.min(360,(1-left/p.sec)*360));
     const doneHolds=isTrans?holdNo(idx):holdNo(idx)-1; const displayNo=Math.min(holdTotal,isTrans?holdNo(idx)+1:holdNo(idx));
     const nextSide=isTrans && phases[idx+1] ? phases[idx+1].side : null;
     let label;
     if(p.kind==='prep') label='Prépare-toi'+(nextSide?' · côté '+nextSide:'');
     else if(p.kind==='switch') label='Change de côté'+(nextSide?' · '+nextSide:'');
-    else label=(p.s.dyn?'En mouvement':'Maintiens')+(p.side?' · côté '+p.side:'');
+    else if(p.kind==='rest') label='Repos · relâche et respire';
+    else label=(p.s.dyn?'En mouvement':'Maintiens')+(p.side?' · côté '+p.side:'')+(p.setTot>1?' · série '+p.setNo+'/'+p.setTot:'');
     player.innerHTML=`<div class="player">
       <div class="ptop"><button class="pquit">✕ Quitter</button><span class="pprog">${routine.emoji} ${displayNo}/${holdTotal}</span></div>
       <div class="pbar"><i style="width:${doneHolds/holdTotal*100}%"></i></div>
@@ -762,18 +984,26 @@ function startRoutine(routine, planId=null){
         <div class="plabel">${label}</div>
         ${(()=>{const fig=poseSVG(p.s);return fig?`<div class="posewrap">${fig}</div>`:'';})()}
         <div class="ring" style="background:conic-gradient(${isTrans?'var(--dim)':'var(--acc)'} ${deg}deg, var(--bg3) 0)"><div class="ringin"><div class="ptime">${left}</div></div></div>
-        <div class="pname">${p.s.emoji} ${p.s.nom}</div><div class="pzone">${p.s.zone}</div><div class="pcue">${p.s.cue}</div>${p.s.why?`<div class="pwhy">🔬 ${p.s.why}</div>`:''}</div>
+        <div class="pname">${p.s.emoji} ${p.s.nom}</div><div class="pzone">${p.s.zone}</div><div class="pcue">${p.s.cue}</div>
+        ${(()=>{ const ex=explicFor(p.s); if(!ex) return ''; let h='';
+           if(ex.mise&&ex.mise.length){
+             h+=`<button class="phelp" data-a="help">${showMise?'▴ Masquer la mise en place':'❔ Comment on se met en place ?'}</button>`;
+             if(showMise) h+=`<ol class="mise">${ex.mise.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+           }
+           if(ex.err) h+=`<div class="perr"><b>L'erreur à éviter</b>${ex.err}</div>`;
+           return h; })()}${p.s.why?`<div class="pwhy">🔬 ${p.s.why}</div>`:''}</div>
       <div class="pctrl"><button class="pbtn" data-a="prev">‹ Préc.</button>
         <button class="pbtn main" data-a="pause">${paused?'▶ Reprendre':'❚❚ Pause'}</button>
         <button class="pbtn" data-a="next">Passer ›</button></div></div>`;
     player.querySelector('.pquit').onclick=quit;
     player.querySelector('[data-a="prev"]').onclick=()=>goto(idx-1);
     player.querySelector('[data-a="next"]').onclick=()=>goto(idx+1);
-    player.querySelector('[data-a="pause"]').onclick=()=>{ paused=!paused; paint(); }; }
-  function goto(i){ if(i<0)i=0; if(i>=phases.length){ finish(); return; } idx=i; left=phases[idx].sec; cue(phases[idx]); paint(); }
+    player.querySelector('[data-a="pause"]').onclick=()=>{ paused=!paused; paint(); };
+    const hb=player.querySelector('[data-a="help"]'); if(hb) hb.onclick=()=>{ showMise=!showMise; paint(); }; }
+  function goto(i){ if(i<0)i=0; if(i>=phases.length){ finish(); return; } idx=i; left=phases[idx].sec; openMise(idx); cue(phases[idx]); paint(); }
   function cue(p){ if(p.kind==='hold') beep(660,.25,.4); else beep(440,.15,.3); if(navigator.vibrate)navigator.vibrate(30); }
   function step(){ if(paused)return; left--;
-    if(left<=0){ if(idx>=phases.length-1){ finish(); return; } idx++; left=phases[idx].sec; cue(phases[idx]); }
+    if(left<=0){ if(idx>=phases.length-1){ finish(); return; } idx++; left=phases[idx].sec; openMise(idx); cue(phases[idx]); }
     else if(left<=3){ tick(); } paint(); }
   function stopAll(){ clearInterval(timer); try{wl?.release();}catch(e){} wl=null; }
   function quit(){ if(confirm('Quitter la séance ? Elle ne sera pas enregistrée.')){ stopAll(); player.classList.remove('open'); } }
