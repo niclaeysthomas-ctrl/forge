@@ -240,6 +240,34 @@
   .pctrl .pbtn{flex:1;background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:15px 8px;font-size:14px;font-weight:700;cursor:pointer}
   .pctrl .pbtn.main{flex:1.4;background:var(--acc);color:#062018}
   .pctrl .pbtn:active{transform:scale(.97)}
+  /* ---- boxe ---- */
+  .bxsel{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .bxopt{border:1px solid var(--line);background:var(--bg3);border-radius:13px;padding:13px 10px;text-align:center;cursor:pointer}
+  .bxopt .i{font-size:24px;display:block;margin-bottom:5px}
+  .bxopt b{display:block;font-size:14px}
+  .bxopt small{display:block;color:var(--dim);font-size:11.5px;margin-top:3px;line-height:1.35}
+  .bxopt.on{border-color:var(--boxe);background:#2a1418}
+  .bxopt.on b{color:var(--boxe)}
+  .bxfmt{display:flex;gap:8px;margin-top:10px}
+  .bxfmt button{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--dim);border-radius:10px;padding:10px 4px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .bxfmt button.on{border-color:var(--boxe);background:#2a1418;color:var(--boxe)}
+  .bxvol{display:flex;align-items:center;gap:14px}
+  .bxvol b{font-size:26px;font-weight:900;line-height:1}
+  .bxvol small{display:block;color:var(--dim);font-size:11.5px;margin-top:2px}
+  .bxvol .vbar{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+  .bxvol .vbar i{display:block;height:100%;background:var(--boxe);border-radius:4px}
+  .bxcode{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .bxcode span{font-size:12.5px;color:#b9c7d6;background:var(--bg3);border:1px solid var(--line);border-radius:9px;padding:8px 10px}
+  .bxcode b{color:var(--boxe);margin-right:6px;font-size:14px}
+  .bxcue{background:#2a1418;border:1px solid #55232c;color:#ffb3ba;border-radius:12px;padding:11px 14px;
+    font-size:16px;font-weight:800;margin:10px auto 2px;max-width:440px;line-height:1.4}
+  .bxtest{text-align:left;max-width:440px;margin:10px auto 0;padding:11px 13px;background:#12261e;border:1px solid #1d4a31;
+    border-radius:11px;font-size:13.5px;color:#bfe3cf;line-height:1.5}
+  .bxtest b{color:var(--ok)}
+  .bxnext{text-align:left;max-width:440px;margin:12px auto 0;padding:11px 13px;background:var(--bg2);border:1px solid var(--line);border-radius:11px}
+  .bxnext small{display:block;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:800}
+  .bxnext b{display:block;font-size:15px;margin:3px 0 4px}
+  .bxnext span{font-size:12.5px;color:#b9c7d6;line-height:1.45}
   .pdone{text-align:center;padding:30px 0}.pdone .big{font-size:60px}
 </style>
 </head>
@@ -250,6 +278,7 @@
   <nav><div class="in">
     <button data-tab="today" class="on"><span class="i">📅</span>Aujourd'hui</button>
     <button data-tab="sess"><span class="i">🏋️</span>Séances</button>
+    <button data-tab="boxe"><span class="i">🥊</span>Boxe</button>
     <button data-tab="jour"><span class="i">📓</span>Journal</button>
     <button data-tab="prog"><span class="i">📈</span>Progrès</button>
   </div></nav>
@@ -584,15 +613,15 @@ const WEEK={
     {id:'piano',emoji:'🎹',nom:'Piano',detail:'Session Piano Dojo',act:'piano'},
     {id:'pushA',emoji:'💪',nom:'Push A — Force',detail:'Pecs · épaules · triceps (6–10 reps)',act:'work:pushA'},
   ]},
-  1:{focus:'Cardio + Tirage',items:[
+  1:{focus:'Boxe + Tirage',items:[
     {id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'},
-    {id:'course',emoji:'🏃',nom:'Course — fractionné',detail:'20–25 min, intervalles',act:'run'},
+    {id:'boxeC',emoji:'🥊',nom:'Boxe — conditionnement',detail:'Rythme, intervalles, tenir le round',act:'boxe:condition'},
     {id:'pull',emoji:'🪝',nom:'Pull — Dos',detail:'Dos · biceps · arrière épaule',act:'work:pull'},
-    {id:'core',emoji:'🧱',nom:'Gainage',detail:'Circuit core ~6 min',act:'circuit:core'},
   ]},
-  2:{focus:'Mobilité',items:[
+  2:{focus:'Mobilité + technique',items:[
     {id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'},
     {id:'mobilite',emoji:'🔧',nom:'Mobilité santé',detail:'Dos, hanches, chevilles, épaules, poignets',act:'soup:mobilite'},
+    {id:'boxeT',emoji:'🥊',nom:'Boxe — technique',detail:'Skill pur, peu de fatigue : le bon jour',act:'boxe:tech'},
     {id:'soupc',emoji:'🧘',nom:'Souplesse complète',detail:'Séance longue, tout le corps',act:'soup:complete'},
   ]},
   3:{focus:'Push — Volume',items:[
@@ -605,9 +634,9 @@ const WEEK={
     {id:'legs',emoji:'🦿',nom:'Legs — Jambes',detail:'Quadris · ischios · fessiers · mollets',act:'work:legs'},
     {id:'core',emoji:'🧱',nom:'Gainage',detail:'Circuit core ~6 min',act:'circuit:core'},
   ]},
-  5:{focus:'Cardio long + Souplesse',items:[
+  5:{focus:'Boxe complète + Souplesse',items:[
     {id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'},
-    {id:'course',emoji:'🏃',nom:'Course longue',detail:'30–45 min, endurance',act:'run'},
+    {id:'boxeK',emoji:'🥊',nom:'Boxe — séance complète',detail:'La séance de club : technique, frappe, physique',act:'boxe:complet'},
     {id:'plancher',emoji:'🎯',nom:'Souplesse « Vers le sol »',detail:'Ischios, hanches, dos (à chaud)',act:'soup:plancher'},
   ]},
   6:{focus:'Repos actif',items:[
@@ -651,6 +680,7 @@ const TIMING={
   'work':         {top:['pic'],                       ok:['matin','aprem'],          why:"Force et puissance culminent en fin d'après-midi, quand la température corporelle est au plus haut. Plus tôt, c'est possible — mais l'échauffement doit être deux fois plus long."},
   'run':          {top:['pic'],                       ok:['reveil','matin','aprem'], why:"Le cardio supporte l'heure matinale bien mieux que la fonte : allure et confort restent meilleurs en fin de journée, mais courir tôt reste une vraie option."},
   'circuit:core': {top:['matin','aprem','pic'],       ok:['reveil','soir'],          why:"Gainage : peu d'amplitude, peu de risque à froid. Cale-le où tu veux dans la journée."},
+  'boxe':         {top:['pic'],                      ok:['matin','aprem'],          why:"La boxe demande les deux choses qui culminent en fin d'après-midi : un système nerveux frais pour la coordination fine, et une température corporelle haute pour la puissance. Le matin ta vitesse de réaction est mesurablement plus basse et tes épaules sont froides — si tu y vas quand même, double l'échauffement et laisse tomber les rounds de puissance."},
   'piano':        {top:['matin','aprem','pic','soir'],ok:['reveil'],                 why:"Pas un entraînement physique : le seul créneau à éviter, c'est celui où tu réveilles la maison."},
 };
 function timingFor(it){ const a=it.act||''; return TIMING[a]||TIMING[a.split(':')[0]]||{top:[],ok:[],why:''}; }
@@ -662,7 +692,7 @@ function suggestNow(day,cr){ const todo=day.items.filter(it=>!planDone(it.id)); 
     if(!best||r>best.rank) best={it:it,rank:r}; }); return best; }
 
 /* ---------------- état ---------------- */
-const DEFAULT={ mobLog:[], workoutLog:[], journal:[], floorTests:[], planDone:{}, prReps:{}, curWk:null, restDur:90 };
+const DEFAULT={ mobLog:[], workoutLog:[], journal:[], boxeLog:[], floorTests:[], planDone:{}, prReps:{}, curWk:null, restDur:90, bx:{sac:null,fmt:"pro"} };
 let S=load();
 function load(){ try{ return Object.assign({},DEFAULT,JSON.parse(localStorage.getItem('forge_v2')||'{}')); }catch(e){ return {...DEFAULT}; } }
 function save(){ localStorage.setItem('forge_v2',JSON.stringify(S)); }
@@ -670,7 +700,7 @@ const todayStr=()=>new Date().toISOString().slice(0,10);
 const dayIdx=()=>(new Date().getDay()+6)%7;
 const frDate=ds=>new Date(ds+'T12:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
 
-function activityDays(){ const s=new Set(); S.mobLog.forEach(m=>s.add(m.date)); S.workoutLog.forEach(w=>s.add(w.date)); S.journal.forEach(j=>s.add(j.date)); return s; }
+function activityDays(){ const s=new Set(); S.mobLog.forEach(m=>s.add(m.date)); (S.boxeLog||[]).forEach(b=>s.add(b.date)); S.workoutLog.forEach(w=>s.add(w.date)); S.journal.forEach(j=>s.add(j.date)); return s; }
 function dayStreak(){ const days=activityDays(); const ds=x=>x.toISOString().slice(0,10);
   let d=new Date(),n=0; if(!days.has(ds(d))) d.setDate(d.getDate()-1);
   while(days.has(ds(d))){ n++; d.setDate(d.getDate()-1); } return n; }
@@ -716,6 +746,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
 function render(){ main.innerHTML=''; clearInterval(todayClock);
   if(curTab==='today') renderToday();
   else if(curTab==='sess') renderSess();
+  else if(curTab==="boxe") renderBoxe();
   else if(curTab==='jour') renderJour();
   else renderProg();
   updateHeader();
@@ -802,6 +833,9 @@ function runAction(it){ const a=it.act;
   else if(a.indexOf('soup:')===0){ const r=ROUTINES.find(x=>x.id===a.slice(5)); if(r) startRoutine(r,it.id); }
   else if(a.indexOf('circuit:')===0){ if(a.slice(8)==='core') startRoutine(CORE,it.id); }
   else if(a.indexOf('work:')===0){ const w=WORKOUTS.find(x=>x.id===a.slice(5)); if(w) startWorkout(w,it.id); }
+  else if(a.indexOf("boxe")===0){ const s=bxChoix(a.split(":")[1]);
+    if(!s){ curTab="boxe"; document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x.dataset.tab==="boxe")); render(); toast("Choisis d'abord : sac ou pas de sac."); }
+    else startBoxe(s,it.id); }
 }
 
 /* ================================================================ SÉANCES (bibliothèque) + séance muscu active */
@@ -1018,6 +1052,818 @@ function startRoutine(routine, planId=null){
   cue(phases[0]); paint(); timer=setInterval(step,1000);
 }
 
+
+/* ================================================================ BOXE
+   Séances de boxe anglaise guidées round par round, niveau avancé.
+   Un round = UN objectif technique, une mise en place, une exécution
+   détaillée, l'erreur qui tue, et le critère de réussite. Des relances
+   de coach (cues) tombent pendant le round.
+   Code des coups : 1 jab · 2 direct arrière · 3 crochet avant ·
+   4 crochet arrière · 5 uppercut avant · 6 uppercut arrière.
+   -------- structure d'un round --------
+   {t, nom, full|sec, rest, but, mise[], faire[], err, test, cues[[s,txt]]}
+   full:1 => durée et repos pris dans le format de round choisi.        */
+
+const BXFMT={
+  court:{sec:120,rest:60,nom:'2 min / 1 min',det:"Rounds courts : technique nette. En reprise, ou quand tu es cuit."},
+  pro:  {sec:180,rest:60,nom:'3 min / 1 min',det:"Le format professionnel. C'est celui-là qui doit devenir ta norme."},
+  dur:  {sec:180,rest:45,nom:'3 min / 45 s', det:"Repos écourté : conditionnement de fin de camp. Ne vis pas là-dedans."},
+};
+const BXT={ corde:{e:'🪢',n:'Échauffement'}, ombre:{e:'👤',n:'Ombre'}, sac:{e:'🥊',n:'Sac'},
+            phys:{e:'🧱',n:'Physique'}, calme:{e:'🌬️',n:'Retour au calme'} };
+
+/* ---------------- les briques : 45 rounds écrits une fois ---------------- */
+const BR={
+
+/* ========== ÉCHAUFFEMENT ========== */
+corde:{t:'corde',nom:'Corde à sauter — appuis',sec:180,rest:45,
+  but:"Monter la température et réveiller la cheville, qui est le vrai moteur de tes déplacements. Un boxeur avancé ne saute pas pour se fatiguer : il saute pour retrouver son rebond.",
+  mise:["Corde réglée : les poignées arrivent aux aisselles quand tu marches sur le milieu.",
+        "Coudes près du corps, ce sont les poignets qui tournent, pas les bras.",
+        "Regard à l'horizontale, pas sur tes pieds."],
+  faire:["1re minute : saut à deux pieds, rebond bas (2–3 cm), contact silencieux.",
+         "2e minute : course sur place, genoux bas, rythme régulier.",
+         "3e minute : pas de boxeur (poids qui passe d'un pied sur l'autre, comme en garde).",
+         "Reste sur l'avant du pied. Le talon ne touche jamais complètement."],
+  err:"Sauter haut et lourd. Tu tapes dans le sol, tu montes le cardio pour rien et tu arrives au 1er round avec des mollets déjà chargés.",
+  test:"Tu n'entends presque pas tes appuis et tu respires encore par le nez.",
+  cues:[[50,"Rebond plus bas — silencieux"],[110,"Course sur place maintenant"],[150,"Pas de boxeur : trouve ton rythme de garde"]]},
+
+corde2:{t:'corde',nom:'Corde à sauter — mise en route',sec:120,rest:40,
+  but:"Format court : on met la machine en route sans y laisser d'énergie.",
+  mise:["Coudes près du corps, poignets actifs.","Avant du pied, rebond bas."],
+  faire:["1 min de saut simple, régulier.","1 min de pas de boxeur en alternant les appuis.","Termine par 15 s un peu plus vif pour ouvrir la respiration."],
+  err:"Partir trop fort : l'échauffement n'est pas la séance.",
+  test:"Tu as chaud et tu n'es pas essoufflé.",
+  cues:[[60,"Pas de boxeur — transfert d'un pied sur l'autre"],[105,"15 dernières secondes un peu plus vif"]]},
+
+corde_var:{t:'corde',nom:'Corde — coordination',sec:180,rest:45,
+  but:"Coordonner pieds et mains à haute fréquence : c'est le même système nerveux qui servira à enchaîner déplacement et frappe.",
+  mise:["Même position que le round précédent, tu es déjà chaud.","Assez d'espace pour les croisés."],
+  faire:["30 s pieds alternés (course).","30 s croisés de bras (criss-cross).","30 s pied gauche seul, 30 s pied droit seul.","30 s double-unders ou tentatives.","30 s libre, le plus fluide possible."],
+  err:"S'arrêter à chaque raté. Tu relances immédiatement — la boxe c'est reprendre le fil après l'accident.",
+  test:"Tu enchaînes les changements sans casser la cadence plus d'une seconde.",
+  cues:[[30,"Croisés de bras"],[60,"Pied gauche seul"],[90,"Pied droit seul"],[120,"Double-unders"],[150,"Libre et fluide"]]},
+
+mobil:{t:'corde',nom:'Mobilité spécifique boxe',sec:120,rest:30,
+  but:"Ouvrir les trois articulations que la boxe sollicite en amplitude extrême : épaule (crochets, garde haute), colonne thoracique (rotations, esquives), hanche (transfert de puissance).",
+  mise:["Debout, pieds largeur de bassin.","Mouvements amples et contrôlés, jamais balistiques à froid."],
+  faire:["20 s cercles d'épaules arrière, grands.","20 s rotations du buste, bras relâchés qui fouettent.","20 s rotations de nuque lentes (gauche/droite, pas de cercle complet).","20 s cercles de hanche.","20 s fentes avec rotation du buste vers la jambe avant.","20 s rotations de poignets et de chevilles."],
+  err:"Étirer en tenue longue avant de frapper : l'étirement statique avant l'effort réduit ta puissance. Ici tout est en mouvement.",
+  test:"Tes épaules montent en garde haute sans tension dans la nuque.",
+  cues:[[20,"Rotations du buste"],[40,"Nuque, lentement"],[60,"Hanches"],[80,"Fentes avec rotation"],[100,"Poignets et chevilles"]]},
+
+ombre_chauffe:{t:'ombre',nom:'Ombre à vide — 50 %',full:1,rest:60,
+  but:"Faire répéter le geste au système nerveux avant de mettre de la force dedans. C'est le round qui évite les blessures d'épaule et de poignet.",
+  mise:["Garde haute, menton rentré, coudes le long des côtes.","Poids réparti, talon arrière légèrement décollé.","Regard à hauteur du menton d'un adversaire de ta taille."],
+  faire:["Tout à 50 % de vitesse, 0 % de force.","Passe en revue tout ton arsenal : 1, 1-2, 1-2-3, 3-4, 5-6, corps puis tête.","Un déplacement entre chaque enchaînement — jamais deux séries de coups au même endroit.","Vers la fin du round, monte à 70 % sur les mains uniquement, jamais sur l'impact."],
+  err:"Claquer les coudes à vide à pleine vitesse. À vide, rien n'arrête ton bras : c'est comme ça qu'on abîme un coude sur un round d'échauffement.",
+  test:"Tu as touché tous tes coups au moins une fois et tes épaules sont chaudes.",
+  cues:[[45,"Ajoute le corps : 1 au corps, 2 à la tête"],[100,"Un déplacement entre chaque série"],[150,"Monte à 70 % — sans claquer les coudes"]]},
+
+/* ========== OMBRE — technique ========== */
+depl_nus:{t:'ombre',nom:'Déplacements nus — zéro coup',full:1,rest:60,
+  but:"Tout ce que tu construis au-dessus repose sur les pieds. Un round entier sans frapper, uniquement pour que ta garde ne se déforme jamais quand tu bouges.",
+  mise:["Garde complète, comme si tu boxais. Les mains ne descendent pas de tout le round.",
+        "Pied avant à plat, talon arrière décollé, genoux souples.",
+        "Espace : environ 3 pas dans chaque direction."],
+  faire:["Pas chassé avant : le pied avant part en premier, le pied arrière suit — jamais l'inverse.",
+         "Pas chassé arrière : le pied arrière part en premier.",
+         "Latéral droite / gauche : c'est le pied du côté où tu vas qui initie.",
+         "Pivot sur le pied avant : 45°, puis 90°, dans les deux sens.",
+         "Toutes les 20 secondes, change de direction sans prévenir — comme si l'autre te coupait le ring."],
+  err:"Croiser les pieds ou rapprocher les appuis à moins d'une largeur de bassin. Dans les deux cas tu es sur un fil : le premier coup qui arrive te met au sol.",
+  test:"À la fin du round, ton écartement d'appuis est exactement le même qu'au début, et ta garde n'a pas bougé d'un centimètre.",
+  cues:[[35,"Latéraux maintenant — le pied du côté part en premier"],[80,"Pivot sur le pied avant, 90°"],[125,"Change de direction toutes les 3 secondes"],[165,"Garde : tes mains sont-elles encore hautes ?"]]},
+
+jab4:{t:'ombre',nom:'Le jab sous quatre formes',full:1,rest:60,
+  but:"Le jab n'est pas un coup, c'est quatre outils différents. Un boxeur avancé se reconnaît à sa capacité à changer la fonction de son jab sans changer sa posture.",
+  mise:["Garde haute, main arrière collée à la joue — elle ne bouge pas de tout le round.",
+        "Épaule avant légèrement remontée vers le menton.",
+        "Distance : à bout de bras avant d'un adversaire imaginaire."],
+  faire:["45 s — Jab de mesure : léger, rapide, il prend la distance et rentre le radar. Il ne doit rien peser.",
+         "45 s — Jab appuyé : même trajectoire, mais accompagné d'un demi-pas avant et d'une rotation d'épaule. Celui-là fait reculer.",
+         "45 s — Jab au corps : plie les jambes (pas le dos !), touche le plexus, ressors en gardant la main arrière haute.",
+         "45 s — Jab double : deux jabs sur la même expiration, le second plus long que le premier.",
+         "Après chaque jab, le bras revient au menton par le même chemin. Jamais par en dessous."],
+  err:"Ouvrir l'épaule et laisser la main arrière décoller du menton pour allonger le jab. C'est exactement l'ouverture qu'un contre-attaquant attend.",
+  test:"Sur le jab au corps, tu descends en pliant les genoux et ton dos reste droit — si tu te casses en deux, tu prends l'uppercut.",
+  cues:[[45,"Jab appuyé : demi-pas avant, rotation d'épaule"],[90,"Jab au corps : plie les jambes, dos droit"],[135,"Jab double, le second plus long"],[170,"La main arrière a-t-elle quitté ta joue ?"]]},
+
+halfstep:{t:'ombre',nom:'Le demi-pas — toucher sans entrer',full:1,rest:60,
+  but:"Toucher depuis une distance où l'autre te croit hors de portée. Le demi-pas (half-step) est l'arme la plus sous-travaillée des boxeurs amateurs — et celle qui distingue les pros.",
+  mise:["Place-toi volontairement 20 cm plus loin que ta distance de jab habituelle.",
+        "Poids légèrement sur le pied arrière, prêt à pousser.",
+        "Garde haute : tu vas rentrer dans la zone de l'autre."],
+  faire:["Le mouvement : le pied avant glisse de 15–20 cm vers l'avant AU MOMENT où le jab part — pas avant, pas après.",
+         "La poussée vient du pied arrière. Le corps se déplace d'un bloc, la tête ne plonge pas.",
+         "Dès que le coup est parti, le pied arrière rattrape la distance et tu ressors immédiatement.",
+         "Alterne : demi-pas + 1 · demi-pas + 1-2 · demi-pas + 1, sortie latérale.",
+         "Une répétition toutes les 4 ou 5 secondes : c'est un round de qualité, pas de volume."],
+  err:"Tendre le bras en se penchant en avant pour « atteindre » la cible. Ta tête arrive avant ton poing et tu boxes le buste penché : tu es à la fois court et exposé.",
+  test:"Ton buste reste au-dessus de ton bassin pendant toute l'entrée, et tu es ressorti avant d'avoir compté deux secondes.",
+  cues:[[40,"Le pied glisse EN MÊME TEMPS que le poing"],[90,"Ressors immédiatement après le coup"],[140,"Ajoute la sortie latérale après le 1-2"],[170,"La tête ne plonge pas en avant"]]},
+
+entrersortir:{t:'ombre',nom:'Entrer, frapper, sortir en angle',full:1,rest:60,
+  but:"Le schéma de base du boxeur technique : on n'entre pas pour rester. Tu entres, tu touches, et tu ressors par un côté — jamais par où tu es venu.",
+  mise:["Imagine un adversaire qui avance en ligne droite sur toi.",
+        "Garde haute, appuis mobiles, jamais figés."],
+  faire:["Entrée sur 1-2, puis pivot sur le pied avant pour sortir à 45° côté extérieur.",
+         "Alterne les sorties : une fois à gauche, une fois à droite.",
+         "Après chaque sortie, un jab immédiat depuis le nouvel angle : c'est le coup qui « ferme » la séquence.",
+         "Une séquence complète toutes les 6–8 secondes, avec de vrais déplacements entre.",
+         "Tu ne recules jamais en ligne droite : c'est la seule règle absolue du round."],
+  err:"Sortir en reculant sur la même ligne que l'entrée. C'est là que tu prends le coup : l'autre n'a qu'à avancer, tu es encore dans sa portée.",
+  test:"Sur les 20 dernières secondes, demande-toi : est-ce que j'ai reculé une seule fois en ligne droite ? Si oui, le round est raté.",
+  cues:[[40,"Sors par l'extérieur, pas en arrière"],[85,"Un jab depuis le nouvel angle"],[130,"Change le côté de sortie"],[168,"Tu n'as pas reculé en ligne droite ?"]]},
+
+jabarret:{t:'ombre',nom:"Jab d'arrêt en reculant",full:1,rest:60,
+  but:"Apprendre à frapper pendant que tu recules. Un boxeur qui ne sait reculer qu'en subissant finit dans les cordes ; celui qui touche en reculant reprend le centre.",
+  mise:["Adversaire imaginaire qui avance sans arrêt sur toi.",
+        "Poids déjà réparti, prêt à pousser sur le pied avant."],
+  faire:["Recule d'un pas chassé et place le jab EXACTEMENT quand ton pied arrière touche le sol — pas en l'air.",
+         "Variante : jab d'arrêt + pivot immédiat pour sortir de la ligne d'attaque.",
+         "Variante : jab d'arrêt + 2 en contre pendant que l'autre continue d'avancer.",
+         "Tous les 30 s, inverse : au lieu de reculer, tiens ta position et pose le jab d'arrêt en marchant SUR lui."],
+  err:"Frapper pendant que les deux pieds sont en l'air. Sans appui, ton coup ne pèse rien et tu perds ton équilibre au moment précis où il arrive sur toi.",
+  test:"Chaque jab part au moment où un pied est posé et stable.",
+  cues:[[40,"Le jab part quand ton pied touche le sol"],[85,"Ajoute le pivot après le jab"],[130,"Jab d'arrêt + 2 en contre"],[165,"Inverse : avance sur lui"]]},
+
+rythmebrise:{t:'ombre',nom:'Rythme brisé — casser la lecture',full:1,rest:60,
+  but:"Un adversaire lit ta cadence en trois échanges. Ce round t'entraîne à être illisible : changer de vitesse à l'intérieur d'une même séquence.",
+  mise:["Ombre libre, mais tu commandes la vitesse consciemment.",
+        "Décide avant chaque séquence de son rythme."],
+  faire:["4 blocs de 25 s explosifs séparés par 20 s de boxe fluide à 50 %.",
+         "Dans les blocs explosifs : enchaînements de 3 à 5 coups, à vitesse maximale, retour de garde après chaque.",
+         "Dans les blocs fluides : déplacements, feintes, jab de mesure — tu récupères en mouvement, tu ne t'arrêtes pas.",
+         "Sur les explosions : commence lent, accélère au milieu de l'enchaînement. C'est ce décalage qui trompe."],
+  err:"Rester à 80 % tout le round. C'est le rythme le plus prévisible qui existe, et le plus coûteux : tu te fatigues sans jamais surprendre.",
+  test:"Un observateur ne doit pas pouvoir prédire le moment de ton accélération.",
+  cues:[[25,"Fluide — récupère en bougeant"],[45,"EXPLOSION"],[70,"Fluide"],[90,"EXPLOSION"],[115,"Fluide"],[135,"EXPLOSION"],[160,"Dernier bloc, tout ce qu'il reste"]]},
+
+feinte_jab:{t:'ombre',nom:'La feinte de jab',full:1,rest:60,
+  but:"Une feinte n'est pas un faux coup : c'est un vrai début de coup que tu n'achèves pas. Si ton corps ne ment pas, personne n'y croit.",
+  mise:["Garde haute, appuis actifs.","Adversaire imaginaire à distance de jab."],
+  faire:["La feinte complète : épaule avant qui part + petit mouvement du pied avant + le regard qui vise la cible. Le bras ne se tend pas.",
+         "Feinte haute puis vrai jab au corps.",
+         "Feinte de jab puis 2 direct arrière : c'est le classique, il marche parce que la main de l'autre monte.",
+         "Feinte, PAUSE d'une demi-seconde, puis frappe. La pause est ce qui fait réagir l'adversaire.",
+         "Une feinte toutes les 5 s environ, jamais deux identiques d'affilée."],
+  err:"Feinter uniquement avec la main. Une main qui bouge sans épaule ni appui ne fait réagir personne : tu perds du temps et tu télégraphies ton vrai coup.",
+  test:"Filme 20 s : on doit être incapable de distinguer ta feinte de ton vrai jab sur la première image.",
+  cues:[[40,"Épaule + pied + regard, pas juste la main"],[85,"Feinte haute → vrai coup au corps"],[130,"Marque la pause avant de frapper"],[168,"Varie : jamais deux feintes identiques"]]},
+
+feinte_niveau:{t:'ombre',nom:'Feinte de niveau (haut-bas)',full:1,rest:60,
+  but:"Faire bouger la garde adverse verticalement. La plupart des ouvertures de haut niveau viennent de là : on fait descendre les mains, on frappe au-dessus.",
+  mise:["Genoux souples : tout le round se joue dans les jambes.","Garde haute au départ."],
+  faire:["Descente de niveau : plie les genoux de 15 cm, dos droit, comme si tu partais au corps — puis remonte et frappe à la tête.",
+         "Inverse : montre la tête (épaule qui part haut), et frappe au corps.",
+         "Enchaînement complet : feinte au corps → 1 à la tête → 3 crochet avant au corps.",
+         "La descente doit être nette et rapide, la remontée encore plus.",
+         "Sur toute la durée : ce sont les jambes qui changent ton niveau, jamais le buste qui se penche."],
+  err:"Changer de niveau en se cassant en avant au niveau de la taille. Tu présentes ta tête en avant, à hauteur idéale pour un uppercut.",
+  test:"Ton buste reste vertical sur toutes les descentes. Vérifie-le dans le miroir.",
+  cues:[[40,"C'est les genoux qui descendent, pas le dos"],[85,"Inverse : montre le haut, frappe le bas"],[130,"Enchaîne corps-tête-corps"],[168,"Buste vertical — regarde le miroir"]]},
+
+feinte_pas:{t:'ombre',nom:'Feinte de pas (step-feint)',full:1,rest:60,
+  but:"Déclencher la réaction de l'adversaire avec tes pieds, sans engager les mains. C'est la feinte la plus difficile à lire et la moins coûteuse en énergie.",
+  mise:["Distance longue, hors de portée.","Poids prêt à basculer d'un appui sur l'autre."],
+  faire:["Petit appel du pied avant (5–10 cm, sec) sans rien lancer : regarde ce que ferait l'adversaire.",
+         "Appel de pied + vrai demi-pas + 1-2 dans la foulée.",
+         "Appel de pied qui provoque son jab, puis tu esquives et tu entres sur 2.",
+         "Alterne appel avant et appel latéral (sur le côté).",
+         "Rythme : un appel toutes les 3–4 s, pour installer un doute permanent."],
+  err:"Faire de grands pas d'appel. Un appel doit être petit et sec : s'il est grand, tu t'engages vraiment et tu ne peux plus réagir à sa réponse.",
+  test:"Après chaque appel, tu es toujours en équilibre et capable de partir dans les deux sens.",
+  cues:[[40,"Appel court et sec — pas un vrai pas"],[85,"Appel puis entrée réelle sur 1-2"],[130,"Appel latéral maintenant"],[168,"Tu peux encore partir dans les deux sens ?"]]},
+
+trois_temps:{t:'ombre',nom:'Enchaînements à trois temps',full:1,rest:60,
+  but:"Structurer tes séries : un coup qui ouvre, un coup qui blesse, un coup qui sort. Trois temps, pas six — les longues séries sont un luxe de sac, pas de combat.",
+  mise:["Garde haute, appuis mobiles.","Chaque série démarre d'une position de garde parfaite."],
+  faire:["Modèle : 1 (ouvre) → 2 (blesse) → 3 ou déplacement (sort).",
+         "Répertoire du round : 1-2-3 · 1-6-3 · 3-2-3 · 1-2 au corps-3 à la tête · 5-2-3.",
+         "Entre chaque série : 3 secondes de déplacement minimum. Tu ne restes jamais planté.",
+         "Le dernier coup de chaque série est suivi immédiatement d'un pivot ou d'un pas de côté."],
+  err:"Enchaîner 6 coups parce que ça fait bien à l'ombre. Après le 3e coup, l'adversaire a déjà eu deux occasions de contrer : en combat, tu payes.",
+  test:"Aucune série du round ne dépasse 4 coups, et chacune finit en mouvement.",
+  cues:[[40,"Série de 3 maximum, puis tu bouges"],[85,"Ajoute les séries au corps"],[130,"Le dernier coup est suivi d'un pivot"],[168,"Toujours 3 secondes de déplacement entre deux séries"]]},
+
+main_vitesse:{t:'ombre',nom:'Vitesse de mains pure',full:1,rest:60,
+  but:"Travailler la fréquence de frappe et le relâchement. La vitesse ne vient pas de la force : elle vient du fait que tes bras sont décontractés jusqu'au dernier centimètre.",
+  mise:["Épaules basses et relâchées, mains hautes.","Mâchoire desserrée, respiration par le nez."],
+  faire:["Par blocs de 20 s : rafales de jabs les plus rapides possibles, retour au menton entre chaque.",
+         "Entre les blocs, 20 s de 1-2 rapides mais propres.",
+         "Contracte le poing UNIQUEMENT sur les 10 derniers centimètres, puis relâche tout de suite.",
+         "Expire en petits souffles courts, un par coup."],
+  err:"Serrer les poings et contracter les épaules pendant tout le trajet. Un muscle contracté est un frein : tu te bats contre toi-même et tu es cuit en deux rounds.",
+  test:"Tes épaules sont encore basses à la fin du round et tes bras ne brûlent pas.",
+  cues:[[25,"Relâche les épaules"],[60,"1-2 propres"],[95,"Rafale — contracte seulement à l'impact"],[140,"Souffle sur chaque coup"],[170,"Épaules basses jusqu'au bout"]]},
+
+/* ========== OMBRE — défense ========== */
+slip:{t:'ombre',nom:'Slip — esquiver les lignes droites',full:1,rest:60,
+  but:"Sortir la tête de la ligne d'attaque en gardant les deux mains disponibles. L'esquive du buste est ce qui permet de contrer, contrairement au blocage.",
+  mise:["Genoux souples, buste mobile, mains hautes et immobiles.",
+        "Imagine une ligne verticale entre toi et l'adversaire : ta tête doit la quitter, pas la suivre."],
+  faire:["Slip extérieur (vers l'extérieur de son bras avant) : rotation du buste, la tête se décale de 15 cm, les pieds ne bougent pas.",
+         "Slip intérieur : la tête passe de l'autre côté de la ligne. Plus risqué — seulement pour entrer.",
+         "Le mouvement vient d'une rotation des hanches et d'une flexion de genoux, pas d'un balancement de tête.",
+         "Alterne : slip extérieur - retour garde - slip intérieur - retour garde.",
+         "Toutes les 30 s, ajoute un jab pendant le slip : esquiver et frapper dans le même temps."],
+  err:"Baisser la tête ou fermer les yeux. Si tu ne vois plus, tu ne contres pas — et le second coup de l'enchaînement arrive sur une cible immobile.",
+  test:"Tes yeux restent sur la cible pendant toute l'esquive.",
+  cues:[[40,"Rotation des hanches, pas un balancement de tête"],[85,"Slip intérieur maintenant"],[130,"Ajoute le jab pendant l'esquive"],[168,"Tes yeux ne quittent pas la cible"]]},
+
+roll:{t:'ombre',nom:'Rouler sous le crochet',full:1,rest:60,
+  but:"Passer sous un coup circulaire et ressortir en position de frapper. Le roll mal fait laisse la tête en bas pendant une demi-seconde de trop : c'est ce qu'on corrige ici.",
+  mise:["Genoux bien souples, dos droit.","Garde haute — pendant le roll les mains ne descendent jamais."],
+  faire:["Descends en pliant les genoux, décris un demi-cercle avec la tête (sous le coup imaginaire) et remonte de l'autre côté.",
+         "Le poids passe d'une jambe sur l'autre pendant le passage : c'est ce transfert qui charge ton contre.",
+         "Remonte TOUJOURS en frappant : roll puis 3, ou roll puis 2.",
+         "Enchaîne deux rolls d'affilée (gauche-droite) pour passer une série de crochets.",
+         "Reste haut : la tête descend au niveau de l'épaule adverse, pas au niveau de sa ceinture."],
+  err:"Descendre trop bas et rester en bas. Tu offres la nuque et tu mets une demi-seconde à remonter : c'est le timing exact de l'uppercut.",
+  test:"Tu remontes en frappant à chaque fois, sans temps mort.",
+  cues:[[40,"Plie les genoux, garde le dos droit"],[85,"Remonte en frappant — systématiquement"],[130,"Deux rolls d'affilée"],[168,"Tu ne descends pas trop bas"]]},
+
+pull:{t:'ombre',nom:'Pull-counter — retrait et contre',full:1,rest:60,
+  but:"Faire manquer d'un rien, puis frapper dans le trou que ça ouvre. C'est le contre le plus rentable de la boxe : il coûte presque aucune énergie.",
+  mise:["Poids légèrement sur l'avant, prêt à basculer en arrière.",
+        "Distance : exactement à la limite de son jab."],
+  faire:["Retrait : le buste part en arrière, le poids passe sur la jambe arrière, les pieds ne reculent PAS.",
+         "Le coup adverse doit manquer de 5 cm, pas de 30 : trop loin, tu ne peux plus contrer.",
+         "Dès que son bras revient, tu repousses sur la jambe arrière et tu places le 2 (direct arrière) dans l'axe.",
+         "Variante : retrait puis 1-2 pendant qu'il ramène sa garde.",
+         "Un cycle toutes les 5–6 s, avec des déplacements entre."],
+  err:"Reculer des pieds en même temps que le buste. Tu sors de ta propre distance de frappe : tu esquives bien et tu ne peux rien faire derrière.",
+  test:"Après chaque retrait, tu es encore à portée de toucher sans avancer d'un pas.",
+  cues:[[40,"Les pieds ne reculent pas, seul le buste part"],[85,"Contre-attaque dès que son bras revient"],[130,"Retrait puis 1-2"],[168,"Tu es toujours à portée ?"]]},
+
+parade:{t:'ombre',nom:'Parade et riposte immédiate',full:1,rest:60,
+  but:"Neutraliser sans reculer et rendre le coup dans le même temps. La parade est l'outil de celui qui veut garder le centre du ring.",
+  mise:["Garde haute, coudes serrés.","Mains actives mais pas agitées : une parade est un petit geste."],
+  faire:["Parade de la main arrière : petite tape vers l'intérieur sur son jab, 10 cm maximum, puis riposte 1-2.",
+         "Blocage d'épaule sur le direct arrière : rentre le menton derrière l'épaule avant, puis riposte 3.",
+         "Blocage des crochets : coude collé aux côtes pour le corps, avant-bras collé à la tempe pour la tête.",
+         "Règle du round : chaque défense est suivie d'une riposte dans la seconde. Pas de défense « sèche ».",
+         "Alterne les trois défenses sans ordre fixe."],
+  err:"Faire de grands gestes de parade. Tu ouvres ta garde plus grand que le coup que tu arrêtes, et l'enchaînement suivant rentre.",
+  test:"Aucune de tes défenses n'a duré plus longtemps que la riposte qui l'a suivie.",
+  cues:[[40,"Parade courte — 10 cm"],[85,"Blocage d'épaule, riposte 3"],[130,"Coude aux côtes pour le corps"],[168,"Chaque défense est suivie d'une riposte"]]},
+
+pivot_sortie:{t:'ombre',nom:'Pivot — sortir de la ligne',full:1,rest:60,
+  but:"Changer d'angle sans reculer. Quand tu ne peux pas reculer (cordes, coin), le pivot est la seule sortie — et c'est aussi la meilleure position de frappe.",
+  mise:["Imagine-toi dos aux cordes ou dans un coin.","Pied avant planté : c'est ton axe de rotation."],
+  faire:["Pivot sur la plante du pied avant, le pied arrière décrit un arc de 45 à 90°.",
+         "Pendant le pivot, la garde se resserre : tu passes un moment en zone de danger.",
+         "À la sortie, tu es sur son côté : place immédiatement 1-2 ou 3.",
+         "Enchaîne : parade → pivot → 2. Puis : slip → pivot → 3.",
+         "Alterne pivot avant (vers son côté ouvert) et pivot arrière (pour sortir du coin)."],
+  err:"Pivoter en gardant les deux pieds à plat. Tu te bloques les genoux et ton pivot prend deux fois plus de temps — l'adversaire te suit.",
+  test:"À chaque sortie, tu finis sur le côté de ton adversaire imaginaire, jamais face à lui.",
+  cues:[[40,"Pivote sur la plante du pied avant"],[85,"Garde resserrée pendant la rotation"],[130,"Frappe immédiatement à la sortie"],[168,"Tu finis sur son côté, pas en face"]]},
+
+ombre_libre:{t:'ombre',nom:'Ombre libre — adversaire qui avance',full:1,rest:60,
+  but:"Remettre ensemble tout ce que tu viens d'isoler, contre un adversaire imaginaire qui te met la pression. Sans ce round, les exercices restent des exercices.",
+  mise:["Choisis mentalement un adversaire : plus grand que toi, qui avance et qui jabbe.",
+        "Garde haute, tu prends le round au sérieux comme un vrai round."],
+  faire:["Il avance : tu contrôles avec le jab d'arrêt, tu pivotes, tu ne recules jamais en ligne droite.",
+         "Toutes les 30 s, force-toi à prendre l'initiative : entrée en 3 coups, sortie en angle.",
+         "Respire par le nez tant que tu peux, expire sur chaque coup.",
+         "Les 30 dernières secondes : tu es mené aux points, il faut que tu gagnes le round."],
+  err:"Se contenter de mimer joliment. Si tu ne vois pas l'adversaire, tu répètes une chorégraphie — et une chorégraphie ne résiste pas au premier coup reçu.",
+  test:"Tu dois pouvoir raconter le round : ce qu'il a tenté, ce que tu as fait pour l'en empêcher.",
+  cues:[[30,"Il avance — jab d'arrêt et pivot"],[75,"Prends l'initiative maintenant"],[120,"Il te coupe le ring : sors par un angle"],[155,"30 dernières secondes : va chercher le round"]]},
+
+ombre_defense:{t:'ombre',nom:'Round défensif — il ne doit pas te toucher',full:1,rest:60,
+  but:"Un round entier avec une seule consigne : ne pas être touché. C'est en se contraignant qu'on arrête de bloquer par réflexe et qu'on apprend à esquiver.",
+  mise:["Adversaire imaginaire qui enchaîne des séries de 3 coups.","Genoux souples, buste mobile, mains hautes."],
+  faire:["Tu as le droit de frapper, mais chaque coup doit partir DEPUIS une esquive.",
+         "Rotation des défenses : slip, roll, retrait, pivot. Tu ne prends jamais deux fois la même sur deux attaques de suite.",
+         "Interdiction de reculer plus de deux pas d'affilée.",
+         "Toutes les 45 s : trois esquives enchaînées sans frapper, puis une riposte."],
+  err:"Tout bloquer. Le blocage occupe tes mains et te laisse à la même place : il te maintient dans le danger au lieu de t'en sortir.",
+  test:"Tu finis le round avec les mains encore hautes et les jambes encore actives.",
+  cues:[[40,"Varie : tu viens de faire deux fois la même esquive"],[85,"Interdiction de reculer — pivote"],[130,"Trois esquives puis une riposte"],[168,"Mains hautes jusqu'à la cloche"]]},
+
+/* ========== SAC ========== */
+sac_jab:{t:'sac',nom:'Jab au sac — placement, pas frappe',full:1,rest:60,
+  but:"Le jab au sac n'est pas fait pour le bouger. Il est fait pour toucher exactement le même point, à la même distance, cent fois. C'est un round de calibration.",
+  mise:["Place-toi à distance : bras avant tendu, ton poing touche le sac sans que tu te penches.",
+        "Repère un point précis du sac à hauteur de menton (une couture, une marque).",
+        "Poings bien serrés à l'impact, poignets alignés avec l'avant-bras."],
+  faire:["Jabs isolés, un toutes les 2 s. Objectif : toucher le même point à chaque fois.",
+         "Le sac doit à peine bouger — s'il part loin, tu pousses au lieu de frapper.",
+         "Rotation du poing au dernier moment (paume vers le sol à l'impact), poignet ferme.",
+         "Toutes les 45 s, ajoute un demi-pas pour placer le jab depuis plus loin.",
+         "Vérifie ton poignet : douleur = alignement raté, pas manque de force."],
+  err:"Frapper le sac en poussant. Un jab qui pousse le sac est un jab qui n'a pas de vitesse terminale — et qui casse les poignets à la longue.",
+  test:"Le sac oscille peu mais claque à chaque impact.",
+  cues:[[45,"Même point à chaque fois"],[90,"Ajoute le demi-pas"],[135,"Le sac bouge trop ? Tu pousses"],[170,"Poignet ferme, alignement"]]},
+
+sac_direct:{t:'sac',nom:'Direct arrière — le transfert',full:1,rest:60,
+  but:"Faire venir la puissance du sol et pas du bras. C'est le coup qui met KO : s'il part de l'épaule, il ne pèse rien et il t'épuise.",
+  mise:["Distance de 1-2 : à bout de bras avant, sans te pencher.",
+        "Garde haute, menton rentré, coudes collés aux côtes.",
+        "Poids 50/50, talon arrière décollé d'un centimètre."],
+  faire:["Un seul direct arrière toutes les 3 s. Qualité absolue, zéro rafale.",
+         "Séquence du coup : pivot du pied arrière (talon vers l'extérieur) → hanche → épaule → poing. Dans cet ordre, jamais l'inverse.",
+         "Le poing part du menton et revient au menton. La main avant ne quitte pas la joue.",
+         "Expire court et sec à l'impact ; serre le poing seulement sur le dernier tiers du trajet.",
+         "Dernière minute : 1-2, où le 2 porte tout le poids."],
+  err:"Se pencher en avant pour « mettre du poids ». Tu perds l'équilibre, tu offres ta tête, et tu ne peux pas enchaîner. Le buste reste au-dessus du bassin.",
+  test:"Après chaque coup tu es en garde, stable, capable d'en remettre un immédiatement.",
+  cues:[[40,"Regarde ton talon arrière : il doit pivoter"],[90,"Le poing revient au menton, pas à la hanche"],[140,"Expire sec à l'impact"],[170,"1-2 : tout le poids sur le 2"]]},
+
+sac_crochet:{t:'sac',nom:'Crochet — le coup qu on rate le plus',full:1,rest:60,
+  but:"Le crochet est le coup le plus souvent mal exécuté par les boxeurs qui progressent : trop de bras, pas assez de pivot, coude trop bas. On le remet en place ici.",
+  mise:["Rapproche-toi : tu es à distance de crochet, plus près que pour le direct.",
+        "Coude à hauteur du poing (angle ~90°) : ni plus haut, ni plus bas.",
+        "Poignet verrouillé, paume vers toi ou vers le sol — mais jamais mou."],
+  faire:["30 s crochet avant à la tête : pivot du pied avant, hanche qui tourne, le bras ne fait que suivre.",
+         "30 s crochet avant au corps : même mécanique, mais tu plies les jambes pour descendre le niveau.",
+         "30 s crochet arrière : plus long à armer, donc à placer derrière un autre coup — jamais en premier.",
+         "Puis 1 min 30 : enchaînements 1-3, 1-2-3, 3 au corps-3 à la tête.",
+         "Sur chaque crochet : le pied du même côté pivote. Pas de pivot = pas de crochet."],
+  err:"Armer le crochet en ramenant le poing en arrière avant de frapper. Ça se voit à trois mètres et ça t'expose pendant tout l'armement.",
+  test:"Chaque crochet fait pivoter ton pied du même côté, et ton coude reste à hauteur du poing.",
+  cues:[[30,"Crochet au corps — plie les jambes"],[60,"Crochet arrière, jamais en premier"],[90,"Enchaîne 1-3"],[140,"Le pied pivote sur chaque crochet"],[170,"Coude à hauteur de poing"]]},
+
+sac_upper:{t:'sac',nom:'Uppercut — jambes, pas bras',full:1,rest:60,
+  but:"L'uppercut vient d'une poussée de jambe, pas d'un lancer de bras. Bien fait, c'est le coup qui passe la garde ; mal fait, c'est celui qui te déséquilibre.",
+  mise:["Distance courte : tu dois être assez près pour que ton coude reste plié.",
+        "Genoux souples, prêt à descendre puis pousser."],
+  faire:["Descends légèrement du côté du coup (flexion de genou), puis pousse vers le haut en tournant la hanche.",
+         "La trajectoire est courte : le poing monte de 20–30 cm, pas depuis la ceinture.",
+         "Uppercut avant (5) puis uppercut arrière (6), alternés, une répétition toutes les 2 s.",
+         "Dernière minute : 5-3-2 et 2-5-3, les enchaînements où l'uppercut ouvre la garde et le crochet passe derrière.",
+         "L'autre main reste collée au menton pendant tout le mouvement."],
+  err:"Balancer le bras depuis le bas, buste penché en arrière. Tu perds l'appui, tu n'as aucune puissance, et tu es ouvert à tout ce qui arrive en ligne droite.",
+  test:"Ton buste ne part pas en arrière et tu restes capable d'enchaîner immédiatement.",
+  cues:[[40,"Pousse avec la jambe, le bras ne fait que guider"],[90,"Trajectoire courte — pas depuis la ceinture"],[130,"Enchaîne 5-3-2"],[168,"L'autre main est au menton ?"]]},
+
+sac_12:{t:'sac',nom:'1-2 puissant et retour de garde',full:1,rest:60,
+  but:"L'enchaînement le plus utilisé de la boxe, travaillé pour ce qui compte vraiment : ce qui se passe APRÈS le deuxième coup.",
+  mise:["Distance de 1-2, garde haute.","Talon arrière décollé, prêt à pivoter."],
+  faire:["1-2 à pleine puissance, puis retour de garde immédiat et un pas de côté.",
+         "Le jab prépare : il n'est pas un coup d'échauffement, il doit peser assez pour que l'autre réagisse.",
+         "Le 2 part AVANT que le jab soit complètement revenu : c'est ce chevauchement qui rend l'enchaînement rapide.",
+         "Un enchaînement toutes les 5 s, avec un vrai déplacement entre chaque.",
+         "Dernière minute : 1-2 puis esquive imaginaire de son contre, puis 3."],
+  err:"Admirer son 1-2 en restant planté devant le sac. Le contre arrive exactement à ce moment-là : tes deux mains sont en bas et tes pieds sont figés.",
+  test:"Après chaque 1-2, tes deux mains sont revenues au menton avant que tu bouges.",
+  cues:[[40,"Retour de garde AVANT de bouger"],[90,"Le 2 part avant que le jab soit rentré"],[130,"Un déplacement entre chaque série"],[168,"Ajoute l'esquive puis le 3"]]},
+
+sac_corpstete:{t:'sac',nom:'Corps-tête : faire descendre la garde',full:1,rest:60,
+  but:"Le corps est la cible qui gagne les combats longs. On travaille l'alternance qui fait baisser les mains adverses et ouvre la tête.",
+  mise:["Repère deux cibles sur le sac : une à hauteur de menton, une à hauteur de foie (côté gauche du sac, un peu sous les côtes).",
+        "Pour frapper au corps, tu plies les jambes. Tu ne te penches jamais."],
+  faire:["Enchaînement de base : 1-2 à la tête, 3 au corps, 3 à la tête.",
+         "Variante : 1 au corps (en descendant le niveau), 2 à la tête.",
+         "Variante foie : 3 crochet avant au corps côté foie — c'est le coup qui arrête un adversaire.",
+         "Sur chaque descente au corps : genoux pliés, dos droit, menton rentré, main opposée au menton.",
+         "Toutes les 45 s, une série uniquement au corps pendant 10 s."],
+  err:"Descendre au corps en baissant la tête et en tendant le bras. Tu arrives tête en avant sur la ligne de son uppercut : c'est le contre le plus classique qui existe.",
+  test:"Sur chaque coup au corps, quelqu'un qui te filme voit tes genoux plier et ton dos rester droit.",
+  cues:[[45,"Descends avec les jambes"],[90,"Crochet au corps côté foie"],[135,"10 secondes uniquement au corps"],[170,"Menton rentré quand tu descends"]]},
+
+sac_combi:{t:'sac',nom:'Combinaisons complètes',full:1,rest:60,
+  but:"Assembler quatre coups qui ont une logique entre eux : chaque coup crée l'ouverture du suivant. Pas des rafales — des phrases.",
+  mise:["Distance moyenne, appuis mobiles.","Tu vas bouger autour du sac : il est un adversaire, pas un mur."],
+  faire:["Répertoire du round, une combinaison toutes les 6 s : 1-2-3-2 · 1-2-5-3 · 3-2-3-2 · 1-6-3-2 · 2-3 corps-3 tête-2.",
+         "Après chaque combinaison : sortie en angle et un jab depuis le nouvel angle.",
+         "Le dernier coup de la combinaison est toujours le plus fort.",
+         "Reste en mouvement autour du sac entre deux combinaisons, jamais planté."],
+  err:"Frapper de plus en plus vite et de moins en moins juste. Dès que la forme se casse, tu répètes un défaut à haute vitesse — c'est comme ça qu'on installe une mauvaise habitude durable.",
+  test:"La cinquième combinaison ressemble exactement à la première.",
+  cues:[[45,"Sortie en angle après chaque série"],[90,"Le dernier coup est le plus fort"],[135,"Reste en mouvement autour du sac"],[170,"La forme tient-elle encore ?"]]},
+
+sac_distance:{t:'sac',nom:'Le sac qui revient — distance et timing',full:1,rest:60,
+  but:"Utiliser le balancement du sac comme un adversaire qui avance et recule. C'est le seul moyen, seul, de travailler le timing d'entrée réel.",
+  mise:["Lance le sac d'un bon coup pour le mettre en mouvement.",
+        "Ne le stabilise jamais avec les mains pendant le round."],
+  faire:["Quand le sac s'éloigne : tu le suis, jab de mesure, tu restes collé à la distance.",
+         "Quand le sac revient vers toi : tu frappes en reculant (jab d'arrêt) ou tu pivotes pour sortir de sa ligne.",
+         "Interdiction absolue de frapper le sac pendant qu'il arrive sur toi en te tenant immobile.",
+         "Toutes les 45 s : entre sur le sac au moment exact où il commence à repartir en arrière — c'est le timing de l'entrée en combat."],
+  err:"Boxer un sac immobile pendant tout le round. Un sac immobile ne t'apprend rien sur la distance : c'est un mur qui te laisse frapper à ton rythme.",
+  test:"Tu n'as jamais été « surpris » par le retour du sac.",
+  cues:[[40,"Il revient : jab d'arrêt ou pivot"],[85,"Suis-le quand il s'éloigne"],[130,"Entre quand il commence à repartir"],[168,"Jamais planté devant son retour"]]},
+
+sac_precision:{t:'sac',nom:'Précision — la même cible, cent fois',full:1,rest:60,
+  but:"En combat, on ne touche pas où on veut : on touche où on a répété. Ce round remplace la puissance par la justesse — et la justesse finit par produire de la puissance.",
+  mise:["Choisis trois cibles précises sur le sac : menton, plexus, foie. Marque-les mentalement (ou avec du scotch).",
+        "Intensité : 70 %. Ce n'est pas un round de force."],
+  faire:["Annonce-toi la cible avant chaque coup, et vérifie l'impact.",
+         "Séquences : 1 menton, 2 menton, 3 foie, 2 plexus, 1-2 menton.",
+         "Si un coup rate sa cible de plus de 10 cm, refais la séquence plus lentement.",
+         "Toutes les 45 s, ferme les yeux sur 3 coups : tu dois sentir la distance sans la voir.",
+         "Garde le même niveau d'intensité tout le round — c'est la régularité qu'on construit."],
+  err:"Vouloir compenser un coup raté par un coup plus fort. La précision se perd instantanément dès que la force augmente : tu t'entraînes alors à rater fort.",
+  test:"Sur les 20 derniers coups, tu peux dire pour chacun où il a touché.",
+  cues:[[45,"Annonce la cible avant de frapper"],[90,"Trois coups les yeux fermés"],[135,"Intensité constante — 70 %"],[170,"Tu sais où chaque coup a touché ?"]]},
+
+sac_pression:{t:'sac',nom:'Pression continue — marcher sur lui',full:1,rest:60,
+  but:"Apprendre à avancer sans se découvrir. Mettre la pression n'est pas foncer : c'est couper l'espace, coup après coup, en restant protégé.",
+  mise:["Commence à distance longue, tu vas gagner du terrain tout le round.",
+        "Garde serrée : menton derrière l'épaule avant, coudes aux côtes."],
+  faire:["Avance derrière ton jab : jamais un pas sans un coup qui le couvre.",
+         "Coupe l'angle : tu ne pousses pas le sac en ligne droite, tu te déplaces sur ses côtés.",
+         "Séries courtes (2 à 4 coups) suivies d'un demi-pas supplémentaire vers l'avant.",
+         "Quand tu es à distance courte : uppercuts et crochets au corps, coudes toujours serrés.",
+         "Tu ne recules qu'une fois par minute maximum, et jamais en ligne droite."],
+  err:"Avancer la tête en avant et les mains basses parce qu'on veut « mettre la pression ». C'est le profil du boxeur qui se fait contrer et qui finit par le payer cash.",
+  test:"À la fin du round, tu as avancé sans jamais avoir baissé les mains.",
+  cues:[[40,"Un pas = un coup qui le couvre"],[85,"Coupe l'angle, ne pousse pas en ligne droite"],[130,"Distance courte : uppercuts, coudes serrés"],[168,"Mains hautes jusqu'à la cloche"]]},
+
+sac_defense:{t:'sac',nom:'Frapper puis esquiver le retour',full:1,rest:60,
+  but:"Coupler l'attaque et la défense dans un seul geste. Le sac qui revient te punit exactement comme un adversaire : c'est l'exercice le plus honnête qui existe en solo.",
+  mise:["Sac lancé en mouvement franc.","Genoux souples, prêt à esquiver après chaque série."],
+  faire:["Enchaînement de 2 à 3 coups, puis esquive immédiate du retour du sac : slip, roll ou pivot.",
+         "Alterne les esquives, jamais deux fois la même de suite.",
+         "Après l'esquive, tu ripostes d'un coup avant de repartir en mouvement.",
+         "Toutes les 45 s : uniquement des esquives pendant 10 s, sans frapper."],
+  err:"Frapper puis reculer de trois pas pour éviter le sac. En combat, ces trois pas te sortent du combat et te collent aux cordes : esquive sans partir loin.",
+  test:"Tu esquives le retour sans reculer de plus d'un pas.",
+  cues:[[45,"Varie l'esquive"],[90,"Riposte après l'esquive"],[135,"10 s d'esquives pures"],[170,"Pas plus d'un pas en arrière"]]},
+
+sac_interval:{t:'sac',nom:'Intervalles — 15 s max / 45 s technique',full:1,rest:60,fix:1,
+  but:"Le conditionnement spécifique de la boxe : produire un effort maximal puis continuer à boxer proprement sans s'arrêter. C'est exactement ce que demande la fin d'un round.",
+  mise:["Sac stable au départ, garde haute.","Prépare-toi mentalement : ce round fait mal, c'est son rôle."],
+  faire:["15 s à 100 % : le maximum de coups propres possible, sans t'arrêter.",
+         "Puis 45 s de boxe technique à 60 % : déplacements, jab, 1-2, tu récupères EN BOXANT.",
+         "Trois cycles dans le round.",
+         "Pendant la phase max : les coups restent des coups, pas des tapes. Si la forme casse, ralentis.",
+         "Pendant la phase technique : respire par le nez si tu y arrives encore."],
+  err:"S'arrêter et poser les mains sur les genoux après la phase maximale. Tu t'entraînes alors à récupérer à l'arrêt — ce que l'arbitre ne t'autorisera jamais.",
+  test:"Tu n'as pas posé les mains sur tes genoux une seule fois.",
+  cues:[[0,"15 s À FOND"],[15,"Technique 60 % — récupère en boxant"],[60,"15 s À FOND"],[75,"Technique"],[120,"15 s À FOND"],[135,"Technique jusqu'à la cloche"]]},
+
+sac_burnout:{t:'sac',nom:'Finisher — les 30 dernières secondes',sec:60,rest:60,
+  but:"Reproduire la fin de round, le moment où les bras sont lourds et où les combats se gagnent. Court, brutal, et uniquement à la fin d'une séance.",
+  mise:["Tiens-toi à distance de crochet.","Accepte à l'avance que ça brûle : c'est le but."],
+  faire:["30 s de crochets alternés au corps, cadence maximale mais forme conservée.",
+         "30 s de 1-2 le plus rapide possible, retour de garde entre chaque.",
+         "Interdiction de poser les mains ou de t'arrêter.",
+         "Respire fort, par la bouche si nécessaire — là, le nez ne suffit plus."],
+  err:"Taper mou et vite pour finir le chrono. Si les coups ne sont plus des coups, tu fabriques une mauvaise habitude au moment où ton corps enregistre le plus.",
+  test:"Le dernier coup ressemble encore à un coup.",
+  cues:[[0,"Crochets au corps — à fond"],[30,"1-2 rapides jusqu'à la fin"],[50,"Dix dernières secondes, tout"]]},
+
+/* ========== PHYSIQUE ========== */
+gainage_boxe:{t:'phys',nom:'Gainage spécifique boxe',sec:180,rest:45,
+  but:"La puissance d'un coup traverse le tronc : si le tronc plie, l'énergie des jambes n'arrive jamais au poing. Gainage anti-rotation, pas abdos de plage.",
+  mise:["Tapis ou sol dur, pas de surface molle.","Bas du dos plaqué, jamais creusé."],
+  faire:["45 s planche avant-bras, fesses serrées, corps parfaitement aligné.",
+         "45 s hollow hold (bas du dos plaqué, bras et jambes tendus légèrement levés).",
+         "30 s planche latérale côté gauche, 30 s côté droit, hanches hautes.",
+         "30 s dead bug lent : bras et jambe opposés qui s'allongent sans que le dos décolle."],
+  err:"Creuser le bas du dos pour tenir plus longtemps. Tu transformes un exercice de gainage en compression lombaire, et tu ne gagnes rien pour la frappe.",
+  test:"Tu tiens chaque position sans que le bassin bouge, en respirant normalement.",
+  cues:[[45,"Hollow hold"],[90,"Planche latérale gauche"],[120,"Planche latérale droite"],[150,"Dead bug, lentement"]]},
+
+pompes_explo:{t:'phys',nom:'Explosivité du haut du corps',sec:180,rest:45,
+  but:"Produire de la force vite. En boxe, la force maximale ne sert à rien si elle met 400 ms à s'exprimer : on travaille la vitesse de production.",
+  mise:["Mains largeur d'épaules, corps gainé.","Si les pompes claquées sont hors de portée, fais-les sur une surface surélevée."],
+  faire:["30 s pompes explosives (les mains décollent du sol), qualité avant quantité.",
+         "30 s repos actif : shadow bras tendus devant, épaules qui brûlent.",
+         "30 s pompes diamant (triceps — c'est le muscle du direct).",
+         "30 s repos actif : shadow.",
+         "30 s pompes larges, tempo rapide mais amplitude complète.",
+         "30 s de gainage en planche pour finir."],
+  err:"Faire des demi-amplitudes pour aller plus vite. L'explosivité se construit sur une amplitude complète — sinon tu entraînes juste ton ego.",
+  test:"La poitrine descend à moins de 10 cm du sol sur chaque répétition.",
+  cues:[[30,"Shadow bras tendus"],[60,"Pompes diamant"],[90,"Shadow"],[120,"Pompes larges, amplitude complète"],[150,"Planche jusqu'au bout"]]},
+
+jambes_boxe:{t:'phys',nom:'Jambes de boxeur — appuis et rebond',sec:180,rest:45,
+  but:"Les jambes tiennent la garde, la distance et la fin de round. On travaille l'endurance élastique, pas la force brute.",
+  mise:["Espace dégagé, chaussures ou pieds nus selon ton sol.","Garde haute pendant tout le round : les mains ne descendent pas."],
+  faire:["45 s de pas de boxeur rapides sur place, avant du pied.",
+         "30 s de fentes sautées alternées (ou fentes dynamiques si le sol est dur).",
+         "45 s d'entrées-sorties : demi-pas avant explosif, demi-pas arrière, sans arrêt.",
+         "30 s de squats en garde (descends, remonte, mains toujours hautes).",
+         "30 s de pas chassés latéraux rapides, gauche-droite."],
+  err:"Laisser les mains descendre parce que les jambes travaillent. C'est précisément le réflexe qu'il faut détruire : en combat, la fatigue des jambes fait tomber la garde.",
+  test:"Tes mains sont à la même hauteur à la dernière seconde qu'à la première.",
+  cues:[[45,"Fentes sautées"],[75,"Entrées-sorties explosives"],[120,"Squats en garde"],[150,"Pas chassés latéraux"],[170,"Tes mains sont toujours hautes ?"]]},
+
+cou_epaules:{t:'phys',nom:"Endurance d'épaules — tenir sa garde",sec:120,rest:45,
+  but:"La garde tombe parce que les deltoïdes lâchent, pas parce que la volonté manque. On entraîne exactement ce muscle-là, dans la position exacte du combat.",
+  mise:["Garde haute, coudes serrés.","Si tu as un élastique léger : tiens-le entre les mains pour ajouter de la tension."],
+  faire:["40 s de garde haute immobile, coudes serrés, épaules qui brûlent. Tu ne baisses pas.",
+         "40 s de jabs rapides à vide, sans jamais descendre les mains sous le menton.",
+         "40 s de garde haute avec petites rotations de buste (comme si tu esquivais).",
+         "Respire régulièrement : la tentation sera de bloquer la respiration."],
+  err:"Descendre les mains « juste deux secondes » pour souffler. C'est l'habitude qui te fait prendre le coup que tu n'as pas vu, toujours en fin de round.",
+  test:"Les mains n'ont pas quitté la hauteur du menton pendant 2 minutes.",
+  cues:[[40,"Jabs rapides, mains hautes"],[80,"Rotations de buste, garde haute"],[110,"Dix dernières secondes — ne baisse pas"]]},
+
+/* ========== RETOUR AU CALME ========== */
+retour:{t:'calme',nom:'Retour au calme — respiration et épaules',sec:180,rest:0,
+  but:"Faire redescendre le système nerveux et relâcher les chaînes qui viennent de travailler. C'est aussi le moment où le cerveau consolide ce que tu viens d'apprendre.",
+  mise:["Debout ou assis, mains libres.","Respiration par le nez, expiration longue par la bouche."],
+  faire:["45 s de respiration : inspire 4 s, expire 6 s. L'expiration longue est ce qui fait redescendre le rythme cardiaque.",
+         "45 s d'étirement des épaules : bras tendu en travers de la poitrine, 20 s de chaque côté.",
+         "45 s d'ouverture de poitrine : mains croisées dans le dos, épaules en arrière, poitrine ouverte.",
+         "45 s de nuque et poignets : rotations lentes, puis étirement doux des fléchisseurs du poignet (main à plat, doigts vers toi).",
+         "Repasse mentalement le round que tu as le mieux réussi. C'est lui qu'il faut retenir."],
+  err:"Sauter cette phase pour gagner trois minutes. Les poignets et les épaules sont ce qui limite la carrière des boxeurs amateurs — et ils s'entretiennent ici.",
+  test:"Ta respiration est redescendue et tes épaules sont relâchées.",
+  cues:[[45,"Étirement des épaules"],[90,"Ouverture de poitrine"],[135,"Nuque et poignets"],[168,"Retiens ton meilleur round"]]},
+
+retour_court:{t:'calme',nom:'Retour au calme express',sec:90,rest:0,
+  but:"Version courte : la respiration et les poignets, le minimum non négociable.",
+  mise:["Debout, épaules relâchées."],
+  faire:["30 s respiration 4 s / 6 s.","30 s étirement des épaules, 15 s par côté.","30 s poignets et avant-bras."],
+  err:"Repartir sur son téléphone en sueur, sans jamais faire redescendre le cœur.",
+  test:"Ton souffle est revenu à la normale.",
+  cues:[[30,"Épaules"],[60,"Poignets et avant-bras"]]},
+};
+
+/* ---------------- les séances ---------------- */
+const BOXE=[
+ /* ---- SANS SAC ---- */
+ {id:'o_distance',emoji:'📐',nom:'Ombre · Distance & timing',sac:false,tag:'standard',
+  focus:"Déplacements, jab sous toutes ses formes, entrées-sorties",
+  intro:"La séance qui construit ce que personne ne voit et qui décide tout : à quelle distance tu boxes. Six rounds d'ombre, un objectif par round, zéro remplissage.",
+  rounds:['corde','depl_nus','jab4','halfstep','entrersortir','jabarret','rythmebrise','retour']},
+
+ {id:'o_feintes',emoji:'🎭',nom:'Ombre · Feintes & ouvertures',sac:false,tag:'standard',
+  focus:"Créer l'ouverture avant de frapper",
+  intro:"À ton niveau, la puissance ne suffit plus : ce qui fait la différence, c'est la capacité à faire réagir l'autre avant de frapper. Quatre types de feintes, puis tu les remets ensemble.",
+  rounds:['corde','ombre_chauffe','feinte_jab','feinte_niveau','feinte_pas','trois_temps','ombre_libre','retour']},
+
+ {id:'o_defense',emoji:'🛡️',nom:'Ombre · Défense & contres',sac:false,tag:'standard',
+  focus:"Esquiver pour frapper, pas pour survivre",
+  intro:"Une défense qui ne débouche sur rien est une demi-défense. Chaque round travaille une esquive ET la riposte qu'elle ouvre.",
+  rounds:['corde','mobil','slip','roll','pull','parade','pivot_sortie','ombre_defense','retour']},
+
+ {id:'x_mains',emoji:'⚡',nom:'Express · Mains & appuis',sac:false,tag:'express',
+  focus:"15 minutes, zéro matériel, qualité maximale",
+  intro:"Le format des jours chargés. Court ne veut pas dire léger : trois rounds denses valent mieux qu'une séance molle d'une heure.",
+  rounds:['corde2','main_vitesse','halfstep','ombre_libre','retour_court']},
+
+ {id:'o_condition',emoji:'🔥',nom:'Ombre · Conditionnement',sac:false,tag:'standard',
+  focus:"Cardio de boxeur, sans le moindre matériel",
+  intro:"Le cardio spécifique ne se construit pas en courant : il se construit en boxant fatigué, proprement. Rythme brisé, jambes, épaules, explosivité — tout ce qui lâche en fin de round.",
+  rounds:['corde','ombre_chauffe','rythmebrise','jambes_boxe','ombre_libre','cou_epaules','pompes_explo','retour']},
+
+ {id:'c_sansac',emoji:'🏛️',nom:'Complet sans sac · Séance de club',sac:false,tag:'complet',
+  focus:"Échauffement, technique, défense, physique",
+  intro:"Une vraie séance complète sans le moindre matériel : ce que tu ferais en salle un jour où tous les sacs sont pris. Dix rounds.",
+  rounds:['corde','corde_var','mobil','depl_nus','jab4','feinte_jab','slip','pull','entrersortir','trois_temps','ombre_libre','gainage_boxe','pompes_explo','retour']},
+
+ /* ---- AVEC SAC ---- */
+ {id:'s_puissance',emoji:'💥',nom:'Sac · Puissance & transfert',sac:true,tag:'standard',
+  focus:"Chaque coup, isolé, remis d'aplomb",
+  intro:"Un round par coup fondamental. On ne cherche pas le volume : on cherche à ce que la puissance vienne du sol et pas des bras. C'est la séance qui change ta frappe sur le long terme.",
+  rounds:['corde','ombre_chauffe','sac_jab','sac_direct','sac_crochet','sac_upper','sac_12','retour']},
+
+ {id:'s_precision',emoji:'🎯',nom:'Sac · Précision & distance',sac:true,tag:'standard',
+  focus:"Toucher juste, et gérer un sac qui bouge",
+  intro:"La séance la plus sous-estimée. Le sac en mouvement est le seul partenaire que tu as quand tu t'entraînes seul : on s'en sert vraiment, au lieu de taper dans un mur.",
+  rounds:['corde','ombre_chauffe','sac_precision','sac_distance','sac_corpstete','sac_defense','retour']},
+
+ {id:'s_condition',emoji:'🔥',nom:'Sac · Conditionnement spécifique',sac:true,tag:'standard',
+  focus:"Tenir le rythme quand les bras sont lourds",
+  intro:"Le cardio de boxeur ne se construit pas en courant : il se construit en boxant fatigué, proprement. Séance dure. Deux fois par semaine maximum.",
+  rounds:['corde','ombre_chauffe','sac_interval','sac_pression','sac_interval','sac_burnout','gainage_boxe','retour']},
+
+ {id:'x_sac',emoji:'⚡',nom:'Express sac · 15 minutes',sac:true,tag:'express',
+  focus:"Court et dense",
+  intro:"Trois rounds de sac, une finition, et tu es dehors. Le format à utiliser quand l'alternative serait de ne rien faire.",
+  rounds:['corde2','sac_12','sac_corpstete','sac_burnout','retour_court']},
+
+ {id:'c_sac',emoji:'🏛️',nom:'Complet sac · Séance de club',sac:true,tag:'complet',
+  focus:"La séance complète : technique, puissance, conditionnement",
+  intro:"Onze rounds. La séance de référence — celle qui doit devenir ta séance-type une fois par semaine si tu vises un vrai niveau.",
+  rounds:['corde','corde_var','ombre_chauffe','sac_jab','sac_direct','sac_combi','sac_corpstete','sac_distance','sac_pression','sac_interval','sac_burnout','jambes_boxe','retour']},
+];
+
+/* ---------------- réglages, calculs ---------------- */
+function bx(){ if(!S.bx) S.bx={}; if(S.bx.sac===undefined) S.bx.sac=null; if(!S.bx.fmt) S.bx.fmt='pro'; return S.bx; }
+function bxFmt(){ return BXFMT[bx().fmt]||BXFMT.pro; }
+/* un round résolu : durée et repos définitifs selon le format choisi */
+function bxRound(key){ const r=(typeof key==='string')?BR[key]:key; if(!r) return null;
+  const f=bxFmt(), sec=r.full? f.sec : r.sec;
+  /* les relances sont écrites pour un round de 3 min : on les remet à l'échelle du format choisi,
+     sauf pour les rounds à protocole chronométré (fix) où les temps sont absolus. */
+  let cues=r.cues||[];
+  if(r.full && !r.fix && f.sec!==180) cues=cues.map(c=>[Math.round(c[0]*f.sec/180),c[1]]);
+  cues=cues.filter(c=>c[0]<sec-2);
+  return Object.assign({},r,{ sec:sec, rest: r.rest===0?0:(r.full? f.rest : r.rest), cues:cues }); }
+function bxRounds(s){ return s.rounds.map(bxRound).filter(Boolean); }
+function bxDuree(s){ const rs=bxRounds(s); return Math.round(rs.reduce((a,r)=>a+r.sec+r.rest+15,0)/60); }
+function bxNbFull(s){ return bxRounds(s).filter(r=>r.t==='sac'||r.t==='ombre').length; }
+/* volume de rounds sur les 7 derniers jours — la métrique du boxeur */
+function bxSemaine(){ const lim=new Date(); lim.setDate(lim.getDate()-6); const ds=lim.toISOString().slice(0,10);
+  return (S.boxeLog||[]).filter(l=>l.date>=ds).reduce((a,l)=>a+(l.rounds||0),0); }
+
+/* la séance du rendez-vous hebdomadaire, selon le sac dispo */
+function bxChoix(kind){ const B=bx(); if(B.sac===null) return null;
+  const MAP={ condition: B.sac?'s_condition':'o_condition',
+              tech:      B.sac?'s_precision':'o_feintes',
+              complet:   B.sac?'c_sac':'c_sansac' };
+  return BOXE.find(x=>x.id===(MAP[kind]||(B.sac?'s_puissance':'o_distance')))||null; }
+
+/* ================================================================ BOXE — écran */
+function renderBoxe(){
+  const B=bx();
+  main.insertAdjacentHTML('beforeend','<h1 class="page">Boxe</h1><p class="sub" style="margin-bottom:14px">Séances guidées round par round. Un round = un objectif technique, une consigne précise, et le critère qui dit si c\'est réussi.</p>');
+
+  /* ---- 1. sac ou pas : la question qui change tout ---- */
+  const sc=document.createElement('div'); sc.className='card';
+  sc.innerHTML=`<b style="font-size:15px">🥊 Aujourd'hui, tu as un sac ?</b>
+    <p class="sub" style="margin:4px 0 10px">C'est ce qui décide de tes séances : sans sac on construit la technique et la distance, avec sac on construit la frappe et le rythme.</p>
+    <div class="bxsel">
+      <div class="bxopt${B.sac===true?' on':''}" data-s="1"><span class="i">🛢️</span><b>J'ai un sac</b><small>Frappe, puissance, conditionnement</small></div>
+      <div class="bxopt${B.sac===false?' on':''}" data-s="0"><span class="i">👤</span><b>Pas de sac</b><small>Ombre, technique, défense</small></div>
+    </div>`;
+  main.appendChild(sc);
+  sc.querySelectorAll('.bxopt').forEach(o=>o.onclick=()=>{ bx().sac=(o.dataset.s==='1'); save(); render(); });
+
+  if(B.sac===null){
+    main.insertAdjacentHTML('beforeend','<div class="empty">Choisis au-dessus pour voir tes séances.</div>');
+    bxCodeCard(); return;
+  }
+
+  /* ---- 2. format des rounds ---- */
+  const f=bxFmt();
+  const fc=document.createElement('div'); fc.className='card';
+  fc.innerHTML=`<b style="font-size:15px">⏱️ Format des rounds</b>
+    <div class="bxfmt">${Object.entries(BXFMT).map(([k,v])=>`<button data-f="${k}" class="${k===B.fmt?'on':''}">${v.nom}</button>`).join('')}</div>
+    <p class="sub" style="margin-top:9px">${f.det}</p>`;
+  main.appendChild(fc);
+  fc.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{ bx().fmt=b.dataset.f; save(); render(); });
+
+  /* ---- 3. le volume de la semaine : la métrique du boxeur ---- */
+  const vol=bxSemaine(), obj=B.sac?30:24;
+  main.insertAdjacentHTML('beforeend',`<div class="card">
+    <div class="bxvol"><div><b>${vol}</b><small>rounds sur 7 jours</small></div>
+      <div class="vbar"><i style="width:${Math.min(100,vol/obj*100)}%"></i></div></div>
+    <p class="sub" style="margin-top:8px">${vol>=obj?"Volume d'un boxeur qui s'entraîne sérieusement. Tiens ça dans la durée et la technique suivra.":vol>=obj/2?"Tu es à mi-chemin d'un vrai volume hebdomadaire ("+obj+" rounds). Le manque se comblera par la régularité, pas par une séance héroïque.":"Un boxeur qui progresse fait "+obj+" rounds par semaine, répartis sur 3 ou 4 séances. Tout se joue là, pas dans l'intensité d'une séance isolée."}</p></div>`);
+
+  /* ---- 4. les séances ---- */
+  const TAGS=[['express','⚡ Express · ~15 min'],['standard','🎯 Standard · ~30 min'],['complet','🏛️ Complet · ~50 min']];
+  const dispo=BOXE.filter(s=>s.sac===B.sac);
+  TAGS.forEach(([tag,titre])=>{
+    const list=dispo.filter(s=>s.tag===tag); if(!list.length) return;
+    main.insertAdjacentHTML('beforeend',`<div class="cat">${titre}</div>`);
+    list.forEach(s=>main.appendChild(bxCard(s)));
+  });
+
+  /* les séances de l'autre catégorie restent accessibles */
+  const autres=BOXE.filter(s=>s.sac!==B.sac);
+  main.insertAdjacentHTML('beforeend',`<div class="cat">${B.sac?'👤 Sans sac — technique pure':'🛢️ Avec sac'}</div>`);
+  main.insertAdjacentHTML('beforeend',`<p class="sub" style="margin:-4px 0 10px">${B.sac?"À faire aussi même quand tu as un sac : la technique se construit à vide, où rien ne cache tes défauts.":"Si tu retrouves un sac (salle, club), voilà ce qui t'attend."}</p>`);
+  autres.forEach(s=>main.appendChild(bxCard(s)));
+
+  bxCodeCard();
+
+  /* ---- 5. historique ---- */
+  const log=(S.boxeLog||[]).slice(-6).reverse();
+  if(log.length){
+    main.insertAdjacentHTML('beforeend','<div class="cat">Dernières séances</div>');
+    log.forEach(l=>main.insertAdjacentHTML('beforeend',`<div class="entry"><div class="eh"><div class="ico">🥊</div>
+      <div class="et"><b>${l.nom}</b><small>${frDate(l.date)} · ${l.rounds} rounds · ${l.dur} min${l.rpe?' · RPE '+l.rpe:''}</small></div></div>
+      ${l.note?`<div class="body">${escapeH(l.note)}</div>`:''}</div>`));
+  }
+}
+
+/* une carte de séance, dépliable sur le détail des rounds */
+function bxCard(s){
+  const rs=bxRounds(s);
+  const d=document.createElement('div'); d.className='rout';
+  d.innerHTML=`<div class="rh"><span class="ri">${s.emoji}</span>
+    <div class="rtx"><b>${s.nom}</b><small>${s.focus} · ${rs.length} rounds · ~${bxDuree(s)} min</small></div><span class="chev">▾</span></div>
+    <div class="steps"><div class="rnote">${s.intro}</div>
+      ${rs.map((r,i)=>`<div class="st"><span>${Math.round(r.sec/60*10)/10>=1?Math.floor(r.sec/60)+"'"+(r.sec%60?String(r.sec%60).padStart(2,'0'):''):r.sec+'s'}</span>
+        <div class="stc">${BXT[r.t].e} ${r.nom}<small class="stwhy">🎯 ${r.but}</small></div></div>`).join('')}</div>
+    <button class="btn ${s.sac?'danger':''}" data-go="1">▶ Démarrer</button>`;
+  d.querySelector('.rh').onclick=()=>d.classList.toggle('open');
+  d.querySelector('[data-go]').onclick=e=>{ e.stopPropagation(); startBoxe(s); };
+  return d;
+}
+
+function bxCodeCard(){
+  main.insertAdjacentHTML('beforeend',`<div class="card" style="margin-top:14px">
+    <b style="font-size:15px">📖 Le code des coups</b>
+    <p class="sub" style="margin:4px 0 10px">Les consignes utilisent la numérotation des salles de boxe. « Main avant » = ta main de garde (gauche si tu boxes en orthodoxe, droite en southpaw).</p>
+    <div class="bxcode">
+      <span><b>1</b> Jab (direct main avant)</span><span><b>2</b> Direct arrière</span>
+      <span><b>3</b> Crochet avant</span><span><b>4</b> Crochet arrière</span>
+      <span><b>5</b> Uppercut avant</span><span><b>6</b> Uppercut arrière</span>
+    </div></div>`);
+}
+
+/* ================================================================ lecteur de rounds */
+function startBoxe(s, planId=null){
+  ac();
+  const rs=bxRounds(s), PREP=15;
+  const phases=[];
+  rs.forEach((r,i)=>{ phases.push({kind:'prep',sec:PREP,r,no:i+1});
+    phases.push({kind:'work',sec:r.sec,r,no:i+1});
+    if(r.rest>0 && i<rs.length-1) phases.push({kind:'rest',sec:r.rest,r,no:i+1,next:rs[i+1]}); });
+  let idx=0,left=phases[0].sec,paused=false,timer=null,started=Date.now(),wl=null;
+  let showFaire=true, curCue=null, clapped=false;
+  navigator.wakeLock?.request('screen').then(l=>wl=l).catch(()=>{});
+  player.classList.add('open'); player.scrollTop=0;
+  const mm=x=>Math.floor(x/60)+':'+String(x%60).padStart(2,'0');
+
+  function paint(){ const p=phases[idx], r=p.r, work=(p.kind==='work');
+    const deg=Math.max(0,Math.min(360,(1-left/p.sec)*360));
+    const col = work ? (r.t==='sac'||r.t==='ombre'?'var(--boxe)':r.t==='phys'?'var(--muscu)':'var(--acc)') : 'var(--dim)';
+    let label;
+    if(p.kind==='prep') label='Mets-toi en place';
+    else if(p.kind==='rest') label='Repos';
+    else label=BXT[r.t].n+' · round '+p.no+'/'+rs.length;
+
+    let body='';
+    if(p.kind==='prep'){
+      body=`<div class="pname">${BXT[r.t].e} ${r.nom}</div>
+        <div class="pzone">${BXT[r.t].n} · ${mm(r.sec)}</div>
+        <div class="pcue">🎯 ${r.but}</div>
+        <ol class="mise">${r.mise.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+    } else if(p.kind==='rest'){
+      body=`<div class="pname">${mm(left)} de repos</div>
+        <div class="bxtest">✔ <b>Le round que tu viens de faire :</b> ${r.test}</div>
+        <div class="pcue" style="margin-top:10px">Reste debout, marche, respire par le nez. Ne t'assois pas et ne pose pas les mains sur les genoux : on récupère en mouvement.</div>
+        ${p.next?`<div class="bxnext"><small>Round suivant</small><b>${BXT[p.next.t].e} ${p.next.nom}</b><span>${p.next.but}</span></div>`:''}`;
+    } else {
+      body=`<div class="pname">${BXT[r.t].e} ${r.nom}</div>
+        <div class="pzone">🎯 ${r.but}</div>
+        ${curCue?`<div class="bxcue">${curCue}</div>`:''}
+        <button class="phelp" data-a="faire">${showFaire?'▴ Masquer la consigne':'❔ Revoir la consigne'}</button>
+        ${showFaire?`<ol class="mise">${r.faire.map(x=>`<li>${x}</li>`).join('')}</ol>`:''}
+        <div class="perr"><b>L'erreur à éviter</b>${r.err}</div>`;
+    }
+
+    player.innerHTML=`<div class="player">
+      <div class="ptop"><button class="pquit">✕ Quitter</button><span class="pprog">${s.emoji} ${p.no}/${rs.length}</span></div>
+      <div class="pbar"><i style="width:${(p.no-1+(p.kind==='work'?(1-left/p.sec):p.kind==='rest'?1:0))/rs.length*100}%"></i></div>
+      <div class="pstage ${work?'hold':'prep'}">
+        <div class="plabel" style="${work?'color:'+col:''}">${label}</div>
+        <div class="ring" style="background:conic-gradient(${col} ${deg}deg, var(--bg3) 0)"><div class="ringin"><div class="ptime" style="font-size:${work?46:52}px">${work?mm(left):left}</div></div></div>
+        ${body}</div>
+      <div class="pctrl"><button class="pbtn" data-a="prev">‹ Préc.</button>
+        <button class="pbtn main" data-a="pause" style="${work?'background:var(--boxe);color:#2a0a0e':''}">${paused?'▶ Reprendre':'❚❚ Pause'}</button>
+        <button class="pbtn" data-a="next">Passer ›</button></div></div>`;
+    player.querySelector('.pquit').onclick=quit;
+    player.querySelector('[data-a="prev"]').onclick=()=>goto(idx-1);
+    player.querySelector('[data-a="next"]').onclick=()=>goto(idx+1);
+    player.querySelector('[data-a="pause"]').onclick=()=>{ paused=!paused; paint(); };
+    const fb=player.querySelector('[data-a="faire"]'); if(fb) fb.onclick=()=>{ showFaire=!showFaire; paint(); };
+  }
+
+  function enter(i){ const p=phases[i]; curCue=null; clapped=false; showFaire=true;
+    if(p.kind==='work'){ bell(); if(p.r.cues&&p.r.cues.length&&p.r.cues[0][0]===0) curCue=p.r.cues[0][1]; }
+    else if(p.kind==='rest'){ bell(); }
+    else { beep(520,.18,.35); }
+    if(navigator.vibrate) navigator.vibrate(p.kind==='work'?[120,60,120]:40);
+  }
+  function goto(i){ if(i<0)i=0; if(i>=phases.length){ finish(); return; } idx=i; left=phases[idx].sec; enter(idx); paint(); }
+
+  function step(){ if(paused) return; const p=phases[idx];
+    left--;
+    if(p.kind==='work'){
+      const el=p.sec-left;                             /* secondes écoulées dans le round */
+      if(p.r.cues) p.r.cues.forEach(c=>{ if(c[0]===el){ curCue=c[1]; beep(990,.14,.3); if(navigator.vibrate)navigator.vibrate(25); } });
+      /* passé 30 s, on a lu la consigne : on rend l'écran au chrono et à la relance */
+      if(el===30 && showFaire) showFaire=false;
+      if(left===10 && !clapped){ clapped=true; beep(760,.12,.35); beep(760,.12,.35,.18); }  /* le clapper des 10 s */
+    }
+    if(left<=0){ if(idx>=phases.length-1){ finish(); return; } idx++; left=phases[idx].sec; enter(idx); }
+    else if(left<=3 && phases[idx].kind!=='work'){ tick(); }
+    paint();
+  }
+  function stopAll(){ clearInterval(timer); try{wl?.release();}catch(e){} wl=null; }
+  function quit(){ if(confirm('Quitter la séance ? Elle ne sera pas enregistrée.')){ stopAll(); player.classList.remove('open'); render(); } }
+
+  function finish(){ stopAll(); bell(); setTimeout(bell,340); setTimeout(bell,680);
+    const dur=Math.max(1,Math.round((Date.now()-started)/60000));
+    const nb=rs.filter(r=>r.t==='sac'||r.t==='ombre'||r.t==='phys').length;
+    let rpe=0;
+    player.innerHTML=`<div class="player"><div class="pdone"><div class="big">🥊</div>
+      <div style="font-size:24px;font-weight:800;margin:8px 0">Séance bouclée</div>
+      <p class="sub">${s.nom} · ${nb} rounds de travail · ${dur} min</p>
+      <p class="sub" style="margin-top:12px">Le round que tu as le moins bien tenu est celui qu'il faut refaire en premier la prochaine fois.</p>
+      <div style="text-align:left;margin-top:22px">
+        <label class="fl">Intensité ressentie (RPE)</label><div class="rpe" id="bRpe">${[...Array(10)].map((_,i)=>`<i data-v="${i+1}">${i+1}</i>`).join('')}</div>
+        <label class="fl" style="margin-top:14px">Une note pour toi (facultatif)</label>
+        <textarea id="bNote" placeholder="Ce qui a marché, ce qui a coincé, ce que tu retravailles la prochaine fois…"></textarea></div>
+      <button class="btn" id="bSave" style="margin-top:16px">Enregistrer la séance</button></div></div>`;
+    player.querySelectorAll('#bRpe i').forEach(el=>el.onclick=()=>{ rpe=+el.dataset.v;
+      player.querySelectorAll('#bRpe i').forEach(x=>x.classList.toggle('on',+x.dataset.v===rpe)); });
+    player.querySelector('#bSave').onclick=()=>{
+      S.boxeLog=S.boxeLog||[];
+      S.boxeLog.push({id:Date.now(),date:todayStr(),sess:s.id,nom:s.nom,sac:!!s.sac,rounds:nb,dur,rpe,
+                      note:player.querySelector('#bNote').value.trim()});
+      if(planId) markPlan(planId);
+      save(); updateHeader(); player.classList.remove('open');
+      toast('Séance enregistrée · '+nb+' rounds 🥊'); render(); };
+  }
+
+  enter(0); paint(); timer=setInterval(step,1000);
+}
 /* ================================================================ JOURNAL */
 let draftDisc='boxe', draftRpe=0;
 function renderJour(){
@@ -1058,6 +1904,8 @@ function renderProg(){
     <div class="stat"><b>${dayStreak()}</b><small>jours d'affilée</small></div>
     <div class="stat"><b>${S.mobLog.length}</b><small>séances souplesse/core</small></div>
     <div class="stat"><b>${S.workoutLog.length}</b><small>séances muscu</small></div>
+    <div class="stat"><b>${(S.boxeLog||[]).length}</b><small>séances boxe</small></div>
+    <div class="stat"><b>${bxSemaine()}</b><small>rounds de boxe (7 j)</small></div>
     <div class="stat"><b>${Math.round((mobMin+wkMin)/60*10)/10}h</b><small>temps total guidé</small></div></div>`);
 
   const fc=document.createElement('div'); fc.className='card'; fc.style.marginTop='12px';
@@ -1075,14 +1923,14 @@ function renderProg(){
 
   const hm=document.createElement('div'); hm.className='card'; hm.innerHTML='<b style="font-size:15px">Régularité (16 semaines)</b><div class="heatwrap"><div class="heat"></div></div>';
   const heat=hm.querySelector('.heat');
-  const mob=new Set(S.mobLog.map(m=>m.date)), wk=new Set(S.workoutLog.map(w=>w.date)), jr=new Set(S.journal.map(j=>j.date));
+  const mob=new Set(S.mobLog.map(m=>m.date)), wk=new Set(S.workoutLog.map(w=>w.date)), jr=new Set(S.journal.map(j=>j.date)), bxd=new Set((S.boxeLog||[]).map(b=>b.date));
   const today=new Date(); const dow=(today.getDay()+6)%7; const start=new Date(today); start.setDate(start.getDate()-dow-15*7);
   for(let i=0;i<16*7;i++){ const d=new Date(start); d.setDate(d.getDate()+i); const ds=d.toISOString().slice(0,10); const cell=document.createElement('i');
     if(d>today) cell.style.visibility='hidden';
-    else { const m=mob.has(ds),w=wk.has(ds),j=jr.has(ds);
-      if(w) cell.style.background='var(--muscu)'; else if(m) cell.style.background='var(--acc)'; else if(j) cell.style.background='var(--jour)';
-      if(m||w||j) cell.title=ds; } heat.appendChild(cell); }
-  hm.insertAdjacentHTML('beforeend',`<div class="legend"><span><i style="background:var(--muscu)"></i>Muscu</span><span><i style="background:var(--acc)"></i>Souplesse/core</span><span><i style="background:var(--jour)"></i>Journal</span></div>`);
+    else { const m=mob.has(ds),w=wk.has(ds),j=jr.has(ds),b=bxd.has(ds);
+      if(b) cell.style.background='var(--boxe)'; else if(w) cell.style.background='var(--muscu)'; else if(m) cell.style.background='var(--acc)'; else if(j) cell.style.background='var(--jour)';
+      if(m||w||j||b) cell.title=ds; } heat.appendChild(cell); }
+  hm.insertAdjacentHTML('beforeend',`<div class="legend"><span><i style="background:var(--boxe)"></i>Boxe</span><span><i style="background:var(--muscu)"></i>Muscu</span><span><i style="background:var(--acc)"></i>Souplesse/core</span><span><i style="background:var(--jour)"></i>Journal</span></div>`);
   main.appendChild(hm);
 }
 function sparkline(vals,fmn,fmx){ const w=320,h=110,pad=14;
