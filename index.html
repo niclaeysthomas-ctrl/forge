@@ -1016,12 +1016,16 @@ function markPlan(id,v=true){ const t=todayStr(); (S.planDone[t]=S.planDone[t]||
 /* ---------------- audio ---------------- */
 let AC=null;
 function ac(){ try{ if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended')AC.resume(); }catch(e){} return AC; }
-function beep(f=880,dur=.12,vol=.4,when=0){ const ctx=ac(); if(!ctx)return;
+/* son plus fort : onde carrée (bien plus audible qu'une sinusoïde au même volume),
+   volume ×2,5, et un compresseur qui pousse le niveau sans saturer */
+let COMP=null;
+function out(ctx){ if(!COMP){ COMP=ctx.createDynamicsCompressor(); COMP.threshold.value=-24; COMP.ratio.value=8; COMP.connect(ctx.destination); } return COMP; }
+function beep(f=880,dur=.12,vol=.4,when=0,type='square'){ const ctx=ac(); if(!ctx)return;
   const t=ctx.currentTime+when,o=ctx.createOscillator(),g=ctx.createGain();
-  o.frequency.value=f; g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.001,t+dur);
-  o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+dur+.02); }
-function bell(){ beep(587,.4,.5); beep(784,.5,.4,.06); if(navigator.vibrate)navigator.vibrate([100,50,100]); }
-function tick(){ beep(1150,.05,.22); }
+  o.type=type; o.frequency.value=f; g.gain.setValueAtTime(Math.min(1,vol*2.5),t); g.gain.exponentialRampToValueAtTime(.001,t+dur);
+  o.connect(g); g.connect(out(ctx)); o.start(t); o.stop(t+dur+.02); }
+function bell(){ beep(587,.5,.5); beep(784,.6,.45,.08); beep(988,.7,.4,.18); if(navigator.vibrate)navigator.vibrate([150,60,150]); }
+function tick(){ beep(1150,.07,.3); }
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
   clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2500); }
 
@@ -2226,7 +2230,8 @@ function startBoxe(s, planId=null){
   ac();
   const rs=bxRounds(s), PREP=15;
   const phases=[];
-  rs.forEach((r,i)=>{ phases.push({kind:'prep',sec:PREP,r,no:i+1});
+  /* la mise en place n'a lieu qu'avant le premier round : ensuite, le repos montre déjà le round suivant */
+  rs.forEach((r,i)=>{ if(i===0) phases.push({kind:'prep',sec:PREP,r,no:i+1});
     phases.push({kind:'work',sec:r.sec,r,no:i+1});
     if(r.rest>0 && i<rs.length-1) phases.push({kind:'rest',sec:r.rest,r,no:i+1,next:rs[i+1]}); });
   let idx=0,left=phases[0].sec,paused=false,timer=null,started=Date.now(),wl=null;
