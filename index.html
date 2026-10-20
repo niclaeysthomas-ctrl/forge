@@ -616,6 +616,19 @@ const CORE={ id:'core', emoji:'🧱', nom:'Gainage', focus:'Core · ceinture abd
   {emoji:'🦸',nom:'Superman',zone:'Lombaires',cue:'À plat ventre, lève bras et jambes, tiens, respire.',sec:25},
   {emoji:'🧱',nom:'Planche (2e passage)',zone:'Gainage complet',cue:'Dernier effort : gaine tout, respiration régulière.',sec:40},
 ]};
+
+// réveil cardio : 12 min avec de la musique, sans pompes (les poussées sont pour les séances cali)
+const R1=[
+  {emoji:'🚶',nom:'Marche sur place rapide',zone:'Mise en route',cue:'Genoux à hauteur de hanche, bras qui balancent. Monte doucement le rythme.',sec:40},
+  {emoji:'⭐',nom:'Jumping jacks (ou step jacks)',zone:'Cardio',cue:'Sans sauter si les voisins dorment : un pied sur le côté, puis l\'autre, bras en haut.',sec:40},
+  {emoji:'🦵',nom:'Squats',zone:'Jambes · fessiers',cue:'Pieds largeur d\'épaules, fesses en arrière, talons au sol. Remonte en soufflant.',sec:40},
+  {emoji:'🥊',nom:'Shadow boxing',zone:'Cardio · technique boxe',cue:'Garde haute, jab-cross en restant sur les appuis. Ça compte pour ta boxe.',sec:40},
+  {emoji:'🏃',nom:'Montées de genoux',zone:'Cardio',cue:'Rapide, sur l\'avant du pied, bras actifs. Sans sauter : marche-les vite.',sec:40},
+  {emoji:'🦿',nom:'Fentes alternées',zone:'Jambes · équilibre',cue:'Grand pas en avant, genou arrière vers le sol, buste droit. Alterne.',sec:40},
+  {emoji:'🥊',nom:'Shadow boxing rapide',zone:'Cardio à fond',cue:'Enchaînements rapides, esquives, déplacements. Les 40 secondes les plus dures.',sec:40}];
+const CARDIO={ id:'cardio', emoji:'🔥', nom:'Réveil cardio', focus:'12 min · cœur + jambes, en musique', prep:15,
+  note:"Deux tours de 7 exercices : 40 s d'effort, 15 s pour souffler. Tu dois être essoufflé sans pouvoir chanter, mais encore capable de parler. Mets ta musique : les bips passent par-dessus.",
+  steps:R1.concat(R1.map(x=>({...x,nom:x.nom+' · 2e tour'})))};
 const FLOOR=['À hauteur des genoux','Mi-mollets','Chevilles','Bout des doigts au sol','Paumes à plat au sol'];
 
 /* ================================================================
@@ -909,17 +922,18 @@ function dayInfo(){
   C.days[t]=info; save(); return info;
 }
 const REVEIL={id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'};
+const CARDIO_IT={id:'cardio',emoji:'🔥',nom:'Réveil cardio',detail:'12 min en musique, juste après le réveil',act:'circuit:cardio'};
 const OFF_DAYS=[
- {focus:'Boxe technique + étirements',items:[REVEIL,
+ {focus:'Boxe technique + étirements',items:[REVEIL,CARDIO_IT,
    {id:'boxeT',emoji:'🥊',nom:'Boxe — technique',detail:'Skill pur, peu de fatigue',act:'boxe:tech'},
    {id:'soupc',emoji:'🧘',nom:'Souplesse complète',detail:'Séance longue, tout le corps (adducteurs : utile pour la straddle)',act:'soup:complete'}]},
- {focus:'Boxe cardio + étirements',items:[REVEIL,
+ {focus:'Boxe cardio + étirements',items:[REVEIL,CARDIO_IT,
    {id:'boxeC',emoji:'🥊',nom:'Boxe — conditionnement',detail:'Rythme, intervalles, tenir le round',act:'boxe:condition'},
    {id:'plancher',emoji:'🎯',nom:'Souplesse « Vers le sol »',detail:'Ischios, hanches, dos (à chaud)',act:'soup:plancher'}]},
- {focus:'Boxe technique + mobilité',items:[REVEIL,
+ {focus:'Boxe technique + mobilité',items:[REVEIL,CARDIO_IT,
    {id:'boxeT',emoji:'🥊',nom:'Boxe — technique',detail:'Skill pur, peu de fatigue : la journée légère de la semaine',act:'boxe:tech'},
    {id:'mobilite',emoji:'🔧',nom:'Mobilité santé',detail:'Dos, hanches, chevilles, épaules, poignets',act:'soup:mobilite'}]},
- {focus:'Boxe complète + étirements',items:[REVEIL,
+ {focus:'Boxe complète + étirements',items:[REVEIL,CARDIO_IT,
    {id:'boxeK',emoji:'🥊',nom:'Boxe — séance complète',detail:'Technique, frappe, physique',act:'boxe:complet'},
    {id:'soir',emoji:'🌙',nom:'Détente du soir',detail:'Souplesse profonde + sommeil',act:'soup:soir'}]}
 ];
@@ -927,7 +941,7 @@ function caliItem(T){ const s=CALI_SESS[T];
   return {id:'cali',emoji:s.emoji,nom:'Calisthénie '+T+' — '+(T==='A'?'Planche':'HSPU'),detail:s.focus+' (~65 min)',act:'cali:'+T}; }
 function planFor(info){
   if(info.k==='cali') return {focus:'Calisthénie '+info.t+' — '+(info.t==='A'?'planche':'HSPU'),
-    items:[REVEIL, caliItem(info.t), {id:'haut',emoji:'🙌',nom:'Étirements haut du corps',detail:'Juste après la séance : pecs, épaules, poignets',act:'soup:haut'}]};
+    items:[REVEIL,CARDIO_IT, caliItem(info.t), {id:'haut',emoji:'🙌',nom:'Étirements haut du corps',detail:'Juste après la séance : pecs, épaules, poignets',act:'soup:haut'}]};
   const o=OFF_DAYS[info.o]||OFF_DAYS[0]; return {focus:o.focus, items:o.items.slice()};
 }
 function todayPlan(){
@@ -983,6 +997,7 @@ const TIMING={
   'work':         {top:['pic'],                       ok:['matin','aprem'],          why:"Force et puissance culminent en fin d'après-midi, quand la température corporelle est au plus haut. Plus tôt, c'est possible — mais l'échauffement doit être deux fois plus long."},
   'cali':         {top:['pic'],                       ok:['matin','aprem'],          why:"Force et équilibre culminent en fin d'après-midi, quand la température corporelle est au plus haut. Plus tôt, c'est possible — mais l'échauffement doit être deux fois plus long."},
   'run':          {top:['pic'],                       ok:['reveil','matin','aprem'], why:"Le cardio supporte l'heure matinale bien mieux que la fonte : allure et confort restent meilleurs en fin de journée, mais courir tôt reste une vraie option."},
+  'circuit:cardio':{top:['reveil','matin'],          ok:['aprem','pic'],            why:"Un réveil cardio court : c'est fait pour le matin, ça remplace le café et le scroll."},
   'circuit:core': {top:['matin','aprem','pic'],       ok:['reveil','soir'],          why:"Gainage : peu d'amplitude, peu de risque à froid. Cale-le où tu veux dans la journée."},
   'boxe':         {top:['pic'],                      ok:['matin','aprem'],          why:"La boxe demande les deux choses qui culminent en fin d'après-midi : un système nerveux frais pour la coordination fine, et une température corporelle haute pour la puissance. Le matin ta vitesse de réaction est mesurablement plus basse et tes épaules sont froides — si tu y vas quand même, double l'échauffement et laisse tomber les rounds de puissance."},
   'piano':        {top:['matin','aprem','pic','soir'],ok:['reveil'],                 why:"Pas un entraînement physique : le seul créneau à éviter, c'est celui où tu réveilles la maison."},
@@ -1141,7 +1156,7 @@ function runAction(it){ const a=it.act;
   if(a==='run') openRun(it.id);
   else if(a==='piano'){ window.open(PIANO_URL,'_blank'); markPlan(it.id); render(); }
   else if(a.indexOf('soup:')===0){ const r=ROUTINES.find(x=>x.id===a.slice(5)); if(r) startRoutine(r,it.id); }
-  else if(a.indexOf('circuit:')===0){ if(a.slice(8)==='core') startRoutine(CORE,it.id); }
+  else if(a.indexOf('circuit:')===0){ if(a.slice(8)==='core') startRoutine(CORE,it.id); if(a.slice(8)==='cardio') startRoutine(CARDIO,it.id); }
   else if(a.indexOf('cali:')===0){ startCali(a.slice(5),it.id); }
   else if(a.indexOf("boxe")===0){ const s=bxChoix(a.split(":")[1]);
     if(!s){ curTab="boxe"; document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x.dataset.tab==="boxe")); render(); toast("Choisis d'abord : sac ou pas de sac."); }
@@ -1226,7 +1241,7 @@ function renderSess(){
   /* hors programme */
   main.insertAdjacentHTML('beforeend','<div class="cat">🧱 Hors programme — gainage</div><div id="circ"></div>');
   const cc=main.querySelector('#circ');
-  { const r=CORE; const d=document.createElement('div'); d.className='rout';
+  for(const r of [CARDIO,CORE]){ const d=document.createElement('div'); d.className='rout';
     d.innerHTML=`<div class="rh"><span class="ri">${r.emoji}</span>
       <div class="rtx"><b>${r.nom}</b><small>${r.focus} · circuit guidé</small></div><span class="chev">▾</span></div>
       <div class="steps">${r.steps.map(s=>`<div class="st"><span>${s.sec}s${s.sides?' ×2':''}</span><div>${s.emoji} ${s.nom}<em>${s.zone}</em></div></div>`).join('')}</div>
@@ -1456,6 +1471,7 @@ function openRun(planId=null){ ac(); let sec=0,on=true,timer=null; player.classL
 
 /* ---------------- lecteur guidé (souplesse + gainage) ---------------- */
 function startRoutine(routine, planId=null){
+  try{ if(navigator.audioSession) navigator.audioSession.type='ambient'; }catch(e){}
   ac(); const phases=[];
   const prep = routine.prep || 8;              // temps de mise en place avant chaque exercice
   const sideSwitch = Math.min(prep, 8);        // transition pour changer de côté
