@@ -423,6 +423,18 @@ const ROUTINES=[
     {emoji:'🌀',nom:"Torsion allongée",zone:"Bas du dos",sec:30,sides:true,cue:"Genou plié de l'autre côté, épaules au sol.",why:"Détord et détend les lombaires."},
     {emoji:'🧎',nom:"Posture de l'enfant",zone:"Relâchement",sec:45,cue:"Front au sol, respire profondément.",why:"Retour au calme complet."},
   ]},
+  { id:'haut', emoji:'🙌', nom:'Étirements haut du corps', focus:'Après la calisthénie : pecs, épaules, poignets, dos', prep:10,
+    note:"Juste après la séance, à chaud. Des pecs et des épaules raides tirent les épaules vers l'avant, alors que l'ATR et le HSPU demandent des bras qui montent tout droit au-dessus de la tête. Ces étirements entretiennent cette amplitude, et les poignets récupèrent de tout le poids qu'ils ont porté.",
+    steps:[
+    {emoji:'🙏',nom:"Poignets (flexion & extension)",zone:"Poignets & avant-bras",sec:40,cue:"À genoux, paumes au sol doigts vers toi, bras tendus : recule doucement le bassin. Puis dos des mains au sol, même chose.",why:"Les poignets ont porté tout ton poids en extension : on leur rend l'amplitude inverse."},
+    {emoji:'🚪',nom:"Pectoraux au cadre de porte",zone:"Pectoraux",sec:40,sides:true,cue:"Avant-bras contre le cadre d'une porte, coude à hauteur d'épaule. Avance d'un pas et tourne doucement le buste à l'opposé, jusqu'à sentir l'étirement dans le pec.",why:"Des pecs souples laissent les épaules en arrière : meilleure posture, et plus d'amplitude en dips et en pompes profondes."},
+    {emoji:'🙆',nom:"Épaules bras au-dessus de la tête (au mur)",zone:"Épaules en flexion",sec:45,cue:"Face au mur, mains posées au-dessus de la tête, recule les pieds et laisse la poitrine descendre vers le sol, bras tendus, dos plat.",why:"C'est l'amplitude exacte de l'ATR : sans elle, tu te cambres en équilibre et en HSPU."},
+    {emoji:'🧎',nom:"Dorsaux : posture de l'enfant, mains sur le côté",zone:"Grand dorsal",sec:35,sides:true,cue:"Posture de l'enfant, bras tendus loin devant ; marche les deux mains vers la gauche pour étirer le flanc droit, puis l'inverse.",why:"Des dorsaux raides bloquent aussi les bras au-dessus de la tête."},
+    {emoji:'💪',nom:"Triceps derrière la tête",zone:"Triceps",sec:30,sides:true,cue:"Main dans le dos entre les omoplates, l'autre main pousse doucement le coude vers l'arrière.",why:"Les triceps ont travaillé dur en dips et en HSPU : on les rallonge."},
+    {emoji:'💪',nom:"Épaule croisée",zone:"Arrière d'épaule",sec:25,sides:true,cue:"Bras tendu devant la poitrine, l'autre main le rapproche du corps.",why:"Équilibre l'avant et l'arrière de l'épaule."},
+    {emoji:'📖',nom:"Ouverture thoracique",zone:"Haut du dos",sec:35,sides:true,cue:"Allongé sur le côté, genoux pliés, ouvre le bras du dessus vers l'arrière et suis la main du regard.",why:"Un haut du dos mobile soulage les épaules en ATR."},
+    {emoji:'🌬️',nom:"Respiration longue",zone:"Calme",sec:40,cue:"Assis, dos droit : inspire 4 s par le nez, souffle 6 à 8 s.",why:"Fait basculer le corps en récupération après l'effort."},
+  ]},
   { id:'soir', emoji:'🌙', nom:'Détente du soir', focus:'Souplesse profonde + calme (avant le sommeil)', prep:18,
     note:"Le meilleur créneau pour GAGNER en souplesse : corps chaud, tenues longues, et un système nerveux qui se calme te laisse aller plus loin. Bonus : ça prépare au sommeil. Chaque mouvement est détaillé pas à pas pendant la mise en place — et le bouton « ❔ Comment on se met en place ? » le redonne à tout moment pendant la tenue. Respire lentement partout, aucune brusquerie.",
     steps:[
@@ -687,8 +699,8 @@ const TRACKS={
    {nom:'Planche complète',fig:'pl_full',u:'s',sets:5,min:3,max:10,rest:180,
     cue:"Jambes serrées, corps horizontal, épaules loin devant les mains. L'objectif. Ensuite : la tenir 10 s, puis les pompes en planche."}
   ]},
- pompes:{nom:'Pompes vers la planche',emoji:'💪',zone:'Pecs · épaules · triceps',
-  why:"La force de poussée qui nourrit la planche. Les pompes pseudo-planche (PPPU) gardent les épaules devant les mains pendant tout le mouvement : c'est le meilleur exercice de force pour la planche.",
+ pompes:{nom:'Pompes → sans les pieds',emoji:'💪',zone:'Pecs · épaules · triceps',
+  why:"La route vers les pompes sans les pieds (planche push-ups). Les pompes pseudo-planche (PPPU) gardent les épaules devant les mains pendant tout le mouvement : c'est le meilleur exercice de force pour y arriver, et un gros travail de pecs et d'épaules.",
   lv:[
    {nom:'Pompes inclinées (mains sur une chaise)',fig:'pushup_inc',sets:3,min:8,max:15,rest:90,
     cue:"Mains sur une chaise calée contre un mur, corps gainé en planche. Poitrine jusqu'au bord, coudes à 45°, pousse jusqu'à verrouiller."},
@@ -701,7 +713,13 @@ const TRACKS={
    {nom:'Pompes pseudo-planche (PPPU)',fig:'pppu',sets:4,min:6,max:12,rest:120,
     cue:"Penché marqué (comme le planche lean), omoplates écartées en haut, coudes serrés le long du corps. Garde le penché en bas comme en haut : c'est lui qui travaille la planche."},
    {nom:'PPPU pieds surélevés',fig:'pppu',sets:4,min:6,max:12,rest:120,
-    cue:"Pieds sur une chaise, même penché : la charge sur les épaules monte encore."}
+    cue:"Pieds sur une chaise, même penché : la charge sur les épaules monte encore."},
+   {nom:'Pompes en planche groupée (sur poignées)',fig:'pl_tuck',sets:4,min:3,max:8,rest:150,
+    cue:"En planche groupée sur les poignées, pieds en l'air : descends la poitrine vers les poignées, puis repousse. Les premières se font en négatif : descente lente, pieds qui retouchent le sol."},
+   {nom:'Pompes en planche straddle',fig:'pl_straddle',sets:4,min:2,max:6,rest:180,
+    cue:"Jambes tendues et écartées, pieds en l'air : la vraie pompe sans les pieds."},
+   {nom:'Pompes en planche complète',fig:'pl_full',sets:4,min:1,max:5,rest:180,
+    cue:"Le sommet : jambes serrées, corps horizontal, poitrine jusqu'aux poignées."}
   ]},
  hspu:{nom:'HSPU',emoji:'🤸',zone:'Épaules · triceps · haut des pecs',
   why:"Le HSPU, c'est le développé militaire du poids de corps. On commence en V inversé (pike) et on se rapproche peu à peu de la verticale. Trajectoire clé : la tête descend DEVANT les mains (triangle tête-mains), coudes à 45°, jamais sur les côtés.",
@@ -809,6 +827,14 @@ const ACC={
   cue:"Sur le dos, un pied au sol près des fesses, l'autre jambe tendue. Pousse dans le talon, monte les hanches, serre 1 s en haut.",
   why:"La chaîne arrière (fessiers, ischios) que les squats ne couvrent pas.",
   prog:"À 3 × 15 : épaules sur le canapé (hip thrust une jambe)."},
+ fly:{nom:'Écarté à l\'élastique',zone:'Pectoraux (volume)',sets:3,min:12,max:20,rest:60,
+  cue:"Élastique passé dans ton dos (ou accroché derrière toi à hauteur de poitrine). Bras presque tendus, ramène les mains devant toi en serrant les pecs, tiens 1 s, reviens lentement en 2 à 3 s.",
+  why:"Pour prendre des pectoraux, il faut du volume proche de l'échec. Les pompes construisent la force ; l'écarté finit le muscle sans fatiguer les épaules.",
+  prog:"À 3 × 20 propres : élastique plus dur, ou 2 s de pause mains jointes."},
+ lat:{nom:'Élévations latérales à l\'élastique',zone:'Épaules (largeur)',sets:3,min:15,max:20,rest:45,
+  cue:"Élastique sous les pieds, bras le long du corps, coudes à peine pliés : monte les bras sur les côtés jusqu'à l'horizontale, sans hausser les épaules ni balancer. Descente en 2 à 3 s.",
+  why:"Le deltoïde latéral fait la largeur des épaules, et le HSPU travaille surtout l'avant de l'épaule. Ce petit exercice comble le manque.",
+  prog:"À 3 × 20 : élastique plus court ou plus dur, puis une main à la fois."},
  legraise:{nom:'Relevés à la chaise romaine',fig:'leg_raise',zone:'Abdos · compression',sets:3,min:8,max:15,rest:60,
   cue:"Avant-bras sur les accoudoirs, dos au dossier. Monte les genoux (ou les jambes tendues si c'est facile) jusqu'à l'horizontale, sans balancer, redescends en 2 s.",
   why:"La compression : indispensable pour le L-sit, et plus tard pour monter en ATR sans élan.",
@@ -828,10 +854,10 @@ const CALI_WARM=[
 /* les deux séances. t = ligne de progression, acc = accessoire,
    light = rappel technique (léger, ne compte pas pour monter), opt = si tu as le temps */
 const CALI_SESS={
- A:{nom:'Séance A — Planche',emoji:'🛫',focus:'Équilibre · planche · pompes · tirage · jambes · gainage',
-   blocs:[{t:'hs'},{t:'planche'},{t:'pompes'},{t:'tirage'},{acc:'straight'},{t:'jambes'},{t:'core'}]},
- B:{nom:'Séance B — HSPU',emoji:'🤸',focus:'Équilibre · HSPU · dips · rappel planche · tirage · compression',
-   blocs:[{t:'hs'},{t:'hspu'},{t:'dips'},{t:'planche',light:true},{t:'pullB'},{acc:'face',opt:true},{acc:'bridge',opt:true},{acc:'legraise'}]}
+ A:{nom:'Séance A — Planche & pecs',emoji:'🛫',focus:'Équilibre · planche · pompes · écarté · tirage · jambes · gainage',
+   blocs:[{t:'hs'},{t:'planche'},{t:'pompes'},{acc:'fly'},{t:'tirage'},{acc:'straight'},{acc:'lat',opt:true},{t:'jambes'},{t:'core'}]},
+ B:{nom:'Séance B — HSPU & épaules',emoji:'🤸',focus:'Équilibre · HSPU · dips · élévations latérales · rappel planche · tirage',
+   blocs:[{t:'hs'},{t:'hspu'},{t:'dips'},{acc:'lat'},{t:'planche',light:true},{t:'pullB'},{acc:'face',opt:true},{acc:'legraise'}]}
 };
 
 /* ---- état calisthénie ---- */
@@ -884,24 +910,24 @@ function dayInfo(){
 }
 const REVEIL={id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'};
 const OFF_DAYS=[
- {focus:'Récup : boxe technique + souplesse',items:[REVEIL,
+ {focus:'Boxe technique + étirements',items:[REVEIL,
    {id:'boxeT',emoji:'🥊',nom:'Boxe — technique',detail:'Skill pur, peu de fatigue',act:'boxe:tech'},
    {id:'soupc',emoji:'🧘',nom:'Souplesse complète',detail:'Séance longue, tout le corps (adducteurs : utile pour la straddle)',act:'soup:complete'}]},
- {focus:'Récup : boxe cardio + mobilité',items:[REVEIL,
+ {focus:'Boxe cardio + étirements',items:[REVEIL,
    {id:'boxeC',emoji:'🥊',nom:'Boxe — conditionnement',detail:'Rythme, intervalles, tenir le round',act:'boxe:condition'},
+   {id:'plancher',emoji:'🎯',nom:'Souplesse « Vers le sol »',detail:'Ischios, hanches, dos (à chaud)',act:'soup:plancher'}]},
+ {focus:'Boxe technique + mobilité',items:[REVEIL,
+   {id:'boxeT',emoji:'🥊',nom:'Boxe — technique',detail:'Skill pur, peu de fatigue : la journée légère de la semaine',act:'boxe:tech'},
    {id:'mobilite',emoji:'🔧',nom:'Mobilité santé',detail:'Dos, hanches, chevilles, épaules, poignets',act:'soup:mobilite'}]},
- {focus:'Repos actif',items:[REVEIL,
-   {id:'mobilite',emoji:'🔧',nom:'Mobilité santé',detail:'Entretien articulaire complet',act:'soup:mobilite'},
-   {id:'soir',emoji:'🌙',nom:'Détente du soir',detail:'Souplesse profonde + sommeil',act:'soup:soir'}]},
- {focus:'Récup : boxe complète + souplesse',items:[REVEIL,
+ {focus:'Boxe complète + étirements',items:[REVEIL,
    {id:'boxeK',emoji:'🥊',nom:'Boxe — séance complète',detail:'Technique, frappe, physique',act:'boxe:complet'},
-   {id:'plancher',emoji:'🎯',nom:'Souplesse « Vers le sol »',detail:'Ischios, hanches, dos (à chaud)',act:'soup:plancher'}]}
+   {id:'soir',emoji:'🌙',nom:'Détente du soir',detail:'Souplesse profonde + sommeil',act:'soup:soir'}]}
 ];
 function caliItem(T){ const s=CALI_SESS[T];
-  return {id:'cali',emoji:s.emoji,nom:'Calisthénie '+T+' — '+(T==='A'?'Planche':'HSPU'),detail:s.focus+' (~60 min)',act:'cali:'+T}; }
+  return {id:'cali',emoji:s.emoji,nom:'Calisthénie '+T+' — '+(T==='A'?'Planche':'HSPU'),detail:s.focus+' (~65 min)',act:'cali:'+T}; }
 function planFor(info){
   if(info.k==='cali') return {focus:'Calisthénie '+info.t+' — '+(info.t==='A'?'planche':'HSPU'),
-    items:[REVEIL, caliItem(info.t), {id:'soir',emoji:'🌙',nom:'Détente du soir',detail:'Souplesse douce + sommeil : les épaules et poignets récupèrent',act:'soup:soir'}]};
+    items:[REVEIL, caliItem(info.t), {id:'haut',emoji:'🙌',nom:'Étirements haut du corps',detail:'Juste après la séance : pecs, épaules, poignets',act:'soup:haut'}]};
   const o=OFF_DAYS[info.o]||OFF_DAYS[0]; return {focus:o.focus, items:o.items.slice()};
 }
 function todayPlan(){
@@ -952,6 +978,7 @@ const TIMING={
   'soup:complete':{top:['pic','soir'],                ok:['aprem'],                  why:"Le gain de souplesse se fait à chaud : en fin de journée, le muscle est plus étirable et le système nerveux plus tolérant."},
   'soup:plancher':{top:['pic','soir'],                ok:['aprem'],                  why:"À faire à chaud — après le sport ou une douche chaude. Le matin, les disques vertébraux sont gorgés d'eau : on évite la flexion avant poussée."},
   'soup:express': {top:['matin','aprem','pic','soir'],ok:['reveil'],                 why:"Le minimum quotidien : n'importe quand vaut infiniment mieux que jamais."},
+  'soup:haut':    {top:['aprem','pic','soir'],         ok:['matin'],                  why:"À faire juste après la calisthénie, muscles chauds : c'est là que l'étirement porte le plus et ne coûte rien à la force."},
   'soup:soir':    {top:['soir'],                      ok:['pic'],                    why:"Tenues longues et expiration allongée : ça gagne de l'amplitude ET ça prépare l'endormissement."},
   'work':         {top:['pic'],                       ok:['matin','aprem'],          why:"Force et puissance culminent en fin d'après-midi, quand la température corporelle est au plus haut. Plus tôt, c'est possible — mais l'échauffement doit être deux fois plus long."},
   'cali':         {top:['pic'],                       ok:['matin','aprem'],          why:"Force et équilibre culminent en fin d'après-midi, quand la température corporelle est au plus haut. Plus tôt, c'est possible — mais l'échauffement doit être deux fois plus long."},
@@ -1123,7 +1150,7 @@ function renderSess(){
   if(S.curWk){ renderWkSession(); return; }
   const C=cali();
   main.insertAdjacentHTML('beforeend',`<h1 class="page">Calisthénie</h1>
-    <p class="sub" style="margin-bottom:4px">Objectifs : <b style="color:var(--txt)">planche</b> et <b style="color:var(--txt)">HSPU</b>. Une séance un jour sur deux, A et B en alternance. Chaque mouvement a ses niveaux : quand toutes tes séries atteignent le haut de la fourchette, tu montes.</p>`);
+    <p class="sub" style="margin-bottom:4px">Objectifs : <b style="color:var(--txt)">des HSPU solides</b>, à terme <b style="color:var(--txt)">les pompes sans les pieds</b>, et des <b style="color:var(--txt)">pecs et des épaules</b> qui grossissent. Calisthénie un jour sur deux (A et B en alternance), boxe et étirements les autres jours : une séance chaque jour. Chaque mouvement a ses niveaux : quand toutes tes séries atteignent le haut de la fourchette, tu montes.</p>`);
 
   if(!C.placed){
     main.insertAdjacentHTML('beforeend',`<div class="card nextcard" style="margin-top:12px"><div class="nowlab">Première étape</div>
@@ -1142,7 +1169,7 @@ function renderSess(){
   else if(info.k==='cali') nc.innerHTML=`<div class="nowlab">Aujourd'hui</div><div class="nowname">${s.emoji} ${s.nom}</div>
       <div class="nowdet">${s.focus} · ~60 min, échauffement compris</div><button class="btn cali" id="goCali">▶ Démarrer la séance ${T}</button>`;
   else nc.innerHTML=`<div class="nowlab">Aujourd'hui : récupération</div><div class="nowname">Demain : ${s.emoji} ${s.nom}</div>
-      <div class="nowdet">Tu as fait une séance hier. Un jour sur deux, c'est le rythme qui fait progresser poignets et tendons sans les abîmer. Aujourd'hui : boxe ou souplesse (onglet Aujourd'hui).</div>
+      <div class="nowdet">Tu as fait une séance hier. Un jour sur deux, c'est le rythme qui fait progresser poignets et tendons sans les abîmer. Aujourd'hui : boxe + étirements (onglet Aujourd'hui).</div>
       <button class="btn ghost" id="goCali">Faire la séance ${T} quand même</button>`;
   main.appendChild(nc);
   const gc=nc.querySelector('#goCali');
