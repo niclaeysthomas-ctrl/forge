@@ -339,7 +339,7 @@ const PIANO_URL='https://niclaeysthomas-ctrl.github.io/piano-dojo/';
 
 /* ---------------- souplesse ---------------- */
 const ROUTINES=[
-  { id:'reveil', emoji:'🌅', nom:'Réveil du matin', focus:'Réveil musculaire + amorce souplesse', prep:5,
+  { id:'reveil', emoji:'🌅', nom:'Réveil doux (mobilité seule)', focus:'Les jours sans intensité', prep:5,
     note:"À froid, le corps est raide et les disques vertébraux gorgés d'eau : on bouge en amplitude progressive, jamais en force. Le vrai gain de souplesse se fait à chaud (séances dédiées). Ici, on réveille, on lubrifie les articulations, on lance la machine — puis on finit par une amorce douce vers le sol.",
     steps:[
     {emoji:'🌬️',nom:"Respiration + grandissement",zone:"Réveil / posture",dyn:true,sec:30,cue:"Debout, inspire par le nez en étirant la colonne vers le haut, souffle long par la bouche.",why:"Active le diaphragme et le système nerveux en douceur avant l'effort."},
@@ -502,7 +502,7 @@ const POSES={
  stand_reach:`<line class="fl" x1="16" y1="140" x2="204" y2="140"/><path class="b" d="M110 140 L110 102"/><path class="b" d="M110 102 L110 66"/><circle class="h" cx="110" cy="54" r="11"/><path class="m" d="M110 70 L94 30"/><path class="m" d="M110 70 L126 30"/><path class="ar" d="M94 26 l0 -9"/><path class="ard" d="M94 15 l-4 9 8 0 z"/><path class="ar" d="M126 26 l0 -9"/><path class="ard" d="M126 15 l-4 9 8 0 z"/>`,
  neck:`<path class="b" d="M84 122 L136 122"/><path class="b" d="M110 122 L110 100"/><circle class="h" cx="110" cy="86" r="13"/><path class="ar" d="M90 80 q20 -20 40 0"/><path class="ard" d="M130 80 l0 -9 8 6 z"/>`
 };
-function poseFor(s){ const t=((s.nom||'')+' '+(s.zone||'')).toLowerCase();
+function poseFor(s){ if('pose' in s) return s.pose; const t=((s.nom||'')+' '+(s.zone||'')).toLowerCase();
   const M=[['pnf','pnf_hamstring'],['contracte','pnf_hamstring'],['ischios au sol','supine_hamstring'],
    ['pince','seated_fold'],['pigeon','pigeon'],['papillon','butterfly'],['straddle','butterfly'],['adducteur','butterfly'],
    ['grenouille','frog'],['jefferson','jefferson'],['charnière','hip_hinge'],['hinge','hip_hinge'],
@@ -617,18 +617,56 @@ const CORE={ id:'core', emoji:'🧱', nom:'Gainage', focus:'Core · ceinture abd
   {emoji:'🧱',nom:'Planche (2e passage)',zone:'Gainage complet',cue:'Dernier effort : gaine tout, respiration régulière.',sec:40},
 ]};
 
-// réveil cardio : 12 min avec de la musique, sans pompes (les poussées sont pour les séances cali)
-const R1=[
-  {emoji:'🚶',nom:'Marche sur place rapide',zone:'Mise en route',cue:'Genoux à hauteur de hanche, bras qui balancent. Monte doucement le rythme.',sec:40},
-  {emoji:'✖️',nom:'Genou-coude croisé',zone:'Cardio · abdos',cue:'Debout, mains derrière la tête : monte le genou droit vers le coude gauche, puis l\'inverse. Vite, sans sauter.',sec:40},
-  {emoji:'🦵',nom:'Squats',zone:'Jambes · fessiers',cue:'Pieds largeur d\'épaules, fesses en arrière, talons au sol. Remonte en soufflant.',sec:40},
-  {emoji:'🥊',nom:'Shadow boxing',zone:'Cardio · technique boxe',cue:'Garde haute, jab-cross en restant sur les appuis. Ça compte pour ta boxe.',sec:40},
-  {emoji:'🏃',nom:'Montées de genoux',zone:'Cardio',cue:'Marche-les vite et pose le pied en douceur, bras actifs. Aucun saut : les voisins dorment.',sec:40},
-  {emoji:'🦿',nom:'Fentes arrière alternées',zone:'Jambes · équilibre',cue:'Recule d\'un grand pas, genou arrière vers le sol sans le toucher, buste droit. Pose le pied en douceur, alterne.',sec:40},
-  {emoji:'🥊',nom:'Shadow boxing rapide',zone:'Cardio à fond',cue:'Enchaînements rapides, esquives, déplacements. Les 40 secondes les plus dures.',sec:40}];
-const CARDIO={ id:'cardio', emoji:'🔥', nom:'Réveil cardio', focus:'12 min · cœur + jambes, en musique', prep:15,
-  note:"Deux tours de 7 exercices : 40 s d'effort, 15 s pour souffler. Tu dois être essoufflé sans pouvoir chanter, mais encore capable de parler. Zéro saut : rien ne s'entend à l'étage du dessous. Mets ta musique : les bips passent par-dessus.",
-  steps:R1.concat(R1.map(x=>({...x,nom:x.nom+' · 2e tour'})))};
+/* RÉVEIL — 9 min, une seule séance : le plus court, le plus complet, le plus intense.
+   Construit sur l'échauffement RAMP (Jeffreys 2007) : élever, activer, mobiliser, potentialiser.
+   1) 2 min de mobilité DYNAMIQUE enchaînée : à froid, l'étirement statique long n'apporte rien
+      avant l'effort ; le dynamique prépare mieux (Behm et al. 2016, revue APNM).
+   2) 8 intervalles 30 s d'effort / 15 s de récup (ratio 2:1, comme Tabata), qui montent en intensité.
+      Des intervalles très courts au poids du corps améliorent la VO2max autant que 30 min de
+      course (McRae et al. 2012, 4 min de 20/10) ; 10 min avec 1 min d'effort maximal font autant
+      que 45 min modérées (Gillen et al. 2016). L'intensité compte plus que la durée.
+   3) Alternance boxe / corps entier : pendant que les bras récupèrent, les jambes travaillent.
+   Contraintes : zéro saut (voisins), zéro pompe (les poussées sont pour la calisthénie). */
+const CARDIO={ id:'cardio', emoji:'🔥', nom:'Réveil', focus:'9 min · mobilité + 8 intervalles boxe / corps entier', prep:15,
+  note:"Bloc 1 (2 min) : mobilité enchaînée, sans pause. Bloc 2 (6 min) : 8 × 30 s à fond / 15 s de récup, en alternant boxe et corps entier. Intensité visée : 7/10 sur les deux premiers, 9/10 à partir du 3e — impossible de parler, mais la technique reste propre. Zéro saut, zéro pompe. Mets ta musique : les bips passent par-dessus.",
+  steps:[
+  {emoji:'🐈',nom:'Chat–vache',zone:'Mobilité · colonne',dyn:true,sec:30,prep:5,
+   cue:"À quatre pattes : dos rond en soufflant, dos creux en inspirant. Une vertèbre après l'autre.",
+   why:"Les disques sont gorgés d'eau au réveil : on mobilise la colonne sans charge avant de lui demander quoi que ce soit."},
+  {emoji:'🌍',nom:'Fente + rotation thoracique',zone:'Mobilité · hanches et haut du dos',dyn:true,sec:30,sides:true,prep:5,
+   cue:"Grande fente avant, main opposée au sol, puis ouvre l'autre bras vers le plafond en suivant ta main des yeux. Reviens, recommence : 3 s par répétition.",
+   why:"Le « world's greatest stretch » des préparateurs : fléchisseurs de hanche, adducteurs, ischios et rotation du haut du dos en un seul geste. Le plus complet par seconde."},
+  {emoji:'🐛',nom:'Chenille (inchworm)',zone:'Mobilité · chaîne arrière + gainage',dyn:true,sec:30,prep:5,pose:null,
+   cue:"Debout, plie-toi, marche les mains jusqu'à la planche, tiens 1 s, puis ramène les pieds vers les mains à petits pas, jambes le plus tendues possible. Pas de pompe.",
+   why:"Étire ischios et mollets, charge épaules et sangle abdominale : la transition idéale vers l'effort."},
+  {emoji:'🥊',nom:'Ombre · jab-direct (1-2)',zone:'Intervalle 1/8 · montée en régime 7/10',sec:30,pose:null,
+   cue:"Garde haute, menton rentré, sur l'avant des pieds. Le poing part et revient au visage ; pivote le pied arrière sur chaque direct.",
+   why:"Potentialisation : le geste spécifique à intensité moyenne prépare le système nerveux aux intervalles durs."},
+  {emoji:'🏋️',nom:'Squat + double direct',zone:'Intervalle 2/8 · jambes 7/10',sec:30,pose:null,
+   cue:"Descends cuisses parallèles, talons au sol. En remontant, envoie 1-2 : le coup part de la poussée des jambes.",
+   why:"Les plus gros muscles du corps font monter le cœur le plus vite, et tu apprends à frapper depuis le sol."},
+  {emoji:'🥊',nom:'Ombre · 1-2-3 + esquive rotative',zone:'Intervalle 3/8 · boxe 9/10',sec:30,pose:null,
+   cue:"Jab, direct, crochet avant, puis esquive en rotation du buste (genoux fléchis, tête hors de l'axe). Enchaîne sans t'arrêter.",
+   why:"Le crochet et l'esquive font travailler la rotation du tronc : ce que la course ne te donnera jamais."},
+  {emoji:'⛰️',nom:'Grimpeur (mountain climber)',zone:'Intervalle 4/8 · gainage 9/10',sec:30,pose:null,
+   cue:"Planche haute, mains sous les épaules : ramène les genoux vers la poitrine en alternance, vite. Hanches basses, pointes de pied légères, sans bruit.",
+   why:"Cardio et gainage en même temps, au sol, silencieux. Un des exercices de l'étude McRae 2012."},
+  {emoji:'🥊',nom:'Rafale de directs',zone:'Intervalle 5/8 · épaules 9/10',sec:30,pose:null,
+   cue:"Directs gauche-droite le plus vite possible, hanches qui tournent, poings qui reviennent au visage. Ne verrouille pas les bras en extension.",
+   why:"L'endurance des épaules : c'est elle qui lâche en premier en fin de round."},
+  {emoji:'🦿',nom:'Fente arrière + montée de genou',zone:'Intervalle 6/8 · jambes 9/10',sec:30,pose:null,
+   cue:"Recule en fente, genou arrière près du sol, puis remonte en projetant ce genou vers le haut, bras en garde. Alterne les jambes à chaque répétition.",
+   why:"Force sur une jambe + équilibre + explosivité de la hanche, sans aucun impact."},
+  {emoji:'🔁',nom:'Burpee sans saut',zone:'Intervalle 7/8 · corps entier 10/10',sec:30,pose:null,
+   cue:"Mains au sol, recule les pieds en planche, ramène-les, redresse-toi bras au-dessus de la tête. Sans saut ni pompe, mais le plus vite possible.",
+   why:"Le mouvement qui fait monter le cœur le plus haut sans matériel. Version silencieuse."},
+  {emoji:'🥊',nom:'Ombre · dernier round à fond',zone:'Intervalle 8/8 · boxe 10/10',sec:30,pose:null,
+   cue:"Combinaisons libres, déplacements, esquives, remises. Tout ce qui reste dans le réservoir. 30 secondes.",
+   why:"Finir sur la boxe, fatigué : c'est exactement là que se construit le cardio de boxeur."},
+  {emoji:'🌬️',nom:'Respiration de récupération',zone:'Retour au calme',sec:30,prep:10,pose:null,
+   cue:"Debout, mains sur la tête : inspire 4 s par le nez, souffle 6 s par la bouche. Laisse le cœur redescendre.",
+   why:"L'expiration longue active le frein parasympathique : tu repars lucide, pas sur les nerfs."},
+]};
 const FLOOR=['À hauteur des genoux','Mi-mollets','Chevilles','Bout des doigts au sol','Paumes à plat au sol'];
 
 /* ================================================================
@@ -921,19 +959,18 @@ function dayInfo(){
   else { info={k:'off',o:C.offN%4}; C.offN++; }
   C.days[t]=info; save(); return info;
 }
-const REVEIL={id:'reveil',emoji:'🌅',nom:'Réveil du matin',detail:'Réveil musculaire + amorce souplesse',act:'soup:reveil'};
-const CARDIO_IT={id:'cardio',emoji:'🔥',nom:'Réveil cardio',detail:'12 min en musique, juste après le réveil',act:'circuit:cardio'};
+const REVEIL={id:'reveil',emoji:'🔥',nom:'Réveil',detail:'9 min chrono en sortant du lit : mobilité + 8 intervalles boxe',act:'circuit:cardio'};
 const OFF_DAYS=[
- {focus:'Boxe technique + étirements',items:[REVEIL,CARDIO_IT,
+ {focus:'Boxe technique + étirements',items:[REVEIL,
    {id:'boxeT',emoji:'🥊',nom:'Boxe — technique',detail:'Skill pur, peu de fatigue',act:'boxe:tech'},
    {id:'soupc',emoji:'🧘',nom:'Souplesse complète',detail:'Séance longue, tout le corps (adducteurs : utile pour la straddle)',act:'soup:complete'}]},
- {focus:'Boxe cardio + étirements',items:[REVEIL,CARDIO_IT,
+ {focus:'Boxe cardio + étirements',items:[REVEIL,
    {id:'boxeC',emoji:'🥊',nom:'Boxe — conditionnement',detail:'Rythme, intervalles, tenir le round',act:'boxe:condition'},
    {id:'plancher',emoji:'🎯',nom:'Souplesse « Vers le sol »',detail:'Ischios, hanches, dos (à chaud)',act:'soup:plancher'}]},
- {focus:'Boxe technique + mobilité',items:[REVEIL,CARDIO_IT,
+ {focus:'Boxe technique + mobilité',items:[REVEIL,
    {id:'boxeT',emoji:'🥊',nom:'Boxe — technique',detail:'Skill pur, peu de fatigue : la journée légère de la semaine',act:'boxe:tech'},
    {id:'mobilite',emoji:'🔧',nom:'Mobilité santé',detail:'Dos, hanches, chevilles, épaules, poignets',act:'soup:mobilite'}]},
- {focus:'Boxe complète + étirements',items:[REVEIL,CARDIO_IT,
+ {focus:'Boxe complète + étirements',items:[REVEIL,
    {id:'boxeK',emoji:'🥊',nom:'Boxe — séance complète',detail:'Technique, frappe, physique',act:'boxe:complet'},
    {id:'soir',emoji:'🌙',nom:'Détente du soir',detail:'Souplesse profonde + sommeil',act:'soup:soir'}]}
 ];
@@ -941,7 +978,7 @@ function caliItem(T){ const s=CALI_SESS[T];
   return {id:'cali',emoji:s.emoji,nom:'Calisthénie '+T+' — '+(T==='A'?'Planche':'HSPU'),detail:s.focus+' (~65 min)',act:'cali:'+T}; }
 function planFor(info){
   if(info.k==='cali') return {focus:'Calisthénie '+info.t+' — '+(info.t==='A'?'planche':'HSPU'),
-    items:[REVEIL,CARDIO_IT, caliItem(info.t), {id:'haut',emoji:'🙌',nom:'Étirements haut du corps',detail:'Juste après la séance : pecs, épaules, poignets',act:'soup:haut'}]};
+    items:[REVEIL, caliItem(info.t), {id:'haut',emoji:'🙌',nom:'Étirements haut du corps',detail:'Juste après la séance : pecs, épaules, poignets',act:'soup:haut'}]};
   const o=OFF_DAYS[info.o]||OFF_DAYS[0]; return {focus:o.focus, items:o.items.slice()};
 }
 function todayPlan(){
@@ -1239,7 +1276,7 @@ function renderSess(){
     <p><b>Chaise romaine :</b> si elle bouge pendant les dips, ne leste jamais et passe aux dips entre deux chaises solides.</p></div>`);
 
   /* hors programme */
-  main.insertAdjacentHTML('beforeend','<div class="cat">🧱 Hors programme — gainage</div><div id="circ"></div>');
+  main.insertAdjacentHTML('beforeend','<div class="cat">🔥 Circuits — réveil et gainage</div><div id="circ"></div>');
   const cc=main.querySelector('#circ');
   for(const r of [CARDIO,CORE]){ const d=document.createElement('div'); d.className='rout';
     d.innerHTML=`<div class="rh"><span class="ri">${r.emoji}</span>
@@ -1477,7 +1514,7 @@ function startRoutine(routine, planId=null){
   const sideSwitch = Math.min(prep, 8);        // transition pour changer de côté
   const setRest = routine.setRest || Math.min(prep, 15); // repos court entre deux séries du même étirement
   routine.steps.forEach(s=>{ const sets = s.sets>1 ? s.sets : 1;
-    phases.push({kind:'prep',sec:prep,s});
+    phases.push({kind:'prep',sec:s.prep||prep,s});
     const holds = side => { for(let k=1;k<=sets;k++){ phases.push({kind:'hold',sec:s.sec,s,side,setNo:k,setTot:sets});
       if(k<sets) phases.push({kind:'rest',sec:setRest,s}); } };
     if(s.sides){ holds('gauche'); phases.push({kind:'switch',sec:sideSwitch,s}); holds('droite'); }
