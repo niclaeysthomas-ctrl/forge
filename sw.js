@@ -1,5 +1,5 @@
 // FORGE — service worker (réseau d'abord, cache de secours hors-ligne)
-const CACHE = 'forge-v15-synchro';
+const CACHE = 'forge-v16-synchrob';
 const ASSETS = ['index.html', './', 'forge-sync.js'];
 
 self.addEventListener('install', e=>{
