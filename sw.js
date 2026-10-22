@@ -1,6 +1,6 @@
 // FORGE — service worker (réseau d'abord, cache de secours hors-ligne)
-const CACHE = 'forge-v14-reveil9';
-const ASSETS = ['index.html', './'];
+const CACHE = 'forge-v15-synchro';
+const ASSETS = ['index.html', './', 'forge-sync.js'];
 
 self.addEventListener('install', e=>{
   e.waitUntil(caches.open(CACHE).then(c=> c.addAll(ASSETS)).then(()=> self.skipWaiting()));
@@ -12,7 +12,7 @@ self.addEventListener('activate', e=>{
   );
 });
 self.addEventListener('fetch', e=>{
-  if(e.request.method !== 'GET') return;
+  if(e.request.method !== 'GET' || !e.request.url.startsWith(self.location.origin)) return;
   e.respondWith(
     fetch(e.request).then(res=>{
       const copy = res.clone();

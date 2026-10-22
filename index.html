@@ -331,6 +331,7 @@
 <div class="overlay" id="player"></div>
 <div id="toast"></div>
 
+<script src="forge-sync.js"></script>
 <script>
 /* ================================================================
    FORGE — calisthénie (planche & HSPU) · boxe · souplesse guidée · journal
@@ -952,8 +953,12 @@ function nextType(){ const L=caliLast(); return L?(L.cali==='A'?'B':'A'):'A'; }
 function dayInfo(){
   const C=cali(), t=todayStr();
   Object.keys(C.days).forEach(d=>{ if(daysBetween(d,t)>40) delete C.days[d]; });
-  if(C.days[t]) return C.days[t];
-  const L=caliLast(); let info;
+  const L=caliLast();
+  /* le cache du jour ne fait foi que s'il colle au journal (une séance faite
+     sur l'autre appareil et arrivée par la synchro le remet en cause) */
+  if(C.days[t]){ const c=C.days[t], want=(!L||daysBetween(L.date,t)>=2||L.date===t)?'cali':'off';
+    if(c.k===want&&(want==='off'||L&&L.date!==t||c.t===L.cali)) return c; }
+  let info;
   if(!L||daysBetween(L.date,t)>=2) info={k:'cali',t:nextType()};
   else if(L.date===t) info={k:'cali',t:L.cali};
   else { info={k:'off',o:C.offN%4}; C.offN++; }
@@ -1051,7 +1056,16 @@ function suggestNow(day,cr){ const todo=day.items.filter(it=>!planDone(it.id)); 
 const DEFAULT={ mobLog:[], workoutLog:[], journal:[], boxeLog:[], floorTests:[], planDone:{}, prReps:{}, curWk:null, restDur:90, bx:{sac:null,fmt:"pro"} };
 let S=load();
 function load(){ try{ return Object.assign({},DEFAULT,JSON.parse(localStorage.getItem('forge_v2')||'{}')); }catch(e){ return {...DEFAULT}; } }
-function save(){ localStorage.setItem('forge_v2',JSON.stringify(S)); }
+function save(){ S.mod=Date.now(); localStorage.setItem('forge_v2',JSON.stringify(S)); if(window.AppsSync) AppsSync.soon(); }
+/* synchro téléphone ↔ ordi : à l'ouverture, au retour sur l'app, et 5 s après chaque changement */
+async function syncApps(){
+  if(!window.AppsSync||!AppsSync.enabled()) return;
+  if(S.curWk) return;                       // jamais pendant une séance en cours
+  const r=await AppsSync.run();
+  if(r&&r.changed&&!S.curWk){ S=load(); render(); }
+}
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') syncApps(); });
+window.addEventListener('focus',()=>syncApps());
 const todayStr=()=>new Date().toISOString().slice(0,10);
 const dayIdx=()=>(new Date().getDay()+6)%7;
 const frDate=ds=>new Date(ds+'T12:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
@@ -2479,6 +2493,7 @@ function closeOverlay(){ overlay.classList.remove('open'); }
 function openCustom(title,fill){ overlayInner.innerHTML=`<div class="topbar"><button class="back">←</button><b>${title}</b></div>`;
   overlayInner.querySelector('.back').onclick=closeOverlay; overlay.classList.add('open'); overlay.scrollTop=0; fill(overlayInner,closeOverlay); }
 function escapeH(s){ return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(/\n/g,'<br>'); }
+syncApps();
 if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
 
 /* ---------------- init ---------------- */
