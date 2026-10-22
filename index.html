@@ -312,6 +312,17 @@
   .tgl .tx{flex:1}.tgl .tx b{font-size:14px;display:block}.tgl .tx small{color:var(--dim);font-size:12px;line-height:1.45;display:block;margin-top:2px}
   .honest p{font-size:12.5px;color:#b9c7d6;line-height:1.6;margin-top:9px}
   .honest p b{color:var(--txt)}
+
+.bsel{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:9px 10px;margin:6px 0}
+.bsel .bt{flex:1;min-width:0}.bsel .bt b{display:block;font-size:14px}.bsel .bt small{color:var(--dim);font-size:12px}
+.bsel .bn{display:flex;align-items:center;gap:4px;font-size:12px;white-space:nowrap}.bsel .bn span{min-width:52px;text-align:center}
+.bsel button{background:var(--bg3);border:1px solid var(--line);color:var(--txt);border-radius:8px;min-width:30px;height:30px;font:inherit;cursor:pointer}
+.bsel button:disabled{opacity:.3}.bsel .bmv{display:flex;gap:3px}
+.bchips{display:flex;flex-wrap:wrap;gap:6px}
+.bchip{background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:999px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer}
+.bchip.on{background:var(--cali);border-color:var(--cali);color:#fff;font-weight:700}
+.inp{width:100%;box-sizing:border-box;background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px}
+@media (max-width:420px){.bsel{flex-wrap:wrap}.bsel .bt{flex-basis:100%}}
 </style>
 </head>
 <body>
@@ -912,6 +923,224 @@ const CALI_SESS={
    blocs:[{t:'hs'},{t:'hspu'},{t:'dips'},{acc:'lat'},{t:'planche',light:true},{t:'pullB'},{acc:'face',opt:true},{acc:'legraise'}]}
 };
 
+
+/* ═══════════════════════════════════════════════════════════════════
+   🧩 MES SÉANCES — tu choisis tes exercices, l'app adapte ensuite.
+   Bibliothèque : uniquement ton matériel (élastiques, poignées, chaise
+   romaine, table, mur, sol). Chaque exercice a sa fourchette : quand toutes
+   tes séries touchent le haut, la fin de séance te dit comment durcir.
+   Une séance libre compte comme ta séance de muscu du jour : le lendemain,
+   c'est récup, et la prochaine séance A/B attend son tour.
+   ═══════════════════════════════════════════════════════════════════ */
+const LIB_G=[['epaules','🎯','Épaules'],['bras','💪','Bras'],['pecs','🛡️','Pecs'],['dos','🪽','Dos'],['jambes','🦵','Jambes'],['abdos','🧱','Abdos']];
+const LIB={
+ /* ÉPAULES */
+ pike:{g:'epaules',nom:'Pike push-up',fig:'hs_pike',zone:'Avant d\'épaule · triceps',sets:4,min:6,max:12,rest:120,
+  cue:"En V inversé, hanches hautes. Descends la tête DEVANT les mains (triangle tête-mains), coudes à 45°, pousse jusqu'à bras tendus.",
+  why:"Le développé militaire du poids de corps : le meilleur exercice d'épaules sans charge.",
+  prog:"À 4 × 12 : pieds surélevés sur une chaise, puis mains sur les poignées."},
+ pikeel:{g:'epaules',nom:'Pike push-up pieds surélevés',fig:'hs_pike_el',zone:'Épaules · triceps',sets:4,min:6,max:10,rest:120,
+  cue:"Pieds sur une chaise, hanches au-dessus des épaules. Tête devant les mains, descente en 2 s.",
+  why:"Plus tu te rapproches de la verticale, plus l'épaule porte de poids.",
+  prog:"À 4 × 10 : mains sur les poignées (amplitude en déficit)."},
+ press:{g:'epaules',nom:'Développé militaire à l\'élastique',zone:'Épaules (avant + milieu)',sets:4,min:10,max:15,rest:90,
+  cue:"Debout sur l'élastique, pieds largeur de hanches. Poings à hauteur d'épaules, pousse au-dessus de la tête jusqu'à bras tendus, fesses et abdos serrés, sans cambrer.",
+  why:"Du volume d'épaules sans fatiguer les poignets, en complément des pike push-ups.",
+  prog:"À 4 × 15 : élastique plus dur, ou pieds plus écartés pour tendre l'élastique."},
+ lat:{g:'epaules',from:'lat'},
+ front:{g:'epaules',nom:'Élévations frontales à l\'élastique',zone:'Avant d\'épaule',sets:3,min:12,max:15,rest:60,
+  cue:"Élastique sous les pieds, bras tendus devant les cuisses. Monte jusqu'à hauteur des yeux, sans balancer, redescends en 2 s.",
+  why:"Isole l'avant de l'épaule. À garder léger si tu fais déjà pike ou développé.",
+  prog:"À 3 × 15 : élastique plus dur, puis un bras à la fois."},
+ oiseau:{g:'epaules',nom:'Oiseau à l\'élastique',zone:'Arrière d\'épaule',sets:3,min:15,max:20,rest:60,
+  cue:"Élastique tenu devant toi à hauteur de poitrine, bras tendus. Écarte les bras jusqu'à former un T en serrant les omoplates, reviens lentement.",
+  why:"L'arrière d'épaule est presque toujours en retard : c'est lui qui donne l'épaule « ronde » de profil et qui protège l'articulation.",
+  prog:"À 3 × 20 : élastique plus court, ou 2 s de pause bras écartés."},
+ face:{g:'epaules',from:'face'},
+ rotext:{g:'epaules',nom:'Rotations externes à l\'élastique',zone:'Coiffe des rotateurs',sets:2,min:15,max:20,ps:true,rest:45,
+  cue:"Élastique accroché à hauteur du coude, coude collé au flanc à 90°. Fais pivoter l'avant-bras vers l'extérieur, lentement, sans décoller le coude.",
+  why:"L'assurance-vie de l'épaule quand tu pousses lourd en pike et en HSPU.",
+  prog:"Reste léger : vise la qualité, pas la charge."},
+ ytw:{g:'epaules',nom:'Y-T-W au sol',zone:'Bas des trapèzes · arrière d\'épaule',sets:2,min:8,max:12,rest:60,
+  cue:"Allongé sur le ventre, front au sol. Monte les bras en Y, puis en T, puis en W (coudes pliés) : une répétition = les trois lettres. Pouces vers le ciel.",
+  why:"Réveille les petits muscles qui stabilisent l'omoplate. Parfait en début de séance d'épaules.",
+  prog:"À 2 × 12 : tiens 2 s chaque position."},
+ atrmur:{g:'epaules',nom:'Tenue en appui renversé au mur',u:'s',zone:'Épaules · gainage',sets:3,min:20,max:45,rest:90,
+  cue:"Ventre face au mur, mains à 20 cm du mur. Pousse le sol, épaules aux oreilles, corps gainé en ligne.",
+  why:"Force isométrique d'épaules en position haute : la base du HSPU.",
+  prog:"À 3 × 45 s : rapproche les mains du mur, ou décolle un pied quelques secondes."},
+ /* BRAS */
+ curl:{g:'bras',nom:'Curl biceps à l\'élastique',zone:'Biceps',sets:3,min:12,max:15,rest:60,
+  cue:"Debout sur l'élastique, coudes collés au corps. Monte les mains vers les épaules, serre 1 s en haut, redescends en 3 s.",
+  why:"Tes séances ne tirent presque pas en bras pliés : le biceps a besoin de son propre travail pour grossir.",
+  prog:"À 3 × 15 : élastique plus dur, ou pieds plus écartés."},
+ marteau:{g:'bras',nom:'Curl marteau à l\'élastique',zone:'Biceps · avant-bras',sets:3,min:12,max:15,rest:60,
+  cue:"Comme le curl, mais pouces vers le haut (prise neutre). Coudes fixes.",
+  why:"Travaille le brachial, sous le biceps : c'est lui qui « pousse » le biceps vers le haut et épaissit le bras.",
+  prog:"À 3 × 15 : élastique plus dur."},
+ tricover:{g:'bras',nom:'Extension triceps au-dessus de la tête',zone:'Triceps (longue portion)',sets:3,min:12,max:15,rest:60,
+  cue:"Élastique sous le pied arrière, mains derrière la nuque, coudes pointés vers le plafond. Tends les bras au-dessus de la tête, redescends lentement.",
+  why:"La longue portion du triceps est la plus grosse : elle ne travaille à fond que bras au-dessus de la tête.",
+  prog:"À 3 × 15 : élastique plus dur."},
+ pushdown:{g:'bras',nom:'Extension triceps vers le bas (pushdown)',zone:'Triceps',sets:3,min:15,max:20,rest:60,
+  cue:"Élastique accroché en haut d'une porte. Coudes collés aux côtes, pousse vers le bas jusqu'à bras tendus, serre 1 s.",
+  why:"Finit les triceps sans fatiguer les épaules.",
+  prog:"À 3 × 20 : élastique plus dur, ou une main à la fois."},
+ diamant:{g:'bras',nom:'Pompes diamant',zone:'Triceps · pecs',sets:3,min:6,max:15,rest:90,
+  cue:"Mains rapprochées sous la poitrine, pouces et index en losange. Coudes le long du corps, poitrine jusqu'aux mains.",
+  why:"Le triceps au poids du corps : il fait les deux tiers du volume du bras.",
+  prog:"À 3 × 15 : pieds surélevés, puis tempo 3 s en descente."},
+ benchdips:{g:'bras',nom:'Dips sur chaise (bench dips)',zone:'Triceps',sets:3,min:10,max:20,rest:75,
+  cue:"Mains sur le bord d'une chaise solide derrière toi, jambes pliées. Descends jusqu'à 90° de coude, dos près de la chaise, remonte.",
+  why:"Du volume de triceps facile à doser.",
+  prog:"À 3 × 20 : jambes tendues, puis pieds sur une autre chaise. Douleur à l'avant de l'épaule : on arrête."},
+ /* PECS */
+ pompes:{g:'pecs',nom:'Pompes',zone:'Pecs · triceps',sets:3,min:10,max:20,rest:90,
+  cue:"Mains un peu plus larges que les épaules, coudes à 45°, corps gainé. Poitrine au sol, pousse fort.",
+  why:"La base. Simple, efficace, toujours là.",
+  prog:"À 3 × 20 : pieds surélevés, ou sur les poignées pour plus d'amplitude."},
+ declin:{g:'pecs',nom:'Pompes déclinées',zone:'Haut des pecs · épaules',sets:3,min:8,max:15,rest:90,
+  cue:"Pieds sur une chaise, mains au sol. Descends la poitrine entre les mains, coudes à 45°.",
+  why:"Cible le haut des pecs, et prépare aussi les épaules.",
+  prog:"À 3 × 15 : mains sur les poignées."},
+ fly:{g:'pecs',from:'fly'},
+ presspec:{g:'pecs',nom:'Développé couché à l\'élastique (debout)',zone:'Pecs',sets:3,min:12,max:20,rest:60,
+  cue:"Élastique passé dans le dos, sous les aisselles. Pousse devant toi jusqu'à bras tendus, mains qui se rejoignent, reviens en 2 s.",
+  why:"Du volume de pecs sans abîmer les poignets.",
+  prog:"À 3 × 20 : élastique doublé ou plus dur."},
+ /* DOS */
+ rowtab:{g:'dos',nom:'Rowing sous une table',zone:'Dos · biceps',sets:4,min:8,max:15,rest:90,
+  cue:"Allongé sous une table SOLIDE, mains au bord. Corps gainé, tire la poitrine vers le bord, coudes à 45°, redescends lentement.",
+  why:"Le tirage horizontal au poids du corps : il équilibre toutes tes pompes.",
+  prog:"À 4 × 15 : pieds surélevés sur une chaise."},
+ rowel:{g:'dos',nom:'Rowing à l\'élastique',zone:'Milieu du dos',sets:3,min:12,max:20,rest:60,
+  cue:"Assis jambes tendues, élastique autour des pieds. Tire vers le nombril, coudes le long du corps, serre les omoplates 1 s.",
+  why:"Épaisseur du dos et posture : le contrepoids de tout ce que tu pousses.",
+  prog:"À 3 × 20 : élastique plus dur."},
+ pulldown:{g:'dos',nom:'Tirage vertical à l\'élastique',zone:'Grand dorsal',sets:3,min:12,max:15,rest:60,
+  cue:"À genoux, élastique accroché en haut d'une porte. Tire les coudes vers les hanches, poitrine sortie, remonte lentement.",
+  why:"Ce qui remplace le mieux les tractions sans barre.",
+  prog:"À 3 × 15 : élastique plus dur, ou un bras à la fois."},
+ straight:{g:'dos',from:'straight'},
+ superman:{g:'dos',nom:'Superman',u:'s',zone:'Lombaires · fessiers',sets:3,min:20,max:40,rest:45,
+  cue:"Sur le ventre, bras devant. Décolle bras, poitrine et jambes ensemble, regard vers le sol, et tiens.",
+  why:"Le bas du dos, qui tient ta ligne en planche et en ATR.",
+  prog:"À 3 × 40 s : bras en W, ou petits battements."},
+ /* JAMBES */
+ bulgare:{g:'jambes',nom:'Squat bulgare',zone:'Quadriceps · fessiers',sets:3,min:8,max:15,ps:true,rest:90,
+  cue:"Pied arrière sur une chaise, pied avant à un grand pas. Descends le genou arrière vers le sol, buste droit, pousse dans le talon avant.",
+  why:"Le roi des jambes sans charge : une jambe à la fois, donc deux fois plus lourd.",
+  prog:"À 3 × 15 : tempo 3 s en descente, ou élastique sous le pied avant."},
+ fentes:{g:'jambes',nom:'Fentes arrière',zone:'Quadriceps · fessiers',sets:3,min:10,max:15,ps:true,rest:75,
+  cue:"Grand pas en arrière, genou arrière près du sol, genou avant au-dessus de la cheville. Reviens en poussant sur le pied avant.",
+  why:"Doux pour les genoux, et ça travaille l'équilibre.",
+  prog:"À 3 × 15 : passe au squat bulgare."},
+ bridge:{g:'jambes',from:'bridge'},
+ squatel:{g:'jambes',nom:'Squat à l\'élastique',zone:'Cuisses · fessiers',sets:3,min:15,max:20,rest:75,
+  cue:"Debout sur l'élastique, poignées aux épaules. Descends cuisses parallèles au sol, genoux dans l'axe des pieds, remonte.",
+  why:"Du volume de jambes simple et sans impact.",
+  prog:"À 3 × 20 : élastique plus dur, ou pause 2 s en bas."},
+ mollets:{g:'jambes',nom:'Mollets sur une marche',zone:'Mollets',sets:3,min:15,max:25,rest:45,
+  cue:"Avant des pieds sur une marche, talons dans le vide. Monte sur la pointe, tiens 1 s, descends plus bas que la marche.",
+  why:"Utiles en boxe : appuis et déplacements.",
+  prog:"À 3 × 25 : une jambe à la fois."},
+ /* ABDOS */
+ legraise:{g:'abdos',from:'legraise'},
+ hollow:{g:'abdos',nom:'Hollow body',u:'s',zone:'Abdos profonds',sets:3,min:20,max:40,rest:60,
+  cue:"Sur le dos, bas du dos COLLÉ au sol, jambes et épaules décollées, bras tendus derrière la tête. Si le dos décolle, plie les genoux.",
+  why:"La position de gainage de la gymnastique : c'est elle que tu tiens en ATR et en planche.",
+  prog:"À 3 × 40 s : bras et jambes plus bas, puis balancier."},
+ gainage:{g:'abdos',nom:'Gainage sur les coudes',u:'s',zone:'Ceinture abdominale',sets:3,min:30,max:60,rest:45,
+  cue:"Coudes sous les épaules, corps en ligne, fesses et abdos serrés. Pousse le sol avec les avant-bras.",
+  why:"La base de tout le reste.",
+  prog:"À 3 × 60 s : lève un pied ou un bras en alternance."},
+ deadbug:{g:'abdos',nom:'Dead bug',zone:'Abdos · stabilité',sets:3,min:8,max:12,ps:true,rest:45,
+  cue:"Sur le dos, bras vers le plafond, genoux à 90°. Descends bras et jambe opposés en gardant le bas du dos collé au sol.",
+  why:"Apprend à gainer pendant que les membres bougent : utile partout, surtout en boxe.",
+  prog:"À 3 × 12 : élastique tenu dans les mains, ou plus lent."}
+};
+function libEx(id){ const e=LIB[id]; if(!e) return null; if(e.from){ const a=ACC[e.from]; return {...a,g:e.g}; } return e; }
+const LIB_TPL=[
+ {id:'tpl_ep_bras',nom:'Épaules 3D + bras',emoji:'🎯',ex:['ytw','pike','press','lat','oiseau','curl','tricover','marteau','diamant'],
+  note:"L'épaule sous ses trois faces (avant, milieu, arrière), puis biceps et triceps. ~50 min."},
+ {id:'tpl_ep_dos',nom:'Épaules + dos',emoji:'🪽',ex:['ytw','pike','lat','face','rowtab','pulldown','rowel','rotext'],
+  note:"Pousser au-dessus de la tête, puis tirer : des épaules qui grossissent ET qui restent en bonne santé. ~50 min."}
+];
+function mesS(){ if(!S.mesSeances) S.mesSeances=[]; return S.mesSeances; }
+function libEntry(id,sets){ const e=libEx(id);
+  return {ex:e.nom, zone:e.zone, fig:e.fig, u:e.u||'reps', n:sets||e.sets, min:e.min, max:e.max, rest:e.rest, cue:e.cue, why:e.why, prog:e.prog, ps:!!e.ps, lib:id}; }
+function startLibre(sess){
+  if(S.curWk){ goSess(); return; }
+  const info=dayInfo();
+  if(caliDoneToday()&&!confirm("Tu as déjà fait ta séance de muscu aujourd'hui. En faire une autre ?")) return;
+  if(!caliDoneToday()&&info.k!=='cali'&&!confirm("Ta dernière séance de muscu date d'hier. La faire quand même ?\n\nUn jour de récup rapporte souvent plus qu'une séance de plus.")) return;
+  ac();
+  S.curWk={ id:'libre', libre:sess.id||1, nom:sess.nom, warm:CALI_WARM.slice(3), start:Date.now(),
+    entries:sess.ex.filter(x=>LIB[x.id||x]).map(x=>{ const id=x.id||x, e=libEntry(id,x.n);
+      const lp=lastWk(e.ex); const base=lp?lp.sets[0].reps:e.min;
+      return {...e, sets:[...Array(e.n)].map(()=>({reps:base,done:false}))}; }) };
+  save(); goSess();
+}
+function libreHtmlCard(sess,own){
+  const ex=sess.ex.map(x=>libEx(x.id||x)).filter(Boolean);
+  const nS=sess.ex.reduce((a,x)=>a+((x.n)||(libEx(x.id||x)||{}).sets||0),0);
+  return `<div class="rh"><span class="ri">${sess.emoji}</span><div class="rtx"><b>${escapeH(sess.nom)}</b><small>${ex.length} exercices · ${nS} séries${sess.note?'':' · ta séance'}</small></div><span class="chev">▾</span></div>
+    <div class="steps">${sess.note?`<div class="rnote">${sess.note}</div>`:''}${ex.map((e,i)=>`<div class="st"><span>${(sess.ex[i].n||e.sets)} × ${e.min}–${e.max} ${e.u==='s'?'s':'reps'}${e.ps?' / côté':''}</span><div class="stc">${e.nom}<small class="stwhy">${e.zone} · repos ${fmtRest(e.rest)}</small></div></div>`).join('')}</div>
+    <div class="row2"><button class="btn cali" data-go="1">▶ Démarrer</button><button class="btn ghost" data-ed="1">${own?'✎ Modifier':'✎ Partir de celle-ci'}</button></div>`;
+}
+function renderLibre(){
+  main.insertAdjacentHTML('beforeend',`<div class="cat">🧩 Mes séances</div><p class="sub" style="margin:-4px 0 8px">Choisis tes exercices, l'app retient tes chiffres et te dit quand durcir. Une séance libre remplace la séance A/B du jour : demain, récup.</p><div id="libS"></div>`);
+  const box=main.querySelector('#libS');
+  const all=[...mesS().map(x=>[x,true]),...LIB_TPL.map(x=>[x,false])];
+  all.forEach(([sess,own])=>{ const d=document.createElement('div'); d.className='rout'; d.innerHTML=libreHtmlCard(sess,own);
+    d.querySelector('.rh').onclick=()=>d.classList.toggle('open');
+    d.querySelector('[data-go]').onclick=e=>{ e.stopPropagation(); startLibre(sess); };
+    d.querySelector('[data-ed]').onclick=e=>{ e.stopPropagation(); openBuilder(own?sess:{nom:sess.nom+' (ma version)',emoji:sess.emoji,ex:sess.ex.map(x=>({id:x.id||x}))},own); };
+    box.appendChild(d); });
+  const b=document.createElement('button'); b.className='btn'; b.textContent='＋ Construire ma séance'; b.onclick=()=>openBuilder(null,false); box.appendChild(b);
+}
+function openBuilder(src,own){
+  const W={id:own&&src?src.id:'ms'+Date.now(), nom:src?src.nom:'Ma séance', emoji:src&&src.emoji||'🧩', ex:src?src.ex.map(x=>({id:x.id||x,n:x.n||null})):[]};
+  openCustom(own?'Modifier ma séance':'Construire ma séance',(inner,close)=>{
+    function paint(){
+      const nS=W.ex.reduce((a,x)=>a+(x.n||libEx(x.id).sets),0), nG=new Set(W.ex.map(x=>libEx(x.id).g)).size;
+      const estim=Math.round(W.ex.reduce((a,x)=>{ const e=libEx(x.id), n=x.n||e.sets; return a+n*((e.u==='s'?e.max:e.max*3)+e.rest); },0)/60)+8;
+      inner.querySelector('#bd').innerHTML=`
+        <label class="fl">Nom</label><input id="bNom" class="inp" value="${escapeH(W.nom)}" maxlength="40">
+        <div class="cat" style="margin-top:14px">Ta séance · ${W.ex.length} exercices · ${nS} séries · ~${estim} min</div>
+        ${W.ex.length?W.ex.map((x,i)=>{ const e=libEx(x.id), n=x.n||e.sets; return `<div class="bsel"><div class="bt"><b>${i+1}. ${e.nom}</b><small>${e.zone} · ${e.min}–${e.max} ${e.u==='s'?'s':'reps'}</small></div>
+          <div class="bn"><button data-a="n-" data-i="${i}">−</button><span>${n} séries</span><button data-a="n+" data-i="${i}">＋</button></div>
+          <div class="bmv"><button data-a="up" data-i="${i}" ${i?'':'disabled'}>↑</button><button data-a="dn" data-i="${i}" ${i<W.ex.length-1?'':'disabled'}>↓</button><button data-a="rm" data-i="${i}">✕</button></div></div>`; }).join(''):'<p class="sub">Touche des exercices plus bas pour les ajouter.</p>'}
+        ${W.ex.length&&nG===1&&W.ex.length>=4?'<div class="rnote">💡 Un seul groupe musculaire : ajoute-en un deuxième (bras, dos…) pour une séance complète.</div>':''}
+        ${estim>75?'<div class="rnote">⏱ Plus de 75 min : retire un exercice ou une série, la qualité baisse au-delà.</div>':''}
+        ${LIB_G.map(([g,em,lab])=>`<div class="cat" style="margin-top:16px">${em} ${lab}</div><div class="bchips">${Object.keys(LIB).filter(k=>libEx(k).g===g).map(k=>{ const on=W.ex.some(x=>x.id===k); return `<button class="bchip ${on?'on':''}" data-a="tog" data-k="${k}">${on?'✓ ':'＋ '}${libEx(k).nom}</button>`; }).join('')}</div>`).join('')}
+        <div class="row2" style="margin-top:18px"><button class="btn cali" data-a="go" ${W.ex.length?'':'disabled'}>▶ Lancer</button><button class="btn ghost" data-a="save" ${W.ex.length?'':'disabled'}>💾 Garder</button></div>
+        ${own?'<button class="btn danger" data-a="del">Supprimer cette séance</button>':''}`;
+      inner.querySelector('#bNom').oninput=e=>{ W.nom=e.target.value; };
+      inner.querySelectorAll('#bd [data-a]').forEach(b=>b.onclick=()=>{ const a=b.dataset.a, i=+b.dataset.i;
+        if(a==='tog'){ const k=b.dataset.k, j=W.ex.findIndex(x=>x.id===k); if(j>=0) W.ex.splice(j,1); else W.ex.push({id:k,n:null}); }
+        if(a==='n-'||a==='n+'){ const e=libEx(W.ex[i].id), n=W.ex[i].n||e.sets; W.ex[i].n=Math.max(1,Math.min(8,n+(a==='n+'?1:-1))); }
+        if(a==='up'){ [W.ex[i-1],W.ex[i]]=[W.ex[i],W.ex[i-1]]; }
+        if(a==='dn'){ [W.ex[i+1],W.ex[i]]=[W.ex[i],W.ex[i+1]]; }
+        if(a==='rm'){ W.ex.splice(i,1); }
+        if(a==='save'||a==='go'){ const L=mesS(), j=L.findIndex(x=>x.id===W.id), o={id:W.id,nom:(W.nom||'Ma séance').trim(),emoji:W.emoji,ex:W.ex.map(x=>x.n?{id:x.id,n:x.n}:{id:x.id})};
+          if(a==='save'||j>=0){ if(j>=0) L[j]=o; else L.unshift(o); save(); }
+          close(); if(a==='go') startLibre(o); else { toast('💾 « '+o.nom+' » gardée dans Mes séances'); render(); } return; }
+        if(a==='del'){ if(!confirm('Supprimer « '+W.nom+' » ?')) return; S.mesSeances=mesS().filter(x=>x.id!==W.id); save(); close(); render(); return; }
+        const y=overlay.scrollTop; paint(); overlay.scrollTop=y; });
+    }
+    inner.insertAdjacentHTML('beforeend','<div id="bd" style="padding:4px 0 30px"></div>'); paint();
+  });
+}
+/* fin de séance libre : ce qu'on change la prochaine fois */
+function libreAdapt(c){
+  const out=[];
+  c.entries.forEach(en=>{ const d=en.sets.filter(s=>s.done); if(!d.length) return;
+    if(d.length>=en.n&&d.every(s=>s.reps>=en.max)) out.push(`<div class="lvup"><b>↗ ${en.ex} : trop facile maintenant</b><small>Toutes tes séries à ${en.max}${en.u==='s'?' s':''}. La prochaine fois : ${en.prog}</small></div>`);
+    else if(d.length>=2&&d.every(s=>s.reps<en.min)) out.push(`<div class="lvup down"><b>${en.ex} : un cran trop dur</b><small>Aucune série au minimum (${en.min}${en.u==='s'?' s':''}). Prends un élastique plus léger ou une variante plus facile, et vise ${en.min} à ${en.max} propres.</small></div>`); });
+  return out.join('');
+}
+
 /* ---- état calisthénie ---- */
 function cali(){
   if(!S.cali) S.cali={};
@@ -945,11 +1174,12 @@ function caliEntry(b){
    La dernière séance de calisthénie décide de tout : faite hier → aujourd'hui on
    récupère ; faite il y a 2 jours ou plus → séance aujourd'hui, l'autre lettre.
    Une séance ratée glisse au lendemain au lieu de disparaître. */
-function caliLast(){ for(let i=S.workoutLog.length-1;i>=0;i--){ if(S.workoutLog[i].cali) return S.workoutLog[i]; } return null; }
+function caliLast(){ for(let i=S.workoutLog.length-1;i>=0;i--){ if(S.workoutLog[i].cali||S.workoutLog[i].libre) return S.workoutLog[i]; } return null; }
+function caliLetterLast(){ for(let i=S.workoutLog.length-1;i>=0;i--){ if(S.workoutLog[i].cali) return S.workoutLog[i]; } return null; }
 function daysBetween(a,b){ return Math.round((Date.parse(b+'T12:00:00')-Date.parse(a+'T12:00:00'))/864e5); }
 function shiftDay(ds,n){ const d=new Date(ds+'T12:00:00'); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
 function caliDoneToday(){ const L=caliLast(); return !!(L&&L.date===todayStr()); }
-function nextType(){ const L=caliLast(); return L?(L.cali==='A'?'B':'A'):'A'; }
+function nextType(){ const L=caliLetterLast(); return L?(L.cali==='A'?'B':'A'):'A'; }
 function dayInfo(){
   const C=cali(), t=todayStr();
   Object.keys(C.days).forEach(d=>{ if(daysBetween(d,t)>40) delete C.days[d]; });
@@ -957,10 +1187,10 @@ function dayInfo(){
   /* le cache du jour ne fait foi que s'il colle au journal (une séance faite
      sur l'autre appareil et arrivée par la synchro le remet en cause) */
   if(C.days[t]){ const c=C.days[t], want=(!L||daysBetween(L.date,t)>=2||L.date===t)?'cali':'off';
-    if(c.k===want&&(want==='off'||L&&L.date!==t||c.t===L.cali)) return c; }
+    if(c.k===want&&(want==='off'||L&&L.date!==t||(L.libre?c.libre:c.t===L.cali))) return c; }
   let info;
   if(!L||daysBetween(L.date,t)>=2) info={k:'cali',t:nextType()};
-  else if(L.date===t) info={k:'cali',t:L.cali};
+  else if(L.date===t) info=L.libre?{k:'cali',t:nextType(),libre:L.nom}:{k:'cali',t:L.cali};
   else { info={k:'off',o:C.offN%4}; C.offN++; }
   C.days[t]=info; save(); return info;
 }
@@ -982,6 +1212,8 @@ const OFF_DAYS=[
 function caliItem(T){ const s=CALI_SESS[T];
   return {id:'cali',emoji:s.emoji,nom:'Calisthénie '+T+' — '+(T==='A'?'Planche':'HSPU'),detail:s.focus+' (~65 min)',act:'cali:'+T}; }
 function planFor(info){
+  if(info.k==='cali'&&info.libre) return {focus:'Séance libre faite : '+info.libre,
+    items:[REVEIL, {id:'cali',emoji:'🧩',nom:info.libre,detail:'Ta séance du jour, faite',act:'libre'}, {id:'haut',emoji:'🙌',nom:'Étirements haut du corps',detail:'Juste après la séance : pecs, épaules, poignets',act:'soup:haut'}]};
   if(info.k==='cali') return {focus:'Calisthénie '+info.t+' — '+(info.t==='A'?'planche':'HSPU'),
     items:[REVEIL, caliItem(info.t), {id:'haut',emoji:'🙌',nom:'Étirements haut du corps',detail:'Juste après la séance : pecs, épaules, poignets',act:'soup:haut'}]};
   const o=OFF_DAYS[info.o]||OFF_DAYS[0]; return {focus:o.focus, items:o.items.slice()};
@@ -994,9 +1226,9 @@ function todayPlan(){
 /* les 7 prochains jours, en supposant que le programme est suivi */
 function predictDays(n){
   const C=cali(), t=todayStr(), out=[], ti=dayInfo();
-  const L=caliLast(); let lastDate=L?L.date:null, lastT=L?L.cali:null, offN=C.offN;
+  const L=caliLast(), LL=caliLetterLast(); let lastDate=L?L.date:null, lastT=LL?LL.cali:null, offN=C.offN;
   out.push({ds:t,info:ti});
-  if(ti.k==='cali'){ lastDate=t; lastT=ti.t; }
+  if(ti.k==='cali'){ lastDate=t; if(!ti.libre) lastT=ti.t; }
   for(let k=1;k<n;k++){ const ds=shiftDay(t,k);
     if(!lastDate||daysBetween(lastDate,ds)>=2){ const T=lastT==='A'?'B':'A'; out.push({ds,info:{k:'cali',t:T}}); lastDate=ds; lastT=T; }
     else { out.push({ds,info:{k:'off',o:offN%4}}); offN++; } }
@@ -1209,6 +1441,7 @@ function runAction(it){ const a=it.act;
   else if(a.indexOf('soup:')===0){ const r=ROUTINES.find(x=>x.id===a.slice(5)); if(r) startRoutine(r,it.id); }
   else if(a.indexOf('circuit:')===0){ if(a.slice(8)==='core') startRoutine(CORE,it.id); if(a.slice(8)==='cardio') startRoutine(CARDIO,it.id); }
   else if(a.indexOf('cali:')===0){ startCali(a.slice(5),it.id); }
+  else if(a==='libre'){ goSess(); }
   else if(a.indexOf("boxe")===0){ const s=bxChoix(a.split(":")[1]);
     if(!s){ curTab="boxe"; document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x.dataset.tab==="boxe")); render(); toast("Choisis d'abord : sac ou pas de sac."); }
     else startBoxe(s,it.id); }
@@ -1234,7 +1467,7 @@ function renderSess(){
   const info=dayInfo(), done=caliDoneToday();
   const T=done?nextType():(info.k==='cali'?info.t:nextType()), s=CALI_SESS[T];
   const nc=document.createElement('div'); nc.className='card nextcard'; nc.style.marginTop='12px';
-  if(done) nc.innerHTML=`<div class="nowlab">Fait aujourd'hui ✅</div><div class="nowname">Prochaine : ${s.emoji} ${s.nom}</div>
+  if(done) nc.innerHTML=`<div class="nowlab">Fait aujourd'hui ✅${info.libre?' · '+escapeH(info.libre):''}</div><div class="nowname">Prochaine : ${s.emoji} ${s.nom}</div>
       <div class="nowdet">Après-demain. Entre les deux, muscles et tendons se reconstruisent : c'est là que tu progresses.</div>`;
   else if(info.k==='cali') nc.innerHTML=`<div class="nowlab">Aujourd'hui</div><div class="nowname">${s.emoji} ${s.nom}</div>
       <div class="nowdet">${s.focus} · ~60 min, échauffement compris</div><button class="btn cali" id="goCali">▶ Démarrer la séance ${T}</button>`;
@@ -1259,6 +1492,7 @@ function renderSess(){
   rt.onclick=()=>openPlacement(); lc.appendChild(rt);
   main.appendChild(lc);
 
+  renderLibre();
   /* les deux séances */
   main.insertAdjacentHTML('beforeend','<div class="cat">Les deux séances</div><div id="caliS"></div>');
   const cs=main.querySelector('#caliS');
@@ -1356,8 +1590,8 @@ let wkChrono=null;
 function renderWkSession(){
   clearInterval(wkChrono); const c=S.curWk;
   main.insertAdjacentHTML('beforeend',`<div class="sesshead"><b>${c.nom}</b><span class="chrono" id="chrono"></span></div>
-    <p class="sub" style="margin-bottom:12px">${c.cali?'Valide chaque série (✓) : le repos démarre tout seul. Pour une tenue, ⏱ lance un chrono : 10 s pour te mettre en place, puis il compte jusqu\'à ce que tu lâches.':'Valide chaque série (✓) : elle se verrouille et le repos démarre tout seul.'}</p>`);
-  if(c.warm&&c.warm.length) main.insertAdjacentHTML('beforeend',`<div class="warm"><b>🔥 Échauffement ${c.cali?'poignets & épaules (6–8 min)':'(2–3 min)'}</b><ul>${c.warm.map(x=>`<li>${x}</li>`).join('')}</ul></div>`);
+    <p class="sub" style="margin-bottom:12px">${c.cali||c.libre?'Valide chaque série (✓) : le repos démarre tout seul. Pour une tenue, ⏱ lance un chrono : 10 s pour te mettre en place, puis il compte jusqu\'à ce que tu lâches.':'Valide chaque série (✓) : elle se verrouille et le repos démarre tout seul.'}</p>`);
+  if(c.warm&&c.warm.length) main.insertAdjacentHTML('beforeend',`<div class="warm"><b>🔥 Échauffement ${c.cali?'poignets & épaules (6–8 min)':c.libre?'épaules (4–5 min)':'(2–3 min)'}</b><ul>${c.warm.map(x=>`<li>${x}</li>`).join('')}</ul></div>`);
   main.insertAdjacentHTML('beforeend','<div id="body"></div>');
   const ch=main.querySelector('#chrono'); const t=()=>{ ch.textContent=Math.floor((Date.now()-c.start)/60000)+' min'; }; t(); wkChrono=setInterval(t,15000);
   const body=main.querySelector('#body');
@@ -1459,9 +1693,9 @@ function finishWorkout(){
     else if(d.length>=2&&d.every(s=>s.reps<en.min)&&en.lvl>0) downs.push(en); });
   entries.forEach(en=>{ if(en.light) return; const best=Math.max(...en.sets.map(s=>s.reps)); const old=S.prReps[en.ex];
     if(best>0 && (!old||best>old.reps)){ S.prReps[en.ex]={reps:best,date:todayStr(),u:en.u||'reps'}; newPR.push(en.ex); } });
-  const log={id:Date.now(),date:todayStr(),nom:c.nom,dur,entries}; if(c.cali) log.cali=c.cali;
+  const log={id:Date.now(),date:todayStr(),nom:c.nom,dur,entries}; if(c.cali) log.cali=c.cali; if(c.libre) log.libre=c.libre;
   S.workoutLog.push(log);
-  if(c.planId) markPlan(c.planId); if(c.cali) markPlan('cali');
+  if(c.planId) markPlan(c.planId); if(c.cali||c.libre) markPlan('cali');
   const repE=entries.filter(e=>e.u!=='s'), secE=entries.filter(e=>e.u==='s');
   const totReps=repE.reduce((a,e)=>a+e.sets.reduce((x,s)=>x+s.reps,0),0), totSec=secE.reduce((a,e)=>a+e.sets.reduce((x,s)=>x+s.reps,0),0);
   const totSets=entries.reduce((a,e)=>a+e.sets.length,0);
@@ -1469,10 +1703,11 @@ function finishWorkout(){
   openCustom('Séance terminée',(inner,close)=>{
     const unitOf=ex=>(S.prReps[ex].u==='s'?' s':'');
     inner.insertAdjacentHTML('beforeend',`<div style="text-align:center;padding:8px 0">
-      <div style="font-size:54px">${c.cali?CALI_SESS[c.cali].emoji:'💪'}</div><div style="font-size:22px;font-weight:800;margin:6px 0">${c.nom}</div>
+      <div style="font-size:54px">${c.cali?CALI_SESS[c.cali].emoji:c.libre?'🧩':'💪'}</div><div style="font-size:22px;font-weight:800;margin:6px 0">${c.nom}</div>
       <p class="sub">${dur} min · ${totSets} séries${totReps?' · '+totReps+' répétitions':''}${totSec?' · '+(totSec>=60?Math.floor(totSec/60)+' min '+(totSec%60)+' s':totSec+' s')+' de tenues':''}</p>
       ${newPR.length?`<div style="margin-top:14px;background:var(--bg2);border:1px solid var(--acc);border-radius:12px;padding:12px;text-align:left">🏆 <b>Record${newPR.length>1?'s':''} :</b> ${newPR.map(e=>e+' ('+S.prReps[e].reps+unitOf(e)+')').join(' · ')}</div>`:''}
       </div>`);
+    if(c.libre) inner.insertAdjacentHTML('beforeend',libreAdapt(c));
     ups.forEach(en=>{ const Tk=TRACKS[en.track], nx=Tk.lv[en.lvl+1];
       const box=document.createElement('div'); box.className='lvup';
       box.innerHTML=`<b>🎉 ${Tk.emoji} ${Tk.nom} : niveau suivant débloqué</b><small>Toutes tes séries de « ${en.ex} » ont atteint ${en.max} ${en.u==='s'?'s':'reps'}. Prochain niveau : <b style="color:var(--txt);display:inline">${nx.nom}</b> (${nx.sets} × ${nx.min}–${nx.max} ${nx.u==='s'?'s':'reps'}).</small>
@@ -1487,7 +1722,7 @@ function finishWorkout(){
       box.querySelector('[data-a="down"]').onclick=()=>{ setLv(en.track,en.lvl-1,'trop dur'); box.innerHTML=`<b>✓ ${Tk.nom} : retour à « ${pv.nom} »</b><small>On remonte dès que c'est solide.</small>`; };
       box.querySelector('[data-a="keep"]').onclick=()=>{ box.innerHTML=`<b>${Tk.nom} : on garde</b><small>On réessaie à la prochaine séance.</small>`; };
       inner.appendChild(box); });
-    inner.insertAdjacentHTML('beforeend',`<p class="sub" style="text-align:center;margin-top:14px">${c.cali?'Prochaine séance : après-demain, séance '+(c.cali==='A'?'B — HSPU':'A — Planche')+'. ':''}${dayStreak()} jour(s) d'affilée 🔥</p>`);
+    inner.insertAdjacentHTML('beforeend',`<p class="sub" style="text-align:center;margin-top:14px">${c.cali?'Prochaine séance : après-demain, séance '+(c.cali==='A'?'B — HSPU':'A — Planche')+'. ':c.libre?'Demain : récup. Après-demain : séance '+nextType()+'. ':''}${dayStreak()} jour(s) d'affilée 🔥</p>`);
     const ok=document.createElement('button'); ok.className='btn'; ok.textContent='OK'; ok.onclick=()=>{ close(); render(); }; inner.appendChild(ok);
   });
   bell();
