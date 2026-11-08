@@ -1,5 +1,5 @@
 // FORGE — service worker (réseau d'abord, cache de secours hors-ligne)
-const CACHE = 'forge-v17-libre';
+const CACHE = 'forge-v18-boxfig';
 const ASSETS = ['index.html', './', 'forge-sync.js'];
 
 self.addEventListener('install', e=>{
