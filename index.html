@@ -449,18 +449,18 @@ const ROUTINES=[
     note:"Juste après la séance, à chaud. Des pecs et des épaules raides tirent les épaules vers l'avant, alors que l'ATR et le HSPU demandent des bras qui montent tout droit au-dessus de la tête. Ces étirements entretiennent cette amplitude, et les poignets récupèrent de tout le poids qu'ils ont porté.",
     steps:[
     {emoji:'🙏',nom:"Poignets (flexion & extension)",zone:"Poignets & avant-bras",sec:40,cue:"À genoux, paumes au sol doigts vers toi, bras tendus : recule doucement le bassin. Puis dos des mains au sol, même chose.",why:"Les poignets ont porté tout ton poids en extension : on leur rend l'amplitude inverse."},
-    {emoji:'🚪',nom:"Pectoraux au cadre de porte",zone:"Pectoraux",sec:40,sides:true,cue:"Avant-bras contre le cadre d'une porte, coude à hauteur d'épaule. Avance d'un pas et tourne doucement le buste à l'opposé, jusqu'à sentir l'étirement dans le pec.",why:"Des pecs souples laissent les épaules en arrière : meilleure posture, et plus d'amplitude en dips et en pompes profondes."},
-    {emoji:'🙆',nom:"Épaules bras au-dessus de la tête (au mur)",zone:"Épaules en flexion",sec:45,cue:"Face au mur, mains posées au-dessus de la tête, recule les pieds et laisse la poitrine descendre vers le sol, bras tendus, dos plat.",why:"C'est l'amplitude exacte de l'ATR : sans elle, tu te cambres en équilibre et en HSPU."},
+    {emoji:'🚪',nom:"Pectoraux au cadre de porte",pose:'door_pec',zone:"Pectoraux",sec:40,sides:true,cue:"Avant-bras contre le cadre d'une porte, coude à hauteur d'épaule. Avance d'un pas et tourne doucement le buste à l'opposé, jusqu'à sentir l'étirement dans le pec.",why:"Des pecs souples laissent les épaules en arrière : meilleure posture, et plus d'amplitude en dips et en pompes profondes."},
+    {emoji:'🙆',nom:"Épaules bras au-dessus de la tête (au mur)",pose:'shoulder_wall',zone:"Épaules en flexion",sec:45,cue:"Face au mur, mains posées au-dessus de la tête, recule les pieds et laisse la poitrine descendre vers le sol, bras tendus, dos plat.",why:"C'est l'amplitude exacte de l'ATR : sans elle, tu te cambres en équilibre et en HSPU."},
     {emoji:'🧎',nom:"Dorsaux : posture de l'enfant, mains sur le côté",zone:"Grand dorsal",sec:35,sides:true,cue:"Posture de l'enfant, bras tendus loin devant ; marche les deux mains vers la gauche pour étirer le flanc droit, puis l'inverse.",why:"Des dorsaux raides bloquent aussi les bras au-dessus de la tête."},
-    {emoji:'💪',nom:"Triceps derrière la tête",zone:"Triceps",sec:30,sides:true,cue:"Main dans le dos entre les omoplates, l'autre main pousse doucement le coude vers l'arrière.",why:"Les triceps ont travaillé dur en dips et en HSPU : on les rallonge."},
+    {emoji:'💪',nom:"Triceps derrière la tête",pose:'tri_stretch',zone:"Triceps",sec:30,sides:true,cue:"Main dans le dos entre les omoplates, l'autre main pousse doucement le coude vers l'arrière.",why:"Les triceps ont travaillé dur en dips et en HSPU : on les rallonge."},
     {emoji:'💪',nom:"Épaule croisée",zone:"Arrière d'épaule",sec:25,sides:true,cue:"Bras tendu devant la poitrine, l'autre main le rapproche du corps.",why:"Équilibre l'avant et l'arrière de l'épaule."},
     {emoji:'📖',nom:"Ouverture thoracique",zone:"Haut du dos",sec:35,sides:true,cue:"Allongé sur le côté, genoux pliés, ouvre le bras du dessus vers l'arrière et suis la main du regard.",why:"Un haut du dos mobile soulage les épaules en ATR."},
-    {emoji:'🌬️',nom:"Respiration longue",zone:"Calme",sec:40,cue:"Assis, dos droit : inspire 4 s par le nez, souffle 6 à 8 s.",why:"Fait basculer le corps en récupération après l'effort."},
+    {emoji:'🌬️',nom:"Respiration longue",pose:'breath',zone:"Calme",sec:40,cue:"Assis, dos droit : inspire 4 s par le nez, souffle 6 à 8 s.",why:"Fait basculer le corps en récupération après l'effort."},
   ]},
   { id:'soir', emoji:'🌙', nom:'Détente du soir', focus:'Souplesse profonde + calme (avant le sommeil)', prep:18,
     note:"Le meilleur créneau pour GAGNER en souplesse : corps chaud, tenues longues, et un système nerveux qui se calme te laisse aller plus loin. Bonus : ça prépare au sommeil. Chaque mouvement est détaillé pas à pas pendant la mise en place — et le bouton « ❔ Comment on se met en place ? » le redonne à tout moment pendant la tenue. Respire lentement partout, aucune brusquerie.",
     steps:[
-    {emoji:'🌬️',nom:"Respiration longue",zone:"Calme",ex:'breath',sec:40,
+    {emoji:'🌬️',nom:"Respiration longue",pose:'breath',zone:"Calme",ex:'breath',sec:40,
       cue:"Assis, dos droit, mains sur les cuisses : inspire 4 s par le nez (le ventre gonfle), souffle 6 à 8 s par la bouche comme dans une paille.",
       why:"L'expiration allongée fait basculer le corps en mode récupération et baisse le tonus musculaire : tout ce qui suit ira plus loin, et l'endormissement sera plus facile."},
     {emoji:'📐',nom:"Pince assise (longue)",zone:"Ischios & bas du dos",sec:70,
@@ -658,34 +658,34 @@ const CARDIO={ id:'cardio', emoji:'🔥', nom:'Réveil', focus:'9 min · mobilit
   {emoji:'🌍',nom:'Fente + rotation thoracique',zone:'Mobilité · hanches et haut du dos',dyn:true,sec:30,sides:true,prep:5,
    cue:"Grande fente avant, main opposée au sol, puis ouvre l'autre bras vers le plafond en suivant ta main des yeux. Reviens, recommence : 3 s par répétition.",
    why:"Le « world's greatest stretch » des préparateurs : fléchisseurs de hanche, adducteurs, ischios et rotation du haut du dos en un seul geste. Le plus complet par seconde."},
-  {emoji:'🐛',nom:'Chenille (inchworm)',zone:'Mobilité · chaîne arrière + gainage',dyn:true,sec:30,prep:5,pose:null,
+  {emoji:'🐛',nom:'Chenille (inchworm)',pose:'inchworm',zone:'Mobilité · chaîne arrière + gainage',dyn:true,sec:30,prep:5,
    cue:"Debout, plie-toi, marche les mains jusqu'à la planche, tiens 1 s, puis ramène les pieds vers les mains à petits pas, jambes le plus tendues possible. Pas de pompe.",
    why:"Étire ischios et mollets, charge épaules et sangle abdominale : la transition idéale vers l'effort."},
-  {emoji:'🥊',nom:'Ombre · jab-direct (1-2)',zone:'Intervalle 1/8 · montée en régime 7/10',sec:30,pose:null,
+  {emoji:'🥊',nom:'Ombre · jab-direct (1-2)',pose:'bx_12',zone:'Intervalle 1/8 · montée en régime 7/10',sec:30,
    cue:"Garde haute, menton rentré, sur l'avant des pieds. Le poing part et revient au visage ; pivote le pied arrière sur chaque direct.",
    why:"Potentialisation : le geste spécifique à intensité moyenne prépare le système nerveux aux intervalles durs."},
-  {emoji:'🏋️',nom:'Squat + double direct',zone:'Intervalle 2/8 · jambes 7/10',sec:30,pose:null,
+  {emoji:'🏋️',nom:'Squat + double direct',pose:'squat_punch',zone:'Intervalle 2/8 · jambes 7/10',sec:30,
    cue:"Descends cuisses parallèles, talons au sol. En remontant, envoie 1-2 : le coup part de la poussée des jambes.",
    why:"Les plus gros muscles du corps font monter le cœur le plus vite, et tu apprends à frapper depuis le sol."},
-  {emoji:'🥊',nom:'Ombre · 1-2-3 + esquive rotative',zone:'Intervalle 3/8 · boxe 9/10',sec:30,pose:null,
+  {emoji:'🥊',nom:'Ombre · 1-2-3 + esquive rotative',pose:'bx_roll',zone:'Intervalle 3/8 · boxe 9/10',sec:30,
    cue:"Jab, direct, crochet avant, puis esquive en rotation du buste (genoux fléchis, tête hors de l'axe). Enchaîne sans t'arrêter.",
    why:"Le crochet et l'esquive font travailler la rotation du tronc : ce que la course ne te donnera jamais."},
-  {emoji:'⛰️',nom:'Grimpeur (mountain climber)',zone:'Intervalle 4/8 · gainage 9/10',sec:30,pose:null,
+  {emoji:'⛰️',nom:'Grimpeur (mountain climber)',pose:'climber',zone:'Intervalle 4/8 · gainage 9/10',sec:30,
    cue:"Planche haute, mains sous les épaules : ramène les genoux vers la poitrine en alternance, vite. Hanches basses, pointes de pied légères, sans bruit.",
    why:"Cardio et gainage en même temps, au sol, silencieux. Un des exercices de l'étude McRae 2012."},
-  {emoji:'🥊',nom:'Rafale de directs',zone:'Intervalle 5/8 · épaules 9/10',sec:30,pose:null,
+  {emoji:'🥊',nom:'Rafale de directs',pose:'bx_vitesse',zone:'Intervalle 5/8 · épaules 9/10',sec:30,
    cue:"Directs gauche-droite le plus vite possible, hanches qui tournent, poings qui reviennent au visage. Ne verrouille pas les bras en extension.",
    why:"L'endurance des épaules : c'est elle qui lâche en premier en fin de round."},
-  {emoji:'🦿',nom:'Fente arrière + montée de genou',zone:'Intervalle 6/8 · jambes 9/10',sec:30,pose:null,
+  {emoji:'🦿',nom:'Fente arrière + montée de genou',pose:'lunge',zone:'Intervalle 6/8 · jambes 9/10',sec:30,
    cue:"Recule en fente, genou arrière près du sol, puis remonte en projetant ce genou vers le haut, bras en garde. Alterne les jambes à chaque répétition.",
    why:"Force sur une jambe + équilibre + explosivité de la hanche, sans aucun impact."},
-  {emoji:'🔁',nom:'Burpee sans saut',zone:'Intervalle 7/8 · corps entier 10/10',sec:30,pose:null,
+  {emoji:'🔁',nom:'Burpee sans saut',pose:'burpee',zone:'Intervalle 7/8 · corps entier 10/10',sec:30,
    cue:"Mains au sol, recule les pieds en planche, ramène-les, redresse-toi bras au-dessus de la tête. Sans saut ni pompe, mais le plus vite possible.",
    why:"Le mouvement qui fait monter le cœur le plus haut sans matériel. Version silencieuse."},
-  {emoji:'🥊',nom:'Ombre · dernier round à fond',zone:'Intervalle 8/8 · boxe 10/10',sec:30,pose:null,
+  {emoji:'🥊',nom:'Ombre · dernier round à fond',pose:'bx_garde',zone:'Intervalle 8/8 · boxe 10/10',sec:30,
    cue:"Combinaisons libres, déplacements, esquives, remises. Tout ce qui reste dans le réservoir. 30 secondes.",
    why:"Finir sur la boxe, fatigué : c'est exactement là que se construit le cardio de boxeur."},
-  {emoji:'🌬️',nom:'Respiration de récupération',zone:'Retour au calme',sec:30,prep:10,pose:null,
+  {emoji:'🌬️',nom:'Respiration de récupération',pose:'breath',zone:'Retour au calme',sec:30,prep:10,
    cue:"Debout, mains sur la tête : inspire 4 s par le nez, souffle 6 s par la bouche. Laisse le cœur redescendre.",
    why:"L'expiration longue active le frein parasympathique : tu repars lucide, pas sur les nerfs."},
 ]};
@@ -787,6 +787,19 @@ const LIBFIG={
  fly_el:`<line class="fl" x1="16" y1="132" x2="204" y2="132"/><path class="b" d="M110 104 L98 132"/><path class="b" d="M110 104 L122 132"/><path class="b" d="M110 104 L110 74"/><circle class="h" cx="110" cy="60" r="11"/><path class="bagr" d="M84 88 Q110 120 136 88"/><path class="m" d="M110 78 L84 88"/><path class="m" d="M110 78 L136 88"/><circle class="h" cx="81" cy="89" r="5"/><circle class="h" cx="139" cy="89" r="5"/><path class="ar" d="M68 78 l14 4"/><path class="ard" d="M86 83 l-11 -4 2 11 z"/><path class="ar" d="M152 78 l-14 4"/><path class="ard" d="M134 83 l11 -4 -2 11 z"/>`
 };
 Object.assign(POSES, LIBFIG);
+
+/* Réveil du matin et derniers étirements sans figure. */
+const WAKEFIG={
+ inchworm:`<line class="fl" x1="16" y1="132" x2="204" y2="132"/><path class="b" d="M54 132 L88 82"/><path class="m" d="M88 82 L146 126"/><circle class="h" cx="136" cy="108" r="10"/><path class="b" d="M146 126 L150 132"/><path class="g" d="M88 74 L88 60"/><path class="ar" d="M158 122 l16 0"/><path class="ard" d="M176 122 l-11 -6 0 12 z"/>`,
+ squat_punch:`<line class="fl" x1="16" y1="132" x2="204" y2="132"/><path class="b" d="M86 132 L82 108"/><path class="b" d="M134 132 L138 108"/><path class="b" d="M82 108 L110 114"/><path class="b" d="M138 108 L110 114"/><path class="b" d="M110 114 L110 80"/><circle class="h" cx="110" cy="66" r="11"/><path class="mb" d="M110 84 L66 80"/><circle class="gb" cx="60" cy="80" r="7"/><path class="b" d="M110 84 L128 96"/><path class="b" d="M128 96 L122 80"/><circle class="h" cx="121" cy="77" r="6"/>`,
+ climber:`<line class="fl" x1="16" y1="132" x2="204" y2="132"/><circle class="h" cx="52" cy="104" r="10"/><path class="b" d="M60 108 L150 98"/><path class="b" d="M70 108 L68 131"/><path class="b" d="M150 98 L176 128"/><path class="m" d="M146 100 L112 118"/><path class="m" d="M112 118 L116 131"/><path class="ar" d="M126 92 l-22 10"/><path class="ard" d="M102 104 l10 -6 2 11 z"/>`,
+ burpee:`<line class="fl" x1="16" y1="132" x2="204" y2="132"/><circle class="h" cx="56" cy="106" r="10"/><path class="m" d="M64 110 L152 100"/><path class="b" d="M74 110 L72 131"/><path class="b" d="M152 100 L176 128"/><path class="g" d="M152 100 Q134 76 114 100"/><path class="ar" d="M120 84 q16 -12 32 2"/><path class="ard" d="M152 88 l-4 -11 -7 8 z"/><path class="ar" d="M104 120 l-16 0"/><path class="ard" d="M86 120 l11 -6 0 12 z"/>`,
+ door_pec:`<line class="fl" x1="16" y1="132" x2="204" y2="132"/><line class="w" x1="168" y1="34" x2="168" y2="132"/><path class="b" d="M104 132 L108 106"/><path class="b" d="M124 132 L116 106"/><path class="b" d="M112 106 L110 76"/><circle class="h" cx="106" cy="62" r="11"/><path class="m" d="M112 80 L146 70"/><path class="m" d="M146 70 L164 48"/><path class="ar" d="M96 92 l-18 6"/><path class="ard" d="M76 99 l11 4 -2 -12 z"/>`,
+ shoulder_wall:`<line class="fl" x1="16" y1="132" x2="204" y2="132"/><line class="w" x1="178" y1="22" x2="178" y2="132"/><path class="b" d="M70 132 L84 104"/><path class="b" d="M90 132 L96 104"/><path class="b" d="M90 104 L128 86"/><circle class="h" cx="138" cy="84" r="11"/><path class="m" d="M126 88 L172 46"/><path class="ar" d="M118 70 l0 -18"/><path class="ard" d="M118 48 l-6 11 12 0 z"/>`,
+ tri_stretch:`<line class="fl" x1="16" y1="132" x2="204" y2="132"/><path class="b" d="M110 104 L98 132"/><path class="b" d="M110 104 L122 132"/><path class="b" d="M110 104 L110 74"/><circle class="h" cx="110" cy="60" r="11"/><path class="m" d="M112 78 L124 46"/><path class="m" d="M124 46 L100 54"/><path class="b" d="M108 78 L96 50"/><path class="b" d="M96 50 L118 44"/><path class="ar" d="M136 44 l-14 -4"/><path class="ard" d="M118 39 l11 -3 -2 11 z"/>`,
+ breath:`<line class="fl" x1="16" y1="132" x2="204" y2="132"/><path class="b" d="M74 128 L146 128"/><path class="b" d="M96 128 L110 112"/><path class="b" d="M124 128 L110 112"/><path class="b" d="M110 112 L110 82"/><circle class="h" cx="110" cy="68" r="11"/><path class="b" d="M110 88 L88 116"/><path class="b" d="M110 88 L132 116"/><path class="g" d="M66 92 Q86 78 66 64"/><path class="g" d="M154 92 Q134 78 154 64"/><path class="ar" d="M110 44 l0 -14"/><path class="ard" d="M110 28 l-6 11 12 0 z"/>`
+};
+Object.assign(POSES, WAKEFIG);
 
 /* les lignes de progression — u:'s' = tenue en secondes, sinon répétitions ;
    ps = par côté ; sets × [min–max] ; rest en secondes */
