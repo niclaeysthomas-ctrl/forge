@@ -1,5 +1,5 @@
 // FORGE — service worker (réseau d'abord, cache de secours hors-ligne)
-const CACHE = 'forge-v19-figures';
+const CACHE = 'forge-v20-figures';
 const ASSETS = ['index.html', './', 'forge-sync.js'];
 
 self.addEventListener('install', e=>{
@@ -16,7 +16,7 @@ self.addEventListener('fetch', e=>{
   e.respondWith(
     fetch(e.request).then(res=>{
       const copy = res.clone();
-      caches.open(CACHE).then(c=> c.put(e.request, copy)).catch(()=>{});
+      if (res.ok) caches.open(CACHE).then(c=> c.put(e.request, copy)).catch(()=>{});
       return res;
     }).catch(()=> caches.match(e.request).then(hit=> hit || caches.match('index.html')))
   );
